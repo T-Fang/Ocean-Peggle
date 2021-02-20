@@ -92,15 +92,14 @@ extension PeggleGameController: GameEventHandlerDelegate {
     func ballDidExitFromBottom() {
         gameBoardView.removeBall()
 
-        // TODO: Will enable the following in PS4, currently disabled for tutor to examine the gameplay
-//        switch gameState {
-//        case .win:
-//            gameEndView.showYouWin()
-//        case .lose:
-//            gameEndView.showGameOver()
-//        case .onGoing:
-//            return
-//        }
+        switch gameState {
+        case .win:
+            gameEndView.showYouWin()
+        case .lose:
+            gameEndView.showGameOver()
+        default:
+            return
+        }
     }
 
     func didHitPeg(gamePeg: GamePeg) {
@@ -119,10 +118,9 @@ extension PeggleGameController: GameEventHandlerDelegate {
 // MARK: Gestures
 extension PeggleGameController {
     @IBAction private func rotateCannon(_ sender: UIPanGestureRecognizer) {
-        // TODO: Will enable the following in PS4, currently disabled for tutor to examine the gameplay
-//        guard gameState == .onGoing else {
-//            return
-//        }
+        guard gameState == .onGoing else {
+            return
+        }
 
         let dy = sender.location(in: gameBoardView).y - cannonView.center.y
         let dx = sender.location(in: gameBoardView).x - cannonView.center.x

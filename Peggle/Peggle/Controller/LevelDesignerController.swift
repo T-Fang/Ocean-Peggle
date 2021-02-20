@@ -66,11 +66,10 @@ class LevelDesignerController: UIViewController {
 
     override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
         if identifier == Identifiers.designerToGame.rawValue {
-            // TODO: Will enable the following in PS4, currently disabled for tutor to examine the gameplay
-//            guard peggleLevel.hasOrangePeg() else {
-//                Alert.presentNoOrangePegAlert(controller: self)
-//                return false
-//            }
+            guard peggleLevel.hasOrangePeg() else {
+                Alert.presentNoOrangePegAlert(controller: self)
+                return false
+            }
         }
         return true
     }
@@ -203,11 +202,10 @@ extension LevelDesignerController {
     }
 
     @IBAction private func saveLevel(_ sender: UIButton) {
-        // TODO: Will enable the following in PS4, currently disabled for tutor to examine the gameplay
-//        guard peggleLevel.hasOrangePeg() else {
-//            Alert.presentNoOrangePegAlert(controller: self)
-//            return
-//        }
+        guard peggleLevel.hasOrangePeg() else {
+            Alert.presentNoOrangePegAlert(controller: self)
+            return
+        }
         Alert.presentSaveLevelAlert(controller: self, message: Constants.saveLevelMessage)
 
     }

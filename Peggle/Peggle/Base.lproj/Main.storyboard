@@ -325,10 +325,22 @@
                             </imageView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="h8Y-zD-cwS" customClass="GameBoardView" customModule="Peggle" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="0.0" width="834" height="942.5"/>
+                                <subviews>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bucket" translatesAutoresizingMaskIntoConstraints="NO" id="4RD-DK-frE" customClass="BucketView" customModule="Peggle" customModuleProvider="target">
+                                        <rect key="frame" x="317" y="902.5" width="200" height="40"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="40" id="03T-5A-wk4"/>
+                                            <constraint firstAttribute="width" constant="200" id="oxd-No-y9l"/>
+                                        </constraints>
+                                    </imageView>
+                                </subviews>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="h8Y-zD-cwS" secondAttribute="height" multiplier="100:113" id="b9c-5h-uN1"/>
+                                    <constraint firstAttribute="bottom" secondItem="4RD-DK-frE" secondAttribute="bottom" id="w39-H8-uUS"/>
+                                    <constraint firstItem="4RD-DK-frE" firstAttribute="centerX" secondItem="h8Y-zD-cwS" secondAttribute="centerX" id="yBu-jj-M2I"/>
                                 </constraints>
                                 <connections>
+                                    <outlet property="bucketView" destination="4RD-DK-frE" id="ohk-XJ-gki"/>
                                     <outletCollection property="gestureRecognizers" destination="oYz-AB-7ZZ" appends="YES" id="FMe-mL-shy"/>
                                     <outletCollection property="gestureRecognizers" destination="TA2-rE-iae" appends="YES" id="bQd-7S-f6C"/>
                                 </connections>
@@ -730,6 +742,7 @@
         <image name="arrow.counterclockwise" catalog="system" width="115" height="128"/>
         <image name="background" width="4000" height="3000"/>
         <image name="ball" width="256" height="256"/>
+        <image name="bucket" width="405" height="467"/>
         <image name="cannon" width="402" height="402"/>
         <image name="delete" width="256" height="256"/>
         <image name="house" catalog="system" width="128" height="106"/>

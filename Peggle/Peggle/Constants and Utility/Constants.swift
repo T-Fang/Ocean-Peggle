@@ -30,7 +30,7 @@ class Constants {
     static let screenWidth = UIScreen.main.bounds.width
     static let defaultCannonHeight: CGFloat = 60
     static let defaultBucketHeight: CGFloat = 40
-    static let defaultBucketWidth: CGFloat = 100
+    static let defaultBucketWidth: CGFloat = 200
 
     static let defaultCirclePegRadius: CGFloat = 20
     static let maxCirclePegRadius: CGFloat = 40

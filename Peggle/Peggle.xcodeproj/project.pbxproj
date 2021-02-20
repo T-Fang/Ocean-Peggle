@@ -63,6 +63,8 @@
 		B390E50C25D7D18E00FBA95D /* GameStatusTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B390E50B25D7D18E00FBA95D /* GameStatusTests.swift */; };
 		B390E51125D7D1A600FBA95D /* CGVectorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B390E51025D7D1A600FBA95D /* CGVectorTests.swift */; };
 		B390E51625D7D21700FBA95D /* CGVector+add.swift in Sources */ = {isa = PBXBuildFile; fileRef = B390E51525D7D21700FBA95D /* CGVector+add.swift */; };
+		B3D3E3D925E1062600775ACB /* OscillatingObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3D3E3D825E1062600775ACB /* OscillatingObject.swift */; };
+		B3D3E3DE25E1078800775ACB /* BucketView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3D3E3DD25E1078800775ACB /* BucketView.swift */; };
 		B3F79A6625C474AD002F83C5 /* LevelSaver.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3F79A6525C474AD002F83C5 /* LevelSaver.swift */; };
 		B3F79A6B25C55BEB002F83C5 /* GameBoardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3F79A6A25C55BEB002F83C5 /* GameBoardView.swift */; };
 		B3FA426625C57C170011163E /* PegTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3FA426525C57C170011163E /* PegTests.swift */; };
@@ -151,6 +153,8 @@
 		B390E50B25D7D18E00FBA95D /* GameStatusTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameStatusTests.swift; sourceTree = "<group>"; };
 		B390E51025D7D1A600FBA95D /* CGVectorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGVectorTests.swift; sourceTree = "<group>"; };
 		B390E51525D7D21700FBA95D /* CGVector+add.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGVector+add.swift"; sourceTree = "<group>"; };
+		B3D3E3D825E1062600775ACB /* OscillatingObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OscillatingObject.swift; sourceTree = "<group>"; };
+		B3D3E3DD25E1078800775ACB /* BucketView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BucketView.swift; sourceTree = "<group>"; };
 		B3F79A6525C474AD002F83C5 /* LevelSaver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelSaver.swift; sourceTree = "<group>"; };
 		B3F79A6A25C55BEB002F83C5 /* GameBoardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameBoardView.swift; sourceTree = "<group>"; };
 		B3FA426525C57C170011163E /* PegTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PegTests.swift; sourceTree = "<group>"; };
@@ -200,6 +204,7 @@
 				B3381A6025D247F0007E28A6 /* PhysicsShape.swift */,
 				B3381A7725D28987007E28A6 /* PhysicsObject.swift */,
 				B3381A7C25D28D01007E28A6 /* MovablePhysicsObject.swift */,
+				B3D3E3D825E1062600775ACB /* OscillatingObject.swift */,
 				B3381A8825D3B8E7007E28A6 /* PhysicsWorld.swift */,
 				B3381A8125D28D0A007E28A6 /* Movable.swift */,
 				B3381A6825D24804007E28A6 /* Shape.swift */,
@@ -304,6 +309,7 @@
 			isa = PBXGroup;
 			children = (
 				B32C9B8725C1A94100CFEF39 /* PegView.swift */,
+				B3D3E3DD25E1078800775ACB /* BucketView.swift */,
 				B390E4A025D68F9600FBA95D /* PegButton.swift */,
 				B3F79A6A25C55BEB002F83C5 /* GameBoardView.swift */,
 				B3381ACD25D56038007E28A6 /* CannonView.swift */,
@@ -524,6 +530,7 @@
 				B36EAC1E25C2C5F000C89394 /* LevelChooserController.swift in Sources */,
 				B3381A7D25D28D01007E28A6 /* MovablePhysicsObject.swift in Sources */,
 				B3903FE325C021270003DF7E /* LevelDesignerController.swift in Sources */,
+				B3D3E3D925E1062600775ACB /* OscillatingObject.swift in Sources */,
 				B3381A6125D247F0007E28A6 /* PhysicsShape.swift in Sources */,
 				B3381A9C25D3EF26007E28A6 /* GameEngine.swift in Sources */,
 				B3903FDF25C021270003DF7E /* AppDelegate.swift in Sources */,
@@ -552,6 +559,7 @@
 				B3F79A6B25C55BEB002F83C5 /* GameBoardView.swift in Sources */,
 				B3381A6925D24804007E28A6 /* Shape.swift in Sources */,
 				B36EAC3525C2D3CB00C89394 /* LevelLoader.swift in Sources */,
+				B3D3E3DE25E1078800775ACB /* BucketView.swift in Sources */,
 				B390E4A625D692D600FBA95D /* DisplayUtility.swift in Sources */,
 				B30D549B25C17427008CCD5F /* PeggleLevel.swift in Sources */,
 				B30D54A025C17624008CCD5F /* Constants.swift in Sources */,

@@ -28,11 +28,7 @@ class GameEngine: PhysicsWorld<GamePeg> {
     }
 
     var canFire: Bool {
-        ball == nil
-
-        // TODO: Will enable the following in PS4, currently disabled for tutor to examine the gameplay
-//        ball == nil && gameStatus.state == .onGoing
-
+        ball == nil && gameStatus.state == .onGoing
     }
 
     init(frame: CGRect, peggleLevel: PeggleLevel) {
@@ -52,10 +48,7 @@ class GameEngine: PhysicsWorld<GamePeg> {
     }
 
     @objc private func update(displayLink: CADisplayLink) {
-        // TODO: Will enable the following in PS4, currently disabled for tutor to examine the gameplay
-        // guard let ball = ball, gameStatus.state == .onGoing else {
-
-        guard let ball = ball else {
+        guard let ball = ball, gameStatus.state == .onGoing else {
             return
         }
 
