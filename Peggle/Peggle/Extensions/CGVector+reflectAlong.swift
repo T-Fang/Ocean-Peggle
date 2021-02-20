@@ -8,11 +8,11 @@
 import CoreGraphics
 
 extension CGVector {
-    private var norm: CGFloat {
+    var norm: CGFloat {
         sqrt(self.dx * self.dx + self.dy * self.dy)
     }
 
-    private func normalized() -> CGVector {
+    func normalized() -> CGVector {
         CGVector(dx: self.dx / norm, dy: self.dy / norm)
     }
 

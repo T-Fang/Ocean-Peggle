@@ -17,6 +17,7 @@ protocol GameEventHandlerDelegate: AnyObject {
 
     func ballCountDidChange(ballCount: Int)
 
-    func OrangePegCountDidChange(orangePegCount: Int)
+    func orangePegCountDidChange(orangePegCount: Int)
 
+//    func bucketDidMove(bucket: Bucket)
 }

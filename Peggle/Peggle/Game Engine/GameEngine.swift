@@ -53,6 +53,7 @@ class GameEngine: PhysicsWorld<GamePeg> {
         }
 
         moveBall(ball: ball)
+        delegate?.ballDidMove(ball: ball)
     }
 
     func pause() {
@@ -79,12 +80,10 @@ class GameEngine: PhysicsWorld<GamePeg> {
     }
 
     func moveBall(ball: Ball) {
+        checkCollisionWithPegAndMove(ball: ball)
+
         checkExitFromBottom(ball: ball)
         checkSideCollision(ball: ball)
-        checkCollisionWithPeg(ball: ball)
-
-        delegate?.ballDidMove(ball: ball)
-        ball.move()
     }
 
     private func checkExitFromBottom(ball: Ball) {
@@ -107,12 +106,17 @@ class GameEngine: PhysicsWorld<GamePeg> {
         }
     }
 
-    private func checkCollisionWithPeg(ball: Ball) {
-        for gamePeg in objects where ball.willCollide(with: gamePeg) {
+    private func checkCollisionWithPegAndMove(ball: Ball) {
+        let pegsWillBeHit = objects.filter({ ball.willCollide(with: $0) })
+        for gamePeg in pegsWillBeHit {
             ball.collide(with: gamePeg)
 
             gamePeg.increaseHitCount()
             delegate?.didHitPeg(gamePeg: gamePeg)
+        }
+
+        if pegsWillBeHit.isEmpty {
+            ball.move()
         }
 
         if !stuckPegs.isEmpty {

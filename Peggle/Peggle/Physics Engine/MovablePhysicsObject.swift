@@ -68,9 +68,10 @@ class MovablePhysicsObject: PhysicsObject, Movable {
     /// The given object must not overlap with this `MovablePhysicsObject`,
     /// otherwise this `MovablePhysicsObject` remains unchanged
     func collide(with object: PhysicsObject, cor: CGFloat = Constants.defaultCor) {
-        guard !overlaps(with: object) else {
+        guard willCollide(with: object) && !overlaps(with: object) else {
             return
         }
+        moveToCollisionPosition(with: object)
         switch object.physicsShape.shape {
         case .circle:
             collide(withCircle: object, cor: cor)
@@ -86,4 +87,32 @@ class MovablePhysicsObject: PhysicsObject, Movable {
 
     }
 
+    private func moveToCollisionPosition(with object: PhysicsObject) {
+        guard willCollide(with: object) && !overlaps(with: object) else {
+            return
+        }
+
+        switch object.physicsShape.shape {
+        case .circle:
+            // use Law of Cosines to calculate the distance required to move
+            // the object to the collision position, where it borders the other object
+            let vectorConnectingTwoCenters = CGVector(dx: object.center.x - center.x,
+                                                      dy: object.center.y - center.y)
+            let sumOfRadius = object.physicsShape.radius + physicsShape.radius
+            let cosTheta = vectorConnectingTwoCenters.cosTheta(with: velocity)
+
+            let b = -2 * vectorConnectingTwoCenters.norm * cosTheta
+            let c = (vectorConnectingTwoCenters.norm + sumOfRadius)
+                * (vectorConnectingTwoCenters.norm - sumOfRadius)
+            // it is guarranted to have this root because the two object will collide
+            let moveDistance = (-b - sqrt(b * b - 4 * c)) / 2
+            assert(moveDistance > 0)
+
+            let collisionPosition = center.offsetBy(x: moveDistance * velocity.normalized().dx,
+                                                    y: moveDistance * velocity.normalized().dy)
+            physicsShape = physicsShape.moveTo(collisionPosition)
+            velocity = velocity.add(acceleration)
+
+        }
+    }
 }

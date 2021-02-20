@@ -16,7 +16,7 @@ class GameStatus {
     }
     private(set) var orangePegCount: Int {
         didSet {
-            delegate?.OrangePegCountDidChange(orangePegCount: orangePegCount)
+            delegate?.orangePegCountDidChange(orangePegCount: orangePegCount)
         }
     }
 

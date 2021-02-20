@@ -9,7 +9,7 @@ import UIKit
 
 class GameBoardView: UIView {
 
-    @IBOutlet private weak var bucketView: BucketView!
+    private var bucketView: BucketView?
     private var ballView: BallView?
     private var pegViews = [PegView]()
 
@@ -38,6 +38,7 @@ class GameBoardView: UIView {
     }
 
     func resetBoard() {
+        bucketView?.center.x = center.x
         removeBall()
         pegViews.forEach({ removePegFromBoard($0) })
     }

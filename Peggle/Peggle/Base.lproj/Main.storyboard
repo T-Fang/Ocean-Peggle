@@ -325,26 +325,21 @@
                             </imageView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="h8Y-zD-cwS" customClass="GameBoardView" customModule="Peggle" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="0.0" width="834" height="942.5"/>
-                                <subviews>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bucket" translatesAutoresizingMaskIntoConstraints="NO" id="4RD-DK-frE" customClass="BucketView" customModule="Peggle" customModuleProvider="target">
-                                        <rect key="frame" x="317" y="902.5" width="200" height="40"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="40" id="03T-5A-wk4"/>
-                                            <constraint firstAttribute="width" constant="200" id="oxd-No-y9l"/>
-                                        </constraints>
-                                    </imageView>
-                                </subviews>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="h8Y-zD-cwS" secondAttribute="height" multiplier="100:113" id="b9c-5h-uN1"/>
-                                    <constraint firstAttribute="bottom" secondItem="4RD-DK-frE" secondAttribute="bottom" id="w39-H8-uUS"/>
-                                    <constraint firstItem="4RD-DK-frE" firstAttribute="centerX" secondItem="h8Y-zD-cwS" secondAttribute="centerX" id="yBu-jj-M2I"/>
                                 </constraints>
                                 <connections>
-                                    <outlet property="bucketView" destination="4RD-DK-frE" id="ohk-XJ-gki"/>
                                     <outletCollection property="gestureRecognizers" destination="oYz-AB-7ZZ" appends="YES" id="FMe-mL-shy"/>
                                     <outletCollection property="gestureRecognizers" destination="TA2-rE-iae" appends="YES" id="bQd-7S-f6C"/>
                                 </connections>
                             </view>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bucket" translatesAutoresizingMaskIntoConstraints="NO" id="4RD-DK-frE" customClass="BucketView" customModule="Peggle" customModuleProvider="target">
+                                <rect key="frame" x="317" y="902.5" width="200" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="03T-5A-wk4"/>
+                                    <constraint firstAttribute="width" constant="200" id="oxd-No-y9l"/>
+                                </constraints>
+                            </imageView>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="cannon" translatesAutoresizingMaskIntoConstraints="NO" id="MdP-yz-3Tf" customClass="CannonView" customModule="Peggle" customModuleProvider="target">
                                 <rect key="frame" x="387" y="0.0" width="60" height="60"/>
                                 <constraints>
@@ -603,6 +598,7 @@
                         <constraints>
                             <constraint firstItem="q94-Pc-j0m" firstAttribute="top" secondItem="MdP-yz-3Tf" secondAttribute="bottom" constant="60" id="0jP-oO-3IJ"/>
                             <constraint firstItem="DQN-vh-fju" firstAttribute="centerX" secondItem="hPO-MU-Khw" secondAttribute="centerX" id="2Mf-1E-wdE"/>
+                            <constraint firstItem="h8Y-zD-cwS" firstAttribute="bottom" secondItem="4RD-DK-frE" secondAttribute="bottom" id="3KQ-l0-Jke"/>
                             <constraint firstItem="AlY-oH-qAy" firstAttribute="leading" secondItem="RdB-3p-vJf" secondAttribute="leading" constant="120" id="3Tq-QG-O1o"/>
                             <constraint firstItem="nWm-no-cG5" firstAttribute="leading" secondItem="hPO-MU-Khw" secondAttribute="trailing" constant="100" id="3Uw-d2-CMC"/>
                             <constraint firstItem="bPo-OP-zSS" firstAttribute="top" secondItem="h8Y-zD-cwS" secondAttribute="top" id="7hm-hx-PML"/>
@@ -610,6 +606,7 @@
                             <constraint firstItem="h8Y-zD-cwS" firstAttribute="centerX" secondItem="yyf-To-oTE" secondAttribute="centerX" id="CG6-q7-k8F"/>
                             <constraint firstItem="AlY-oH-qAy" firstAttribute="top" secondItem="q94-Pc-j0m" secondAttribute="bottom" constant="160" id="MPI-Ja-o6U"/>
                             <constraint firstItem="hPO-MU-Khw" firstAttribute="top" secondItem="DQN-vh-fju" secondAttribute="bottom" constant="10" id="S9n-vy-tQE"/>
+                            <constraint firstItem="4RD-DK-frE" firstAttribute="centerX" secondItem="yyf-To-oTE" secondAttribute="centerX" id="SX6-3M-4OR"/>
                             <constraint firstItem="bPo-OP-zSS" firstAttribute="leading" secondItem="h8Y-zD-cwS" secondAttribute="leading" id="SZA-jV-WsO"/>
                             <constraint firstItem="3oS-Fj-rq8" firstAttribute="centerX" secondItem="yyf-To-oTE" secondAttribute="centerX" id="WST-uh-4nN"/>
                             <constraint firstItem="h8Y-zD-cwS" firstAttribute="leading" secondItem="yyf-To-oTE" secondAttribute="leading" id="XqU-vQ-ALM"/>

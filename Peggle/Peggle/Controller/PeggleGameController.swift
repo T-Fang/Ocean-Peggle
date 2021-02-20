@@ -110,7 +110,7 @@ extension PeggleGameController: GameEventHandlerDelegate {
         ballCountLabel.text = String(ballCount)
     }
 
-    func OrangePegCountDidChange(orangePegCount: Int) {
+    func orangePegCountDidChange(orangePegCount: Int) {
         orangePegCountLabel.text = String(orangePegCount)
     }
 }
