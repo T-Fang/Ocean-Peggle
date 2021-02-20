@@ -87,6 +87,8 @@ class PeggleLevel: Codable {
         case .circle:
             return physicsShape.radius >= Constants.minCirclePegRadius
                 && physicsShape.radius <= Constants.maxCirclePegRadius
+        case .rectangle:
+            return false
         }
     }
 

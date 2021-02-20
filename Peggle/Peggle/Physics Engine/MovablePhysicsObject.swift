@@ -65,6 +65,7 @@ class MovablePhysicsObject: PhysicsObject, Movable {
     ///   - cor: coefficient of restitution, which represents how much energy is lost after collision,
     ///          1 for perfectly elastic collision, and 0 for perfectly inelastic collision
     ///
+    /// Currently, this object has to be a circle.
     /// The given object must not overlap with this `MovablePhysicsObject`,
     /// otherwise this `MovablePhysicsObject` remains unchanged
     func collide(with object: PhysicsObject, cor: CGFloat = Constants.defaultCor) {
@@ -75,6 +76,8 @@ class MovablePhysicsObject: PhysicsObject, Movable {
         switch object.physicsShape.shape {
         case .circle:
             collide(withCircle: object, cor: cor)
+        default:
+            collide(withPolygon: object, cor: cor)
         }
     }
 
@@ -87,6 +90,29 @@ class MovablePhysicsObject: PhysicsObject, Movable {
 
     }
 
+    func collide(withPolygon object: PhysicsObject, cor: CGFloat) {
+        guard let collidingSide = getCollidingSide(ofPolygon: object) else {
+            return
+        }
+        let projectedPoint = center.projectedPointOnLineBetween(collidingSide.0, collidingSide.1)
+        let axis = CGVector.generateVector(from: projectedPoint, to: center)
+        let reflectedVelocity = velocity.reflectAlong(axis: axis)
+        velocity = CGVector(dx: reflectedVelocity.dx * cor,
+                            dy: reflectedVelocity.dy * cor)
+    }
+    private func getCollidingSide(ofPolygon object: PhysicsObject) -> (CGPoint, CGPoint)? {
+        let vertices = object.physicsShape.vertices
+
+        for i in vertices.indices {
+            let point1 = vertices[i]
+            let point2 = vertices[(i + 1) % vertices.count]
+            if physicsShape.circleIntersectWithLineBetween(point1, point2) {
+                return (point1, point2)
+            }
+        }
+
+        return nil
+    }
     private func moveToCollisionPosition(with object: PhysicsObject) {
         guard willCollide(with: object) && !overlaps(with: object) else {
             return
@@ -96,8 +122,7 @@ class MovablePhysicsObject: PhysicsObject, Movable {
         case .circle:
             // use Law of Cosines to calculate the distance required to move
             // the object to the collision position, where it borders the other object
-            let vectorConnectingTwoCenters = CGVector(dx: object.center.x - center.x,
-                                                      dy: object.center.y - center.y)
+            let vectorConnectingTwoCenters = CGVector.generateVector(from: center, to: object.center)
             let sumOfRadius = object.physicsShape.radius + physicsShape.radius
             let cosTheta = vectorConnectingTwoCenters.cosTheta(with: velocity)
 
@@ -108,11 +133,34 @@ class MovablePhysicsObject: PhysicsObject, Movable {
             let moveDistance = (-b - sqrt(b * b - 4 * c)) / 2
             assert(moveDistance > 0)
 
-            let collisionPosition = center.offsetBy(x: moveDistance * velocity.normalized().dx,
-                                                    y: moveDistance * velocity.normalized().dy)
-            physicsShape = physicsShape.moveTo(collisionPosition)
-            velocity = velocity.add(acceleration)
+            move(distance: moveDistance)
+        default:
+            var minMoveDistance = CGFloat.greatestFiniteMagnitude
 
+            let vertices = object.physicsShape.vertices
+            for i in vertices.indices {
+                let point1 = vertices[i]
+                let point2 = vertices[(i + 1) % vertices.count]
+                let projectedPointP = center.projectedPointOnLineBetween(point1, point2)
+                let centerToP = CGVector.generateVector(from: center, to: projectedPointP)
+                let componentOnCenterToP = velocity.dotProduct(with: centerToP.normalized())
+
+                guard componentOnCenterToP > 0 && centerToP.norm > physicsShape.radius else {
+                    continue
+                }
+
+                minMoveDistance = min(minMoveDistance, velocity.norm
+                    * (centerToP.norm - physicsShape.radius) / componentOnCenterToP)
+            }
+
+            assert(minMoveDistance != CGFloat.greatestFiniteMagnitude)
+            move(distance: minMoveDistance)
         }
+    }
+    private func move(distance: CGFloat) {
+        let newPosition = center.offsetBy(x: distance * velocity.normalized().dx,
+                                          y: distance * velocity.normalized().dy)
+        physicsShape = physicsShape.moveTo(newPosition)
+        velocity = velocity.add(acceleration)
     }
 }

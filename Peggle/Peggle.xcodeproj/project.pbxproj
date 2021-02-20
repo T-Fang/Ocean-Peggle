@@ -67,6 +67,7 @@
 		B3D3E3DE25E1078800775ACB /* BucketView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3D3E3DD25E1078800775ACB /* BucketView.swift */; };
 		B3D3E3E325E10C8800775ACB /* Bucket.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3D3E3E225E10C8800775ACB /* Bucket.swift */; };
 		B3D3E3E825E13B8300775ACB /* CGVector+cosTheta.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3D3E3E725E13B8300775ACB /* CGVector+cosTheta.swift */; };
+		B3D3E3ED25E15C4E00775ACB /* CGPoint+distanceToLineBetween.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3D3E3EC25E15C4E00775ACB /* CGPoint+distanceToLineBetween.swift */; };
 		B3F79A6625C474AD002F83C5 /* LevelSaver.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3F79A6525C474AD002F83C5 /* LevelSaver.swift */; };
 		B3F79A6B25C55BEB002F83C5 /* GameBoardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3F79A6A25C55BEB002F83C5 /* GameBoardView.swift */; };
 		B3FA426625C57C170011163E /* PegTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3FA426525C57C170011163E /* PegTests.swift */; };
@@ -159,6 +160,7 @@
 		B3D3E3DD25E1078800775ACB /* BucketView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BucketView.swift; sourceTree = "<group>"; };
 		B3D3E3E225E10C8800775ACB /* Bucket.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bucket.swift; sourceTree = "<group>"; };
 		B3D3E3E725E13B8300775ACB /* CGVector+cosTheta.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGVector+cosTheta.swift"; sourceTree = "<group>"; };
+		B3D3E3EC25E15C4E00775ACB /* CGPoint+distanceToLineBetween.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGPoint+distanceToLineBetween.swift"; sourceTree = "<group>"; };
 		B3F79A6525C474AD002F83C5 /* LevelSaver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelSaver.swift; sourceTree = "<group>"; };
 		B3F79A6A25C55BEB002F83C5 /* GameBoardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameBoardView.swift; sourceTree = "<group>"; };
 		B3FA426525C57C170011163E /* PegTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PegTests.swift; sourceTree = "<group>"; };
@@ -365,10 +367,11 @@
 				B3381AB625D4576D007E28A6 /* CGPoint+distanceTo.swift */,
 				B390E4E325D7C26200FBA95D /* CGPoint+rotate.swift */,
 				B3381ABB25D457B6007E28A6 /* CGPoint+Hashable.swift */,
+				B390E4BA25D6B52C00FBA95D /* CGPoint+offsetBy.swift */,
+				B3D3E3EC25E15C4E00775ACB /* CGPoint+distanceToLineBetween.swift */,
 				B3381AC025D457F2007E28A6 /* CGVector+reflectAlong.swift */,
 				B3D3E3E725E13B8300775ACB /* CGVector+cosTheta.swift */,
 				B390E51525D7D21700FBA95D /* CGVector+add.swift */,
-				B390E4BA25D6B52C00FBA95D /* CGPoint+offsetBy.swift */,
 				B390E4C925D6B66200FBA95D /* String+isAlphanumeric.swift */,
 			);
 			path = Extensions;
@@ -539,6 +542,7 @@
 				B3D3E3D925E1062600775ACB /* OscillatingObject.swift in Sources */,
 				B3381A6125D247F0007E28A6 /* PhysicsShape.swift in Sources */,
 				B3D3E3E825E13B8300775ACB /* CGVector+cosTheta.swift in Sources */,
+				B3D3E3ED25E15C4E00775ACB /* CGPoint+distanceToLineBetween.swift in Sources */,
 				B3381A9C25D3EF26007E28A6 /* GameEngine.swift in Sources */,
 				B3903FDF25C021270003DF7E /* AppDelegate.swift in Sources */,
 				B3381A8925D3B8E7007E28A6 /* PhysicsWorld.swift in Sources */,

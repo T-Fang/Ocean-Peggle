@@ -7,4 +7,5 @@
 
 enum Shape: String, Hashable, Codable {
     case circle
+    case rectangle
 }
