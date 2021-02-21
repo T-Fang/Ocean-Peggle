@@ -29,12 +29,22 @@ class GameBoardView: UIView {
     }
 
     func moveBall(to position: CGPoint) {
-        ballView?.moveTo(position: position)
+        ballView?.moveTo(position)
     }
 
     func removeBall() {
         ballView?.removeFromSuperview()
         ballView = nil
+    }
+
+    func addBucket() {
+        let bucketView = BucketView(boardFrame: frame)
+        addSubview(bucketView)
+        self.bucketView = bucketView
+    }
+
+    func moveBucket(to position: CGPoint) {
+        bucketView?.moveTo(position)
     }
 
     func resetBoard() {

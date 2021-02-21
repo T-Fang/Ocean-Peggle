@@ -22,6 +22,9 @@ class Constants {
     static let failedToSaveLevel = "Failed to save level!"
     static let deleteLevelMessage = "Are you sure you want to permanently delete this level?"
 
+    // Message shown in a Peggle game
+    static let extraBallMessage = "+1 Ball!"
+
     static let masterChooserTableCellHeight: CGFloat = 145
 
     static let alphaForSelectedPegButton: CGFloat = 1
@@ -38,9 +41,15 @@ class Constants {
     static let defaultBallRadius: CGFloat = 15
     static let defaultBallCount = 10
     static let hitCountForStuckPeg = 15
+
     static let initialAcceleration = CGVector(dx: 0, dy: 0.2)
     static let initialBallSpeed: CGFloat = 8
+    static let defaultBucketSpeed = CGVector(dx: 3, dy: 0)
 
     // cor stands for coefficient of restitution
     static let defaultCor: CGFloat = 0.7
+
+    // Animation duration
+    static let fadeAnimationDuration = 1.0
+    static let messageLabelAnimationDuration = 2.0
 }

@@ -35,6 +35,7 @@ class PeggleGameController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        gameBoardView.addBucket()
         masterChooserTableView.dataSource = self
         masterChooserTableView.delegate = self
     }
@@ -78,6 +79,20 @@ class PeggleGameController: UIViewController {
 
 // MARK: GameEventHandlerDelegate
 extension PeggleGameController: GameEventHandlerDelegate {
+    func didHitBucket() {
+        // TODO: Add hit bucket sound
+    }
+
+    func showMessage(_ message: String) {
+        self.messageLabel.alpha = 1.0
+        self.messageLabel.text = message
+
+        UIView.animate(withDuration: Constants.messageLabelAnimationDuration,
+                       delay: 0.0,
+                       options: .curveEaseOut,
+                       animations: { self.messageLabel.alpha = 0.0 })
+    }
+
     func willRemovePegs(gamePegs: [GamePeg]) {
         gamePegs.forEach { gamePeg in
             pegToView[gamePeg]?.fade()
@@ -89,7 +104,7 @@ extension PeggleGameController: GameEventHandlerDelegate {
         gameBoardView.moveBall(to: ball.center)
     }
 
-    func ballDidExitFromBottom() {
+    func didRemoveBall() {
         gameBoardView.removeBall()
 
         switch gameState {
@@ -112,6 +127,10 @@ extension PeggleGameController: GameEventHandlerDelegate {
 
     func orangePegCountDidChange(orangePegCount: Int) {
         orangePegCountLabel.text = String(orangePegCount)
+    }
+
+    func bucketDidMove(bucket: Bucket) {
+        gameBoardView.moveBucket(to: bucket.center)
     }
 }
 

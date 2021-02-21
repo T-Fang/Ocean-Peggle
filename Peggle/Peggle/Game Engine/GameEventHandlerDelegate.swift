@@ -11,13 +11,16 @@ protocol GameEventHandlerDelegate: AnyObject {
     func willRemovePegs(gamePegs: [GamePeg])
 
     func ballDidMove(ball: Ball)
-    func ballDidExitFromBottom()
+    func didRemoveBall()
 
     func didHitPeg(gamePeg: GamePeg)
+    func didHitBucket()
 
     func ballCountDidChange(ballCount: Int)
 
     func orangePegCountDidChange(orangePegCount: Int)
 
-//    func bucketDidMove(bucket: Bucket)
+    func bucketDidMove(bucket: Bucket)
+
+    func showMessage(_ message: String)
 }

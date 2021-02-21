@@ -16,6 +16,7 @@ class GameEngine: PhysicsWorld<GamePeg> {
     }
 
     private var ball: Ball?
+    private var bucket: Bucket
     private(set) var gameStatus: GameStatus
     private let peggleLevel: PeggleLevel
 
@@ -34,6 +35,7 @@ class GameEngine: PhysicsWorld<GamePeg> {
     init(frame: CGRect, peggleLevel: PeggleLevel) {
         self.peggleLevel = peggleLevel
         gameStatus = GameStatus(peggleLevel: peggleLevel)
+        bucket = Bucket(gameFrame: frame)
         super.init(frame: frame)
 
         addGamePegs()
@@ -48,10 +50,16 @@ class GameEngine: PhysicsWorld<GamePeg> {
     }
 
     @objc private func update(displayLink: CADisplayLink) {
-        guard let ball = ball, gameStatus.state == .onGoing else {
+        guard gameStatus.state == .onGoing else {
             return
         }
 
+        moveBucket()
+        delegate?.bucketDidMove(bucket: bucket)
+
+        guard let ball = ball else {
+            return
+        }
         moveBall(ball: ball)
         delegate?.ballDidMove(ball: ball)
     }
@@ -66,9 +74,10 @@ class GameEngine: PhysicsWorld<GamePeg> {
 
     override func reset() {
         super.reset()
-        self.ball = nil
-        resume()
+        ball = nil
+        bucket.reset()
         gameStatus.reset(with: peggleLevel)
+        
         addGamePegs()
     }
 
@@ -78,9 +87,14 @@ class GameEngine: PhysicsWorld<GamePeg> {
         ball?.updateVelocity(speed: Constants.initialBallSpeed, angle: angle)
         ball?.acceleration = Constants.initialAcceleration
     }
-
+    func moveBucket() {
+        bucket.move()
+        if hasCollidedWithSide(object: bucket) {
+            bucket.reflectVelocityAlongXAxis()
+        }
+    }
     func moveBall(ball: Ball) {
-        checkCollisionWithPegAndMove(ball: ball)
+        checkCollisionWithObjectAndMove(ball: ball)
 
         checkExitFromBottom(ball: ball)
         checkSideCollision(ball: ball)
@@ -90,9 +104,12 @@ class GameEngine: PhysicsWorld<GamePeg> {
         guard hasCollidedWithBottom(object: ball) else {
             return
         }
+        removeBallAndHitPegs()
+    }
+    private func removeBallAndHitPegs() {
         removePegs(pegsHitByBall)
         self.ball = nil
-        delegate?.ballDidExitFromBottom()
+        delegate?.didRemoveBall()
     }
     private func removePegs(_ pegsToBeRemoved: [GamePeg]) {
         delegate?.willRemovePegs(gamePegs: pegsToBeRemoved)
@@ -106,7 +123,20 @@ class GameEngine: PhysicsWorld<GamePeg> {
         }
     }
 
-    private func checkCollisionWithPegAndMove(ball: Ball) {
+    private func checkCollisionWithObjectAndMove(ball: Ball) {
+        guard objects.allSatisfy({ !ball.willCollide(with: $0) }) else {
+            checkCollisionWithPeg(ball: ball)
+            return
+        }
+
+        guard !ball.willCollide(with: bucket) else {
+            checkCollisionWithBucket(ball: ball)
+            return
+        }
+
+        ball.move()
+    }
+    private func checkCollisionWithPeg(ball: Ball) {
         let pegsWillBeHit = objects.filter({ ball.willCollide(with: $0) })
         for gamePeg in pegsWillBeHit {
             ball.collide(with: gamePeg)
@@ -115,12 +145,18 @@ class GameEngine: PhysicsWorld<GamePeg> {
             delegate?.didHitPeg(gamePeg: gamePeg)
         }
 
-        if pegsWillBeHit.isEmpty {
-            ball.move()
-        }
-
         if !stuckPegs.isEmpty {
             removePegs(stuckPegs)
+        }
+    }
+    private func checkCollisionWithBucket(ball: Ball) {
+        if bucket.isEnteringBucket(ball: ball) {
+            gameStatus.increaseBallCount()
+            delegate?.showMessage(Constants.extraBallMessage)
+            removeBallAndHitPegs()
+        } else {
+            ball.collide(with: bucket)
+            delegate?.didHitBucket()
         }
     }
 }

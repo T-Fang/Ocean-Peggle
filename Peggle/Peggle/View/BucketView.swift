@@ -9,8 +9,20 @@ import UIKit
 
 class BucketView: UIImageView {
 
-    func moveTo(point: CGPoint) {
-        self.center = point
+    init(boardFrame: CGRect) {
+        let size = CGSize(width: Constants.defaultBucketWidth, height: Constants.defaultBucketHeight)
+        let origin = CGPoint(x: boardFrame.midX - Constants.defaultBucketWidth / 2,
+                             y: boardFrame.maxY - Constants.defaultBucketHeight)
+        super.init(frame: CGRect(origin: origin, size: size))
+        open()
+    }
+
+    required init?(coder decoder: NSCoder) {
+        super.init(coder: decoder)
+    }
+
+    func moveTo(_ position: CGPoint) {
+        self.center = position
     }
 
     func open() {

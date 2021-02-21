@@ -37,6 +37,7 @@ class GameStatus {
     }
 
     func reset(with peggleLevel: PeggleLevel) {
+        isPaused = false
         ballCount = Constants.defaultBallCount
         orangePegCount = peggleLevel.getOragnePegCount()
     }

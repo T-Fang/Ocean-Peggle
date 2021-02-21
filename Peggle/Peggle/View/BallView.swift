@@ -20,7 +20,7 @@ class BallView: UIImageView {
         self.image = #imageLiteral(resourceName: "ball")
     }
 
-    func moveTo(position: CGPoint) {
+    func moveTo(_ position: CGPoint) {
         self.center = position
     }
 

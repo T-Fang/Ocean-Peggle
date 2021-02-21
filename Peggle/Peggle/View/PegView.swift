@@ -25,7 +25,7 @@ class PegView: UIImageView {
     }
 
     func fade() {
-        UIView.animate(withDuration: 1,
+        UIView.animate(withDuration: Constants.fadeAnimationDuration,
                        delay: 0,
                        options: UIView.AnimationOptions.curveEaseInOut,
                        animations: { self.alpha = 0 })

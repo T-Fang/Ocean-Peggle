@@ -256,10 +256,10 @@
 			isa = PBXGroup;
 			children = (
 				B390E4C525D6B5AF00FBA95D /* Extensions */,
+				B3381A4225D1402B007E28A6 /* Storage */,
 				B390401C25C1716E0003DF7E /* Model */,
 				B3381A8D25D3D60C007E28A6 /* Game Engine */,
 				B3381A5F25D247D1007E28A6 /* Physics Engine */,
-				B3381A4225D1402B007E28A6 /* Storage */,
 				B390401D25C171750003DF7E /* View */,
 				B390401E25C171780003DF7E /* Controller */,
 				B390402025C171D30003DF7E /* Constants and Utility */,
