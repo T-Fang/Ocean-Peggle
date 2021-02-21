@@ -24,11 +24,12 @@ class Constants {
 
     // Message shown in a Peggle game
     static let extraBallMessage = "+1 Ball!"
+    static let spookyBallActivatedMessage = "Spooky Ball Activated!"
 
     static let masterChooserTableCellHeight: CGFloat = 145
 
-    static let alphaForSelectedPegButton: CGFloat = 1
-    static let alphaForUnselectedPegButton: CGFloat = 0.3
+    static let alphaForSelectedPaletteButton: CGFloat = 1
+    static let alphaForUnselectedPaletteButton: CGFloat = 0.3
 
     static let screenWidth = UIScreen.main.bounds.width
     static let defaultCannonHeight: CGFloat = 60
@@ -38,6 +39,10 @@ class Constants {
     static let defaultCirclePegRadius: CGFloat = 20
     static let maxCirclePegRadius: CGFloat = 40
     static let minCirclePegRadius: CGFloat = 15
+    static let maxBlockHeight: CGFloat = 100
+    static let minBlockHeight: CGFloat = 30
+    static let maxBlockWidth: CGFloat = 100
+    static let minBlockWidth: CGFloat = 30
     static let defaultBallRadius: CGFloat = 15
     static let defaultBallCount = 10
     static let hitCountForStuckPeg = 15

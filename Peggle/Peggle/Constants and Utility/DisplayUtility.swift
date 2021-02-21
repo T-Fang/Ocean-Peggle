@@ -15,6 +15,8 @@ class DisplayUtility {
                 return #imageLiteral(resourceName: "peg-blue")
             case .orange:
                 return #imageLiteral(resourceName: "peg-orange")
+            case .green:
+                return #imageLiteral(resourceName: "peg-green")
             }
         }
     }
@@ -27,6 +29,8 @@ class DisplayUtility {
                 return #imageLiteral(resourceName: "peg-blue-glow")
             case .orange:
                 return #imageLiteral(resourceName: "peg-orange-glow")
+            case .green:
+                return #imageLiteral(resourceName: "peg-green-glow")
             }
         }
     }

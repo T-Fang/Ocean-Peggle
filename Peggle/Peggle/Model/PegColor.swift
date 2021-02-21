@@ -8,4 +8,5 @@
 enum PegColor: String, Codable, Hashable, CaseIterable {
     case blue
     case orange
+    case green
 }

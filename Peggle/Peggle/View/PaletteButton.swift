@@ -1,5 +1,5 @@
 //
-//  PegButton.swift
+//  PaletteButton.swift
 //  Peggle
 //
 //  Created by TFang on 12/2/21.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-class PegButton: UIButton {
+class PaletteButton: UIButton {
     private(set) var color: PegColor? {
         didSet {
             refreshPegButtonImage()
@@ -18,18 +18,24 @@ class PegButton: UIButton {
             refreshPegButtonImage()
         }
     }
+    private(set) var type = TypeOfButton.peg
 
-    func setUp(color: PegColor, shape: PegShape) {
+    func setUp(type: TypeOfButton) {
+        self.type = type
+    }
+
+    func setUpPegButton(color: PegColor, shape: PegShape) {
         self.color = color
         self.shape = shape
+        self.type = .peg
     }
 
     func select() {
-        alpha = Constants.alphaForSelectedPegButton
+        alpha = Constants.alphaForSelectedPaletteButton
     }
 
     func unselect() {
-        alpha = Constants.alphaForUnselectedPegButton
+        alpha = Constants.alphaForUnselectedPaletteButton
     }
 
     private func refreshPegButtonImage() {
@@ -39,4 +45,10 @@ class PegButton: UIButton {
         setImage(DisplayUtility.getPegDimImage(color: color, shape: shape), for: .normal)
     }
 
+}
+
+enum TypeOfButton {
+    case peg
+    case erase
+    case block
 }

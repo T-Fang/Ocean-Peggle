@@ -47,6 +47,14 @@ class GameBoardView: UIView {
         bucketView?.moveTo(position)
     }
 
+    func openBucket() {
+        bucketView?.open()
+    }
+
+    func closeBucket() {
+        bucketView?.close()
+    }
+
     func resetBoard() {
         bucketView?.center.x = center.x
         removeBall()

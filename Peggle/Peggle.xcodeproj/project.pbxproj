@@ -45,7 +45,7 @@
 		B3903FEB25C021280003DF7E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B3903FE925C021280003DF7E /* LaunchScreen.storyboard */; };
 		B390400125C021280003DF7E /* PeggleUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B390400025C021280003DF7E /* PeggleUITests.swift */; };
 		B390401525C156EA0003DF7E /* Peg.swift in Sources */ = {isa = PBXBuildFile; fileRef = B390401425C156EA0003DF7E /* Peg.swift */; };
-		B390E4A125D68F9600FBA95D /* PegButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B390E4A025D68F9600FBA95D /* PegButton.swift */; };
+		B390E4A125D68F9600FBA95D /* PaletteButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B390E4A025D68F9600FBA95D /* PaletteButton.swift */; };
 		B390E4A625D692D600FBA95D /* DisplayUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = B390E4A525D692D600FBA95D /* DisplayUtility.swift */; };
 		B390E4AB25D69BF200FBA95D /* State.swift in Sources */ = {isa = PBXBuildFile; fileRef = B390E4AA25D69BF200FBA95D /* State.swift */; };
 		B390E4BB25D6B52C00FBA95D /* CGPoint+offsetBy.swift in Sources */ = {isa = PBXBuildFile; fileRef = B390E4BA25D6B52C00FBA95D /* CGPoint+offsetBy.swift */; };
@@ -138,7 +138,7 @@
 		B390400025C021280003DF7E /* PeggleUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeggleUITests.swift; sourceTree = "<group>"; };
 		B390400225C021280003DF7E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B390401425C156EA0003DF7E /* Peg.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Peg.swift; sourceTree = "<group>"; };
-		B390E4A025D68F9600FBA95D /* PegButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PegButton.swift; sourceTree = "<group>"; };
+		B390E4A025D68F9600FBA95D /* PaletteButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaletteButton.swift; sourceTree = "<group>"; };
 		B390E4A525D692D600FBA95D /* DisplayUtility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisplayUtility.swift; sourceTree = "<group>"; };
 		B390E4AA25D69BF200FBA95D /* State.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = State.swift; sourceTree = "<group>"; };
 		B390E4BA25D6B52C00FBA95D /* CGPoint+offsetBy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGPoint+offsetBy.swift"; sourceTree = "<group>"; };
@@ -317,7 +317,7 @@
 			children = (
 				B32C9B8725C1A94100CFEF39 /* PegView.swift */,
 				B3D3E3DD25E1078800775ACB /* BucketView.swift */,
-				B390E4A025D68F9600FBA95D /* PegButton.swift */,
+				B390E4A025D68F9600FBA95D /* PaletteButton.swift */,
 				B3F79A6A25C55BEB002F83C5 /* GameBoardView.swift */,
 				B3381ACD25D56038007E28A6 /* CannonView.swift */,
 				B3381AD225D560D7007E28A6 /* BallView.swift */,
@@ -534,7 +534,7 @@
 				B36EAC1425C2C21700C89394 /* Alert.swift in Sources */,
 				B390E4DC25D6D4FF00FBA95D /* Master.swift in Sources */,
 				B390401525C156EA0003DF7E /* Peg.swift in Sources */,
-				B390E4A125D68F9600FBA95D /* PegButton.swift in Sources */,
+				B390E4A125D68F9600FBA95D /* PaletteButton.swift in Sources */,
 				B3381AA125D3EFA9007E28A6 /* GameEventHandlerDelegate.swift in Sources */,
 				B36EAC1E25C2C5F000C89394 /* LevelChooserController.swift in Sources */,
 				B3381A7D25D28D01007E28A6 /* MovablePhysicsObject.swift in Sources */,

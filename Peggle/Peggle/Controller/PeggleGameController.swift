@@ -8,11 +8,10 @@
 import UIKit
 
 class PeggleGameController: UIViewController {
-    // engine is guaranteed to be initialized in viewWillAppear
+    // engine is guaranteed to be initialized after master selection
     private var engine: GameEngine!
     // peggleLevel is guaranteed to be initialized in segue preperation
     var peggleLevel: PeggleLevel!
-    private var selectedMaster = Master.Splork
     private var pegToView = [GamePeg: PegView]()
 
     var gameState: State {
@@ -35,25 +34,10 @@ class PeggleGameController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        gameBoardView.addBucket()
+        gameBoardView.isUserInteractionEnabled = false
+
         masterChooserTableView.dataSource = self
         masterChooserTableView.delegate = self
-    }
-
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        setUpGameEngine()
-        reloadLevel()
-
-        if peggleLevel.hasGreenPeg() {
-            masterChooserTableView.isHidden = false
-            engine.pause()
-        }
-    }
-
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        engine.updateFrame(frame: gameBoardView.frame)
     }
 
     private func setUpGameBoard() {
@@ -62,8 +46,8 @@ class PeggleGameController: UIViewController {
         gameEndView.hide()
     }
 
-    private func setUpGameEngine() {
-        engine = GameEngine(frame: gameBoardView.frame, peggleLevel: peggleLevel)
+    private func setUpGameEngine(master: Master = .Renfield) {
+        engine = GameEngine(frame: gameBoardView.frame, peggleLevel: peggleLevel, master: master)
         engine.delegate = self
     }
 
@@ -79,6 +63,14 @@ class PeggleGameController: UIViewController {
 
 // MARK: GameEventHandlerDelegate
 extension PeggleGameController: GameEventHandlerDelegate {
+    func spookyCountDidChange(spookyCount: Int) {
+        guard spookyCount == 0 else {
+            gameBoardView.closeBucket()
+            return
+        }
+        gameBoardView.openBucket()
+    }
+
     func didHitBucket() {
         // TODO: Add hit bucket sound
     }
@@ -166,6 +158,9 @@ extension PeggleGameController {
 // MARK: Button Actions
 extension PeggleGameController {
     @IBAction private func reloadLevel() {
+        guard engine != nil else {
+            return
+        }
         engine.reset()
         setUpGameBoard()
     }
@@ -199,8 +194,11 @@ extension PeggleGameController: UITableViewDataSource {
 // MARK: UITableViewDelegate
 extension PeggleGameController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        selectedMaster = Master.allMasters[indexPath.row]
-        engine.resume()
+        setUpGameEngine(master: Master.allMasters[indexPath.row])
+        reloadLevel()
+
         masterChooserTableView.isHidden = true
+        gameBoardView.addBucket()
+        gameBoardView.isUserInteractionEnabled = true
     }
 }

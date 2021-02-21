@@ -19,6 +19,15 @@ class GameEngine: PhysicsWorld<GamePeg> {
     private var bucket: Bucket
     private(set) var gameStatus: GameStatus
     private let peggleLevel: PeggleLevel
+    private var master: Master
+
+    private var spookyCount = 0 {
+        didSet {
+            spookyCount > 0 ? bucket.close() : bucket.open()
+            delegate?.spookyCountDidChange(spookyCount: spookyCount)
+            delegate?.showMessage(Constants.spookyBallActivatedMessage)
+        }
+    }
 
     // pegs that got hit by the current ball
     var pegsHitByBall: [GamePeg] {
@@ -32,10 +41,11 @@ class GameEngine: PhysicsWorld<GamePeg> {
         ball == nil && gameStatus.state == .onGoing
     }
 
-    init(frame: CGRect, peggleLevel: PeggleLevel) {
+    init(frame: CGRect, peggleLevel: PeggleLevel, master: Master = .Renfield) {
         self.peggleLevel = peggleLevel
-        gameStatus = GameStatus(peggleLevel: peggleLevel)
-        bucket = Bucket(gameFrame: frame)
+        self.gameStatus = GameStatus(peggleLevel: peggleLevel)
+        self.bucket = Bucket(gameFrame: frame)
+        self.master = master
         super.init(frame: frame)
 
         addGamePegs()
@@ -77,7 +87,7 @@ class GameEngine: PhysicsWorld<GamePeg> {
         ball = nil
         bucket.reset()
         gameStatus.reset(with: peggleLevel)
-        
+
         addGamePegs()
     }
 

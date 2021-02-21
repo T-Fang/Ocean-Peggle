@@ -22,5 +22,6 @@ protocol GameEventHandlerDelegate: AnyObject {
 
     func bucketDidMove(bucket: Bucket)
 
+    func spookyCountDidChange(spookyCount: Int)
     func showMessage(_ message: String)
 }

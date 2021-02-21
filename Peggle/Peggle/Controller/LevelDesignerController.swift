@@ -22,23 +22,32 @@ class LevelDesignerController: UIViewController {
         }
     }
 
-    private var currentSelectedPegButton: PegButton? {
+    private var selectedPaletteButton: PaletteButton? {
         willSet {
-            if let currentSelectedPegButton = currentSelectedPegButton {
-                currentSelectedPegButton.unselect()
+            if let selectedPaletteButton = selectedPaletteButton {
+                selectedPaletteButton.unselect()
             }
-            if let newlySelectedPegButton = newValue {
-                newlySelectedPegButton.select()
+            if let newlySelectedPaletteButton = newValue {
+                newlySelectedPaletteButton.select()
             }
         }
     }
 
     @IBOutlet private var gameBoardView: GameBoardView!
 
-    @IBOutlet private var bluePegButton: PegButton!
-    @IBOutlet private var orangePegButton: PegButton!
+    @IBOutlet private var bluePegButton: PaletteButton!
+    @IBOutlet private var orangePegButton: PaletteButton!
+    @IBOutlet private var greenPegButton: PaletteButton!
+    @IBOutlet private var blockButton: PaletteButton!
+    @IBOutlet private var eraseButton: PaletteButton!
 
-    @IBOutlet private var eraseButton: PegButton!
+    @IBOutlet private var widthSlider: UISlider!
+    var blockWidth: CGFloat {
+        let width = CGFloat(widthSlider.value)
+            * (Constants.maxBlockWidth - Constants.minBlockWidth) + Constants.minBlockWidth
+        print(width)
+        return width
+    }
 
     @IBOutlet private var loadButton: UIButton!
     @IBOutlet private var saveButton: UIButton!
@@ -54,14 +63,17 @@ class LevelDesignerController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         loadGameBoard()
-        setUpPegButtons()
+        setUpPaletteButtons()
     }
 
-    private func setUpPegButtons() {
-        bluePegButton.setUp(color: .blue, shape: .circle)
-        orangePegButton.setUp(color: .orange, shape: .circle)
+    private func setUpPaletteButtons() {
+        bluePegButton.setUpPegButton(color: .blue, shape: .circle)
+        orangePegButton.setUpPegButton(color: .orange, shape: .circle)
+        greenPegButton.setUpPegButton(color: .green, shape: .circle)
+        eraseButton.setUp(type: .erase)
+        blockButton.setUp(type: .block)
 
-        currentSelectedPegButton = bluePegButton
+        selectedPaletteButton = bluePegButton
     }
 
     override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
@@ -87,19 +99,25 @@ class LevelDesignerController: UIViewController {
     @IBAction private func handleSingleTap(_ sender: UITapGestureRecognizer) {
         let tapPosition = sender.location(in: gameBoardView)
 
-        guard let shape = currentSelectedPegButton?.shape,
-              let color = currentSelectedPegButton?.color else {
+        switch selectedPaletteButton?.type {
+        case .erase:
             peggleLevel.removePeg(at: tapPosition)
-            loadGameBoard()
+        case .block:
+            // TODO
+            peggleLevel.addBlock(at: tapPosition, width: 0, height: 0)
+        case .peg:
+            guard let shape = selectedPaletteButton?.shape,
+                  let color = selectedPaletteButton?.color else {
+                return
+            }
+            if let existingPeg = peggleLevel.getPegThatContains(tapPosition) {
+                currentSelectedPeg = existingPeg
+                return
+            }
+            peggleLevel.addPeg(at: tapPosition, shape: shape, color: color)
+        case nil:
             return
         }
-
-        if let existingPeg = peggleLevel.getPegThatContains(tapPosition) {
-            currentSelectedPeg = existingPeg
-            return
-        }
-
-        peggleLevel.addPeg(at: tapPosition, shape: shape, color: color)
         loadGameBoard()
     }
 
@@ -190,15 +208,20 @@ class LevelDesignerController: UIViewController {
 // MARK: Button Actions
 extension LevelDesignerController {
     @IBAction private func handleBluePegButtonTap(_ sender: UIButton) {
-        currentSelectedPegButton = bluePegButton
+        selectedPaletteButton = bluePegButton
     }
-
     @IBAction private func handleOrangePegButtonTap(_ sender: UIButton) {
-        currentSelectedPegButton = orangePegButton
+        selectedPaletteButton = orangePegButton
+    }
+    @IBAction private func handleGreenPegButtonTap(_ sender: UIButton) {
+        selectedPaletteButton = greenPegButton
     }
 
-    @IBAction private func handleErasePegButtonTap(_ sender: UIButton) {
-        currentSelectedPegButton = eraseButton
+    @IBAction private func handleBlockButtonTap(_ sender: UIButton) {
+        selectedPaletteButton = blockButton
+    }
+    @IBAction private func handleEraseButtonTap(_ sender: UIButton) {
+        selectedPaletteButton = eraseButton
     }
 
     @IBAction private func saveLevel(_ sender: UIButton) {

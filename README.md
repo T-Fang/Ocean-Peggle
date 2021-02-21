@@ -8,6 +8,8 @@
 
 1. <a href='https://pngtree.com/freepng/monster-octopus-octopus-monster-cartoon_3920369.html'>octopus png from pngtree.com</a>
 2. <a href='https://pngtree.com/freepng/cute-halloween-decorative-pumpkin-lights_4050935.html'>pumpkin png from pngtree.com</a>
+3. <a href='https://pngtree.com/freepng/soap-bubbles-vector-bow-reflection-soap-bubbles-aqua-wash-isolated-illustration_5204647.html'>soap bubbles png from pngtree.com</a>
+4. <a href='https://pngtree.com/freepng/plastic-bag_5405009.html'>plastic bag png from pngtree.com</a>
 
 ## Dev Guide
 ### Design
@@ -115,15 +117,15 @@ The `LevelDesignerController` controls the level design screen, on which the use
 - Buttons
   - Home button - show the main menu via storyboard segue
   - Palette
-    - Peg buttons for adding peg - switch to "adding peg mode" by setting `currentSelectedPegButton`, and the corresponding `PegButton`'s method `select()` will be called (to lighten the selected peg button) due to `didSet` of `currentSelectedPegButton`
-    - Erase button - switch to "deleting peg mode" by setting `currentSelectedPegButton`
+    - Peg buttons for adding peg - switch to "adding peg mode" by setting `selectedPaletteButton`, and the corresponding `PaletteButton`'s method `select()` will be called (to lighten the selected peg button) due to `didSet` of `selectedPaletteButton`
+    - Erase button - switch to "deleting peg mode" by setting `selectedPaletteButton`
   - Load button - show `LevelChooser` via storyboard segue, and set the `LevelChooser`'s attribute `isLoading` to true so that it knows it should load levels in `Level Designer` instead of playing them
   - Save button - save the current level using save alert from `Alert` class
   - Reset button - reset the level by calling corresponding methods in `PeggleLevel`. The `GameBoardView` will be updated accordingly
   - Start button -  show `PeggleGame` via storyboard segue. The game will be initialized with the current game level using `prepare` method in `LevelDesignerController`
 - Gestures
   - Single Tap 
-    - if `currentSelectedPegButton` is the erase button, delete a peg
+    - if `selectedPaletteButton` is the erase button, delete a peg
     - else
       - if there is a peg at the tap position, set `currentSelectedPeg` to that peg. And the selected peg will  `glow()` due to `currentSelectedPeg`'s `didSet`
       - add a peg otherwise if it's valid on the game board
@@ -218,11 +220,11 @@ done in code
 
     - return to the `Main Menu`
 
-  - Peg button (Blue, Orange, Erase)
+  - Palette button (Blue, Orange, Erase)
 
     - blue peg button should be selected by default
-    - after a single click on one of the Peg buttons, other Peg buttons will have lower opacity to indicate that the Peg button is selected. 
-    - nothing should happen if the already selected Peg button is clicked
+    - after a single click on one of the Palette buttons, other Palette buttons will have lower opacity to indicate that the Palette button is selected. 
+    - nothing should happen if the already selected Palette button is clicked
 
   - Load button
 
@@ -258,18 +260,18 @@ done in code
       - If there is a peg at the tap location, the peg will be removed from the game board
       - If there is no peg at the tap location, nothing should happen
       - If there is a glowing peg (selected), that peg will dim down
-    - When a Peg button other than the Erase button is selected, single tapping on the game board (specified by the background image) will result in:
+    - When a Palette button other than the Erase button is selected, single tapping on the game board (specified by the background image) will result in:
       - If there is an existing peg at the tap position, the peg should light up (glowing)
       - If there is no existing peg at the tap position, a peg centered at that location will be created. If there is a glowing peg (selected), that peg will dim down. However, the peg will not be created in the following scenarios:
         - the new peg will overlap with other existing pegs
         - the new peg will have some part of it outside of the game board boundary (clicking near the boundary will not create a peg)
   - Dragging
-    - dragging a peg will move the peg around on the game board and light up the peg regardless of which Peg button is selected
+    - dragging a peg will move the peg around on the game board and light up the peg regardless of which Palette button is selected
       - No matter how the user drags a peg, the peg will stay in the game board boundary
       - No matter how the user drags a peg, the peg will not overlaps with another peg
       - if there is no peg at the start position of dragging, nothing should happen no matter how the user drags
   - Long press
-    - Long press on a peg should remove the peg regardless of which Peg button is selected
+    - Long press on a peg should remove the peg regardless of which Palette button is selected
       - If there is a glowing peg (selected), that peg will dim down after long press peg removal
       - nothing should happen when the user long presses at a location with no peg
 

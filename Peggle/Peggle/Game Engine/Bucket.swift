@@ -36,6 +36,7 @@ class Bucket: MovablePhysicsObject {
 
     func reset() {
         center = initialCenter
+        velocity = Constants.defaultBucketSpeed
         open()
     }
 }

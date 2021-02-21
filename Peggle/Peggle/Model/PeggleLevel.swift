@@ -20,6 +20,9 @@ class PeggleLevel: Codable {
         self.init(boardSize: CGSize(width: Constants.screenWidth, height: Constants.screenWidth))
     }
 
+    func addBlock(at position: CGPoint, width: CGFloat, height: CGFloat) {
+
+    }
     /// Adds a peg with the given shape and color at the given position
     /// Constraints: the new peg is valid on the game board, otherwise nothing happens
     func addPeg(at position: CGPoint, shape: PegShape, color: PegColor) {
@@ -124,8 +127,7 @@ class PeggleLevel: Codable {
 
     /// Checks whether there is an green peg in this level
     func hasGreenPeg() -> Bool {
-        // TODO: implement hasGreenPeg in PS4
-        return false
+        pegs.contains(where: { $0.color == .green })
     }
 
     /// Checks whether the given peg lies inside the boundary of the game board and does not overlap with other pegs
