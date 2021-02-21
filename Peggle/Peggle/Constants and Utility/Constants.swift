@@ -25,6 +25,7 @@ class Constants {
     // Message shown in a Peggle game
     static let extraBallMessage = "+1 Ball!"
     static let spookyBallActivatedMessage = "Spooky Ball Activated!"
+    static let spaceBlastActivatedMessage = "Space Blast Activated!"
 
     static let masterChooserTableCellHeight: CGFloat = 145
 
@@ -36,6 +37,7 @@ class Constants {
     static let defaultBucketHeight: CGFloat = 40
     static let defaultBucketWidth: CGFloat = 200
 
+    static let spaceBlastRadius: CGFloat = 100
     static let defaultCirclePegRadius: CGFloat = 20
     static let maxCirclePegRadius: CGFloat = 40
     static let minCirclePegRadius: CGFloat = 15
@@ -44,6 +46,8 @@ class Constants {
     static let maxBlockWidth: CGFloat = 100
     static let minBlockWidth: CGFloat = 30
     static let defaultBallRadius: CGFloat = 15
+    static let defaultHandleRadius: CGFloat = 10
+
     static let defaultBallCount = 10
     static let hitCountForStuckPeg = 15
 
@@ -56,5 +60,6 @@ class Constants {
 
     // Animation duration
     static let fadeAnimationDuration = 1.0
+    static let bubbleAnimationDuration = 1.5
     static let messageLabelAnimationDuration = 2.0
 }

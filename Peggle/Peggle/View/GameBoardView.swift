@@ -60,4 +60,28 @@ class GameBoardView: UIView {
         removeBall()
         pegViews.forEach({ removePegFromBoard($0) })
     }
+
+    func bubbleEffect(for pegView: PegView) {
+        let bubbleView = getBubbleImageView(at: pegView.center)
+        addSubview(bubbleView)
+
+        UIView.animate(withDuration: Constants.bubbleAnimationDuration,
+                       delay: 0,
+                       options: UIView.AnimationOptions.curveEaseInOut,
+                       animations: { bubbleView.alpha = 0 },
+                       completion: { _ in bubbleView.removeFromSuperview() })
+    }
+    private func getBubbleImageView(at center: CGPoint) -> UIImageView {
+        let radius = Constants.spaceBlastRadius
+        let frame = CGRect(x: center.x - radius,
+                           y: center.y - radius,
+                           width: radius * 2,
+                           height: radius * 2)
+
+        let bubble = UIImageView(frame: frame)
+        bubble.image = #imageLiteral(resourceName: "soap-bubbles")
+        bubble.layer.cornerRadius = radius
+        bubble.clipsToBounds = true
+        return bubble
+    }
 }

@@ -25,7 +25,6 @@ class GameEngine: PhysicsWorld<GamePeg> {
         didSet {
             spookyCount > 0 ? bucket.close() : bucket.open()
             delegate?.spookyCountDidChange(spookyCount: spookyCount)
-            delegate?.showMessage(Constants.spookyBallActivatedMessage)
         }
     }
 
@@ -41,7 +40,7 @@ class GameEngine: PhysicsWorld<GamePeg> {
         ball == nil && gameStatus.state == .onGoing
     }
 
-    init(frame: CGRect, peggleLevel: PeggleLevel, master: Master = .Renfield) {
+    init(frame: CGRect, peggleLevel: PeggleLevel, master: Master) {
         self.peggleLevel = peggleLevel
         self.gameStatus = GameStatus(peggleLevel: peggleLevel)
         self.bucket = Bucket(gameFrame: frame)
@@ -60,7 +59,7 @@ class GameEngine: PhysicsWorld<GamePeg> {
     }
 
     @objc private func update(displayLink: CADisplayLink) {
-        guard gameStatus.state == .onGoing else {
+        guard gameStatus.state != .paused else {
             return
         }
 
@@ -104,7 +103,7 @@ class GameEngine: PhysicsWorld<GamePeg> {
         }
     }
     func moveBall(ball: Ball) {
-        checkCollisionWithObjectAndMove(ball: ball)
+        checkCollisionWithObjectsAndMove(ball: ball)
 
         checkExitFromBottom(ball: ball)
         checkSideCollision(ball: ball)
@@ -114,6 +113,14 @@ class GameEngine: PhysicsWorld<GamePeg> {
         guard hasCollidedWithBottom(object: ball) else {
             return
         }
+        removePegs(pegsHitByBall)
+
+        guard spookyCount == 0 else {
+            ball.center = CGPoint(x: ball.center.x, y: CGFloat(-Constants.defaultBallRadius))
+            spookyCount -= 1
+            return
+        }
+
         removeBallAndHitPegs()
     }
     private func removeBallAndHitPegs() {
@@ -133,13 +140,13 @@ class GameEngine: PhysicsWorld<GamePeg> {
         }
     }
 
-    private func checkCollisionWithObjectAndMove(ball: Ball) {
+    private func checkCollisionWithObjectsAndMove(ball: Ball) {
         guard objects.allSatisfy({ !ball.willCollide(with: $0) }) else {
             checkCollisionWithPeg(ball: ball)
             return
         }
 
-        guard !ball.willCollide(with: bucket) else {
+        guard !ball.willCollide(with: bucket) && !ball.overlaps(with: bucket) else {
             checkCollisionWithBucket(ball: ball)
             return
         }
@@ -150,21 +157,45 @@ class GameEngine: PhysicsWorld<GamePeg> {
         let pegsWillBeHit = objects.filter({ ball.willCollide(with: $0) })
         for gamePeg in pegsWillBeHit {
             ball.collide(with: gamePeg)
-
-            gamePeg.increaseHitCount()
-            delegate?.didHitPeg(gamePeg: gamePeg)
+            hitPeg(gamePeg)
         }
 
         if !stuckPegs.isEmpty {
             removePegs(stuckPegs)
         }
     }
+    private func hitPeg(_ gamePeg: GamePeg) {
+        gamePeg.increaseHitCount()
+        delegate?.didHitPeg(gamePeg: gamePeg)
+
+        if gamePeg.color == .green && gamePeg.hitCount == 1 {
+            activatePowerUp(greenPeg: gamePeg)
+        }
+    }
+    private func activatePowerUp(greenPeg: GamePeg) {
+        switch master {
+        case .Splork:
+            delegate?.didActivateSpaceBlast(gamePeg: greenPeg)
+            objects
+                .filter({ $0.hitCount == 0 })
+                .filter({ greenPeg.center.distanceTo($0.center) <= Constants.spaceBlastRadius })
+                .forEach({ hitPeg($0) })
+            delegate?.showMessage(Constants.spaceBlastActivatedMessage)
+        case .Renfield:
+            spookyCount += 1
+            delegate?.showMessage(Constants.spookyBallActivatedMessage)
+        }
+    }
     private func checkCollisionWithBucket(ball: Ball) {
-        if bucket.isEnteringBucket(ball: ball) {
+        if bucket.willEnterBucket(ball: ball) {
             gameStatus.increaseBallCount()
             delegate?.showMessage(Constants.extraBallMessage)
             removeBallAndHitPegs()
         } else {
+            guard !ball.overlaps(with: bucket) else {
+                ball.move()
+                return
+            }
             ball.collide(with: bucket)
             delegate?.didHitBucket()
         }

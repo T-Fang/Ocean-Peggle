@@ -61,6 +61,11 @@ struct Peg {
     func resize(by scale: CGFloat) -> Peg {
         Peg(shape: shape, color: color, physicsShape: physicsShape.resize(by: scale))
     }
+
+    /// Rotates this `Peg`.
+    func rotate(by angle: CGFloat) -> Peg {
+        Peg(shape: shape, color: color, physicsShape: physicsShape.rotate(by: angle))
+    }
 }
 
 // MARK: Hashable

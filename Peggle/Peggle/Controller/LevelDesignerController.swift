@@ -55,6 +55,7 @@ class LevelDesignerController: UIViewController {
 
     @IBOutlet private var bluePegCountLabel: UILabel!
     @IBOutlet private var orangePegCountLabel: UILabel!
+    @IBOutlet private var greenPegCountLabel: UILabel!
 
     override var prefersStatusBarHidden: Bool {
         true
@@ -195,12 +196,14 @@ class LevelDesignerController: UIViewController {
 
     private func displayPegCounts() {
         guard let blueCirclePegCount = peggleLevel.getPegCounts()[.circle]?[.blue],
-              let orangeCirclePegCount = peggleLevel.getPegCounts()[.circle]?[.orange] else {
+              let orangeCirclePegCount = peggleLevel.getPegCounts()[.circle]?[.orange],
+              let greenCirclePegCount = peggleLevel.getPegCounts()[.circle]?[.green] else {
             return
         }
 
         bluePegCountLabel.text = String(blueCirclePegCount)
         orangePegCountLabel.text = String(orangeCirclePegCount)
+        greenPegCountLabel.text = String(greenCirclePegCount)
     }
 
 }

@@ -46,11 +46,6 @@ class PeggleGameController: UIViewController {
         gameEndView.hide()
     }
 
-    private func setUpGameEngine(master: Master = .Renfield) {
-        engine = GameEngine(frame: gameBoardView.frame, peggleLevel: peggleLevel, master: master)
-        engine.delegate = self
-    }
-
     private func loadPegViews() {
         gameBoardView.resetBoard()
         engine.objects.forEach { gamePeg in
@@ -63,6 +58,13 @@ class PeggleGameController: UIViewController {
 
 // MARK: GameEventHandlerDelegate
 extension PeggleGameController: GameEventHandlerDelegate {
+    func didActivateSpaceBlast(gamePeg: GamePeg) {
+        guard let pegView = pegToView[gamePeg] else {
+            return
+        }
+        gameBoardView.bubbleEffect(for: pegView)
+    }
+
     func spookyCountDidChange(spookyCount: Int) {
         guard spookyCount == 0 else {
             gameBoardView.closeBucket()
@@ -81,7 +83,7 @@ extension PeggleGameController: GameEventHandlerDelegate {
 
         UIView.animate(withDuration: Constants.messageLabelAnimationDuration,
                        delay: 0.0,
-                       options: .curveEaseOut,
+                       options: .curveEaseInOut,
                        animations: { self.messageLabel.alpha = 0.0 })
     }
 
@@ -129,9 +131,6 @@ extension PeggleGameController: GameEventHandlerDelegate {
 // MARK: Gestures
 extension PeggleGameController {
     @IBAction private func rotateCannon(_ sender: UIPanGestureRecognizer) {
-        guard gameState == .onGoing else {
-            return
-        }
 
         let dy = sender.location(in: gameBoardView).y - cannonView.center.y
         let dx = sender.location(in: gameBoardView).x - cannonView.center.x
@@ -200,5 +199,10 @@ extension PeggleGameController: UITableViewDelegate {
         masterChooserTableView.isHidden = true
         gameBoardView.addBucket()
         gameBoardView.isUserInteractionEnabled = true
+    }
+
+    private func setUpGameEngine(master: Master) {
+        engine = GameEngine(frame: gameBoardView.frame, peggleLevel: peggleLevel, master: master)
+        engine.delegate = self
     }
 }

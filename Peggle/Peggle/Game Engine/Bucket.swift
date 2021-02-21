@@ -10,7 +10,7 @@ import CoreGraphics
 class Bucket: MovablePhysicsObject {
 
     private var initialCenter: CGPoint
-    private var isClosed = false
+    private var isOpen = true
 
     init(gameFrame: CGRect) {
         let size = CGSize(width: Constants.defaultBucketWidth, height: Constants.defaultBucketHeight)
@@ -22,16 +22,20 @@ class Bucket: MovablePhysicsObject {
     }
 
     func close() {
-        isClosed = true
+        isOpen = false
     }
 
     func open() {
-        isClosed = false
+        isOpen = true
     }
 
-    func isEnteringBucket(ball: Ball) -> Bool {
-        ball.center.x > center.x - Constants.defaultBucketWidth / 2 &&
-            ball.center.x < center.x + Constants.defaultBucketWidth / 2
+    func willEnterBucket(ball: Ball) -> Bool {
+        guard isOpen else {
+            return false
+        }
+        let movedBall = ball.movedCopy
+        return movedBall.center.x > center.x - Constants.defaultBucketWidth / 2
+            && movedBall.center.x < center.x + Constants.defaultBucketWidth / 2
     }
 
     func reset() {

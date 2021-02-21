@@ -12,6 +12,12 @@ class MovablePhysicsObject: PhysicsObject, Movable {
     var velocity = CGVector.zero
     var acceleration = CGVector.zero
 
+    var movedCopy: MovablePhysicsObject {
+        let movedObject = makeCopy()
+        movedObject.move()
+        return movedObject
+    }
+
     override init(physicsShape: PhysicsShape) {
         super.init(physicsShape: physicsShape)
     }
@@ -46,9 +52,7 @@ class MovablePhysicsObject: PhysicsObject, Movable {
 
     /// Checks whether this object will collide with the given object
     func willCollide(with object: PhysicsObject) -> Bool {
-        let movedObject = makeCopy()
-        movedObject.move()
-        return movedObject.overlaps(with: object)
+        movedCopy.overlaps(with: object)
     }
     private func makeCopy() -> MovablePhysicsObject {
         MovablePhysicsObject(velocity: velocity, acceleration: acceleration, physicsShape: physicsShape)
