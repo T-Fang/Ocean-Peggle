@@ -34,4 +34,18 @@ class DisplayUtility {
             }
         }
     }
+
+    static func getBubbleImageView(at center: CGPoint) -> UIImageView {
+        let radius = Constants.spaceBlastRadius
+        let frame = CGRect(x: center.x - radius,
+                           y: center.y - radius,
+                           width: radius * 2,
+                           height: radius * 2)
+
+        let bubble = UIImageView(frame: frame)
+        bubble.image = #imageLiteral(resourceName: "soap-bubbles")
+        bubble.layer.cornerRadius = radius
+        bubble.clipsToBounds = true
+        return bubble
+    }
 }

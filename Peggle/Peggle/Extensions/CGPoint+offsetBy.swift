@@ -13,4 +13,8 @@ extension CGPoint {
         let newY = self.y + y
         return CGPoint(x: newX, y: newY)
     }
+
+    func offset(by vector: CGVector) -> CGPoint {
+        offsetBy(x: vector.dx, y: vector.dy)
+    }
 }

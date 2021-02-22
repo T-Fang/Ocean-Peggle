@@ -45,7 +45,7 @@ class MovablePhysicsObject: PhysicsObject, Movable {
 
     /// Moves the object
     func move() {
-        let newPosition = center.offsetBy(x: velocity.dx, y: velocity.dy)
+        let newPosition = center.offset(by: velocity)
         physicsShape = physicsShape.moveTo(newPosition)
         velocity = velocity.add(acceleration)
     }
@@ -101,8 +101,7 @@ class MovablePhysicsObject: PhysicsObject, Movable {
         let projectedPoint = center.projectedPointOnLineBetween(collidingSide.0, collidingSide.1)
         let axis = CGVector.generateVector(from: projectedPoint, to: center)
         let reflectedVelocity = velocity.reflectAlong(axis: axis)
-        velocity = CGVector(dx: reflectedVelocity.dx * cor,
-                            dy: reflectedVelocity.dy * cor)
+        velocity = reflectedVelocity.scale(by: cor)
     }
     private func getCollidingSide(ofPolygon object: PhysicsObject) -> (CGPoint, CGPoint)? {
         let vertices = object.physicsShape.vertices
@@ -147,7 +146,7 @@ class MovablePhysicsObject: PhysicsObject, Movable {
                 let point2 = vertices[(i + 1) % vertices.count]
                 let projectedPointP = center.projectedPointOnLineBetween(point1, point2)
                 let centerToP = CGVector.generateVector(from: center, to: projectedPointP)
-                let componentOnCenterToP = velocity.dotProduct(with: centerToP.normalized())
+                let componentOnCenterToP = velocity.componentOn(centerToP)
 
                 guard componentOnCenterToP > 0 && centerToP.norm > physicsShape.radius else {
                     continue
@@ -162,8 +161,7 @@ class MovablePhysicsObject: PhysicsObject, Movable {
         }
     }
     private func move(distance: CGFloat) {
-        let newPosition = center.offsetBy(x: distance * velocity.normalized().dx,
-                                          y: distance * velocity.normalized().dy)
+        let newPosition = center.offset(by: velocity.normalized().scale(by: distance))
         physicsShape = physicsShape.moveTo(newPosition)
         velocity = velocity.add(acceleration)
     }

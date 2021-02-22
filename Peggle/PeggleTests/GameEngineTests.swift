@@ -21,8 +21,9 @@ class GameEngineTests: XCTestCase {
     let pegCenter1 = CGPoint(x: 20, y: 20)
     let pegCenter2 = CGPoint(x: 100, y: 100)
 
-    var engine1 = GameEngine(frame: .zero, peggleLevel: PeggleLevel())
-    var engine2 = GameEngine(frame: CGRect(x: 0, y: 0, width: 300, height: 450), peggleLevel: PeggleLevel())
+    var engine1 = GameEngine(frame: .zero, peggleLevel: PeggleLevel(), master: .Renfield)
+    var engine2 = GameEngine(frame: CGRect(x: 0, y: 0, width: 300, height: 450),
+                             peggleLevel: PeggleLevel(), master: .Splork)
 
     override func setUp() {
         super.setUp()
@@ -32,8 +33,8 @@ class GameEngineTests: XCTestCase {
         level2.addPeg(at: pegCenter1, shape: .circle, color: .blue)
         level2.addPeg(at: pegCenter2, shape: .circle, color: .orange)
 
-        engine1 = GameEngine(frame: .zero, peggleLevel: level1)
-        engine2 = GameEngine(frame: CGRect(x: 0, y: 0, width: 300, height: 450), peggleLevel: level2)
+        engine1 = GameEngine(frame: .zero, peggleLevel: level1, master: .Renfield)
+        engine2 = GameEngine(frame: CGRect(x: 0, y: 0, width: 300, height: 450), peggleLevel: level2, master: .Splork)
     }
 
     func testLaunchBall() {

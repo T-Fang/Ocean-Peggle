@@ -17,11 +17,13 @@ class PegView: UIImageView {
     private(set) var shape = PegShape.circle
     private(set) var color = PegColor.blue
 
-    init(shape: PegShape, color: PegColor, frame: CGRect) {
+    init(shape: PegShape, color: PegColor, frame: CGRect, rotation: CGFloat = 0) {
         self.shape = shape
         self.color = color
         super.init(frame: frame)
         refreshPegImage()
+
+        transform = transform.rotated(by: rotation)
     }
 
     func fade() {

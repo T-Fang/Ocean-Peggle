@@ -10,6 +10,7 @@ import CoreGraphics
 class PeggleLevel: Codable {
     private(set) var boardSize: CGSize
     private(set) var pegs = Set<Peg>()
+    private(set) var blocks = Set<Block>()
     var levelName: String?
 
     init(boardSize: CGSize) {
@@ -20,6 +21,8 @@ class PeggleLevel: Codable {
         self.init(boardSize: CGSize(width: Constants.screenWidth, height: Constants.screenWidth))
     }
 
+    /// Adds a block with the given shape and color at the given position
+    /// Constraints: the new peg is valid on the game board, otherwise nothing happens
     func addBlock(at position: CGPoint, width: CGFloat, height: CGFloat) {
 
     }
@@ -28,7 +31,7 @@ class PeggleLevel: Codable {
     func addPeg(at position: CGPoint, shape: PegShape, color: PegColor) {
         let newPeg = Peg(circlePegOfCenter: position, color: color)
 
-        if isPegValidOnBoard(peg: newPeg) {
+        if isObjectValidOnBoard(object: newPeg) {
             pegs.insert(newPeg)
         }
     }
@@ -56,7 +59,7 @@ class PeggleLevel: Codable {
 
         let newPeg = oldPeg.moveTo(newPosition)
 
-        guard isPegValidOnBoard(peg: newPeg) else {
+        guard isObjectValidOnBoard(object: newPeg) else {
             pegs.insert(oldPeg)
             return nil
         }
@@ -75,7 +78,7 @@ class PeggleLevel: Codable {
 
         let newPeg = peg.resize(by: scale)
 
-        guard isPegValidOnBoard(peg: newPeg) && isPegSizeValid(peg: newPeg) else {
+        guard isObjectValidOnBoard(object: newPeg) && isPegSizeValid(peg: newPeg) else {
             pegs.insert(peg)
             return nil
         }
@@ -130,15 +133,16 @@ class PeggleLevel: Codable {
         pegs.contains(where: { $0.color == .green })
     }
 
-    /// Checks whether the given peg lies inside the boundary of the game board and does not overlap with other pegs
-    private func isPegValidOnBoard(peg: Peg) -> Bool {
-        isPegWithinBoundary(peg: peg)
-            && pegs.allSatisfy({ !$0.overlaps(with: peg) })
+    /// Checks whether the given object lies inside the boundary of the game board
+    /// and does not overlap with other objects
+    private func isObjectValidOnBoard(object: Oscillatable) -> Bool {
+        isObjectWithinBoundary(object: object)
+            && pegs.allSatisfy({ !$0.overlaps(with: object) })
     }
 
-    /// Checks whether the given peg lies inside the boundary of the game board
-    private func isPegWithinBoundary(peg: Peg) -> Bool {
-        let frame = peg.frame
+    /// Checks whether the given object lies inside the boundary of the game board
+    private func isObjectWithinBoundary(object: Oscillatable) -> Bool {
+        let frame = object.areaShape.frame
         return frame.minX >= 0 && frame.maxX <= boardSize.width
             && frame.minY >= 0 && frame.maxY <= boardSize.height
     }

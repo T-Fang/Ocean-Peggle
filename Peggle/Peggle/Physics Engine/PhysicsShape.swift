@@ -44,6 +44,32 @@ struct PhysicsShape {
         }
     }
 
+    var leftMidPoint: CGPoint {
+        let unrotatedLeftMidPoint = CGPoint(x: unrotatedFrame.minX, y: unrotatedFrame.midY)
+        switch shape {
+        case .circle:
+        return unrotatedLeftMidPoint.rotate(around: center, by: rotation)
+        case .rectangle:
+            return unrotatedLeftMidPoint.rotate(around: center, by: rotation)
+            // TODO add triangle's
+        }
+    }
+
+    var rightMidPoint: CGPoint {
+        let unrotatedRightMidPoint = CGPoint(x: unrotatedFrame.maxX, y: unrotatedFrame.midY)
+        switch shape {
+        case .circle:
+        return unrotatedRightMidPoint.rotate(around: center, by: rotation)
+        case .rectangle:
+            return unrotatedRightMidPoint.rotate(around: center, by: rotation)
+            // TODO add triangle's
+        }
+    }
+
+    var unrotatedFrame: CGRect {
+        rotate(by: -rotation).frame
+    }
+
     var width: CGFloat {
         switch shape {
         case .circle:

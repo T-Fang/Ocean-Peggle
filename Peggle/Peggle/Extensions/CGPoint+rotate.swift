@@ -8,6 +8,7 @@
 import CoreGraphics
 
 extension CGPoint {
+    /// Rotates the point counter-clockwise
     func rotate(around point: CGPoint, by angle: CGFloat) -> CGPoint {
         guard angle != CGFloat.zero else {
             return self

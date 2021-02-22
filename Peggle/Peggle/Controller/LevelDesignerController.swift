@@ -180,16 +180,20 @@ class LevelDesignerController: UIViewController {
         currentSelectedPeg = resizedPeg
     }
 
+    @IBAction private func handleRotation(_ sender: UIRotationGestureRecognizer) {
+    }
+
     private func loadGameBoard() {
         gameBoardView.resetBoard()
         pegViews = [:]
         peggleLevel.pegs.forEach { peg in
             let pegView = PegView(shape: peg.shape,
                                   color: peg.color,
-                                  frame: peg.frame)
+                                  frame: peg.unrotatedFrame)
             gameBoardView.addPegView(pegView)
             pegViews[peg] = pegView
         }
+        currentSelectedPeg = nil
 
         displayPegCounts()
     }

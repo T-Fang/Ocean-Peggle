@@ -12,6 +12,10 @@ extension CGVector {
         CGVector(dx: point2.x - point1.x, dy: point2.y - point1.y)
     }
 
+    var norm: CGFloat {
+        sqrt(dotProduct(with: self))
+    }
+
     func dotProduct(with other: CGVector) -> CGFloat {
         dx * other.dx + dy * other.dy
     }

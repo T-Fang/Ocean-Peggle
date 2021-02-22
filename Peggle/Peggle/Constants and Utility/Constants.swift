@@ -46,7 +46,9 @@ class Constants {
     static let maxBlockWidth: CGFloat = 100
     static let minBlockWidth: CGFloat = 30
     static let defaultBallRadius: CGFloat = 15
+
     static let defaultHandleRadius: CGFloat = 10
+    static let defaultHandleLength: CGFloat = 15
 
     static let defaultBallCount = 10
     static let hitCountForStuckPeg = 15

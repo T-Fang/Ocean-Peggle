@@ -111,17 +111,4 @@ class MovablePhysicsObjectTests: XCTestCase {
         XCTAssertEqual(originalObject.acceleration, object1.acceleration)
         XCTAssertEqual(originalObject.center, object1.center)
     }
-    func testCollide_twoCircleColliding() {
-        let object1 = MovablePhysicsObject(velocity: velocity1, acceleration: acceleration1, physicsShape: shape1)
-        let object2 = MovablePhysicsObject(velocity: velocity1, acceleration: acceleration1, physicsShape: shape4)
-
-        object1.collide(with: object2)
-        let velocityAfterCollision = CGVector(dx: -Constants.defaultCor,
-                                              dy: Constants.defaultCor)
-
-        XCTAssertEqual(object1.velocity, velocityAfterCollision)
-        XCTAssertEqual(object1.acceleration, acceleration1)
-        XCTAssertEqual(object1.center, center1)
-    }
-
 }
