@@ -11,13 +11,13 @@ class LevelDesignerController: UIViewController {
     var peggleLevel = PeggleLevel()
 
     private var pegViews: [Peg: PegView] = [:]
-    private var currentSelectedPeg: Peg? {
+    private var selectedPeggleObject: PeggleObject? {
         willSet {
-            if let currentSelectedPeg = currentSelectedPeg {
-                pegViews[currentSelectedPeg]?.dim()
+            if let currentSelectedPeg = selectedPeggleObject as? Peg {
+                pegViews[currentSelectedPeg]?.unselect()
             }
-            if let newlySelectedPeg = newValue {
-                pegViews[newlySelectedPeg]?.glow()
+            if let newlySelectedPeg = newValue as? Peg {
+                pegViews[newlySelectedPeg]?.select()
             }
         }
     }
@@ -79,7 +79,7 @@ class LevelDesignerController: UIViewController {
 
     override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
         if identifier == Identifiers.designerToGame.rawValue {
-            guard peggleLevel.hasOrangePeg() else {
+            guard peggleLevel.hasOrangePeg else {
                 Alert.presentNoOrangePegAlert(controller: self)
                 return false
             }
@@ -111,8 +111,8 @@ class LevelDesignerController: UIViewController {
                   let color = selectedPaletteButton?.color else {
                 return
             }
-            if let existingPeg = peggleLevel.getPegThatContains(tapPosition) {
-                currentSelectedPeg = existingPeg
+            if let existingPeg = peggleLevel.getObjectThatContains(tapPosition) {
+                selectedPeggleObject = existingPeg
                 return
             }
             peggleLevel.addPeg(at: tapPosition, shape: shape, color: color)
@@ -122,39 +122,32 @@ class LevelDesignerController: UIViewController {
         loadGameBoard()
     }
 
-    var startingPosition: CGPoint?
     @IBAction private func handlePan(_ sender: UIPanGestureRecognizer) {
         let tapPosition = sender.location(in: gameBoardView)
 
         switch sender.state {
         case .began:
-            startingPosition = tapPosition
+            selectedPeggleObject = peggleLevel.getObjectThatContains(tapPosition)
         case .changed:
             handleDragChanged(sender)
-        case .ended:
-            startingPosition = nil
         default:
             return
         }
 
     }
     private func handleDragChanged(_ sender: UIPanGestureRecognizer) {
-        guard let startingPosition = startingPosition else {
+        guard let selectedObject = selectedPeggleObject else {
             return
         }
 
-        let translation = sender.translation(in: gameBoardView)
-        let newPosition = startingPosition.offsetBy(x: translation.x, y: translation.y)
+        let newPosition = sender.location(in: gameBoardView)
 
-        guard let movedPeg = peggleLevel.movePeg(from: startingPosition, to: newPosition) else {
+        guard let movedObject = peggleLevel.moveObject(selectedObject, to: newPosition) else {
             return
         }
 
         loadGameBoard()
-        currentSelectedPeg = movedPeg
-
-        self.startingPosition = newPosition
-        sender.setTranslation(CGPoint.zero, in: gameBoardView)
+        selectedPeggleObject = movedObject
     }
 
     @IBAction private func handleLongPress(_ sender: UILongPressGestureRecognizer) {
@@ -165,19 +158,19 @@ class LevelDesignerController: UIViewController {
     }
 
     @IBAction private func handlePinch(_ sender: UIPinchGestureRecognizer) {
-        guard let peg = currentSelectedPeg else {
+        guard let object = selectedPeggleObject else {
             return
         }
 
         let scale = sender.scale
         sender.scale = 1
 
-        guard let resizedPeg = peggleLevel.resizePeg(peg: peg, by: scale) else {
+        guard let resizedObject = peggleLevel.resizeObject(object, by: scale) else {
             return
         }
 
         loadGameBoard()
-        currentSelectedPeg = resizedPeg
+        selectedPeggleObject = resizedObject
     }
 
     @IBAction private func handleRotation(_ sender: UIRotationGestureRecognizer) {
@@ -193,7 +186,7 @@ class LevelDesignerController: UIViewController {
             gameBoardView.addPegView(pegView)
             pegViews[peg] = pegView
         }
-        currentSelectedPeg = nil
+        selectedPeggleObject = nil
 
         displayPegCounts()
     }
@@ -232,7 +225,7 @@ extension LevelDesignerController {
     }
 
     @IBAction private func saveLevel(_ sender: UIButton) {
-        guard peggleLevel.hasOrangePeg() else {
+        guard peggleLevel.hasOrangePeg else {
             Alert.presentNoOrangePegAlert(controller: self)
             return
         }

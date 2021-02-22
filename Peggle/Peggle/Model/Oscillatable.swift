@@ -64,7 +64,4 @@ extension Oscillatable {
                             rotation: physicsShape.rotation)
     }
 
-    func overlaps(with object: Oscillatable) -> Bool {
-        areaShape.overlaps(with: object.areaShape)
-    }
 }

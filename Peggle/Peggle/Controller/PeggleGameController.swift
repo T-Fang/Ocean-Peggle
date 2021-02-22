@@ -112,7 +112,7 @@ extension PeggleGameController: GameEventHandlerDelegate {
     }
 
     func didHitPeg(gamePeg: GamePeg) {
-        pegToView[gamePeg]?.glow()
+        pegToView[gamePeg]?.select()
     }
 
     func ballCountDidChange(ballCount: Int) {

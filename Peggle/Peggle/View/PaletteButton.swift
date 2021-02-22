@@ -7,7 +7,7 @@
 
 import UIKit
 
-class PaletteButton: UIButton {
+class PaletteButton: UIButton, SelectableView {
     private(set) var color: PegColor? {
         didSet {
             refreshPegButtonImage()

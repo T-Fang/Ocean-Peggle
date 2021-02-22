@@ -33,13 +33,13 @@ class GameStatus {
 
     init(peggleLevel: PeggleLevel) {
         ballCount = Constants.defaultBallCount
-        orangePegCount = peggleLevel.getOragnePegCount()
+        orangePegCount = peggleLevel.oragnePegCount
     }
 
     func reset(with peggleLevel: PeggleLevel) {
         isPaused = false
         ballCount = Constants.defaultBallCount
-        orangePegCount = peggleLevel.getOragnePegCount()
+        orangePegCount = peggleLevel.oragnePegCount
     }
 
     func updateStatusAfterRemoval(of pegsToBeRemoved: [GamePeg]) {

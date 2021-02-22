@@ -7,22 +7,10 @@
 
 import CoreGraphics
 
-struct Peg: Oscillatable {
+struct Peg: PeggleObject {
     private(set) var shape: PegShape
     private(set) var color: PegColor
     private(set) var physicsShape: PhysicsShape
-
-    var center: CGPoint {
-        physicsShape.center
-    }
-
-    var frame: CGRect {
-        physicsShape.frame
-    }
-
-    var unrotatedFrame: CGRect {
-        physicsShape.unrotatedFrame
-    }
 
     // Oscillatable Attributes
     private(set) var isOscillating: Bool
@@ -30,8 +18,8 @@ struct Peg: Oscillatable {
     var greenHandleLength = Constants.defaultHandleLength
     var redHandleLength = Constants.defaultHandleLength
 
-    init(shape: PegShape, color: PegColor, physicsShape: PhysicsShape,
-         isOscillating: Bool = false, isGoingRightFirst: Bool = false) {
+    private init(shape: PegShape, color: PegColor, physicsShape: PhysicsShape,
+                 isOscillating: Bool, isGoingRightFirst: Bool) {
         self.shape = shape
         self.color = color
         self.physicsShape = physicsShape
@@ -60,26 +48,9 @@ struct Peg: Oscillatable {
                   center: circlePegOfCenter, color: color, isOscillating: isOscillating)
     }
 
-    func contains(_ point: CGPoint) -> Bool {
-        physicsShape.contains(point)
-    }
-
-    func moveTo(_ position: CGPoint) -> Peg {
-        Peg(shape: shape, color: color, physicsShape: physicsShape.moveTo(position))
-    }
-
-    func offsetBy(x: CGFloat, y: CGFloat) -> Peg {
-        moveTo(center.offsetBy(x: x, y: y))
-    }
-
-    /// Resizes this `Peg`. if the scale is negative, the Peg is unchanged.
-    func resize(by scale: CGFloat) -> Peg {
-        Peg(shape: shape, color: color, physicsShape: physicsShape.resize(by: scale))
-    }
-
-    /// Rotates this `Peg`.
-    func rotate(by angle: CGFloat) -> Peg {
-        Peg(shape: shape, color: color, physicsShape: physicsShape.rotate(by: angle))
+    func changeShape(to physicsShape: PhysicsShape) -> Peg {
+        Peg(shape: shape, color: color, physicsShape: physicsShape,
+            isOscillating: isOscillating, isGoingRightFirst: isGoingRightFirst)
     }
 }
 

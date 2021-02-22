@@ -7,7 +7,7 @@
 
 import CoreGraphics
 
-struct Block: Oscillatable {
+struct Block: PeggleObject {
     private(set) var physicsShape: PhysicsShape
 
     // Oscillatable Attributes
@@ -16,12 +16,23 @@ struct Block: Oscillatable {
     var greenHandleLength = Constants.defaultHandleLength
     var redHandleLength = Constants.defaultHandleLength
 
+    private init(physicsShape: PhysicsShape,
+                 isOscillating: Bool, isGoingRightFirst: Bool) {
+        self.physicsShape = physicsShape
+        self.isOscillating = isOscillating
+        self.isGoingRightFirst = isGoingRightFirst
+    }
     init(size: CGSize, center: CGPoint,
          isOscillating: Bool = false, isGoingRightFirst: Bool = false) {
         self.physicsShape = PhysicsShape(rectOfSize: size, center: center)
 
         self.isOscillating = isOscillating
         self.isGoingRightFirst = isGoingRightFirst
+    }
+
+    func changeShape(to physicsShape: PhysicsShape) -> Block {
+        Block(physicsShape: physicsShape,
+              isOscillating: isOscillating, isGoingRightFirst: isGoingRightFirst)
     }
 }
 

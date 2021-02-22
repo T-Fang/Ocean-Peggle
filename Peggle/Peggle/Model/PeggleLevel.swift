@@ -21,6 +21,16 @@ class PeggleLevel: Codable {
         self.init(boardSize: CGSize(width: Constants.screenWidth, height: Constants.screenWidth))
     }
 
+    /// the number of orange pegs in this level
+    var oragnePegCount: Int {
+        pegs.filter({ $0.color == .orange }).count
+    }
+
+    /// Checks whether there is an orange peg in this level
+    var hasOrangePeg: Bool {
+        pegs.contains(where: { $0.color == .orange })
+    }
+
     /// Adds a block with the given shape and color at the given position
     /// Constraints: the new block is valid on the game board, otherwise nothing happens
     func addBlock(at position: CGPoint, width: CGFloat, height: CGFloat,
@@ -44,73 +54,46 @@ class PeggleLevel: Codable {
         }
     }
 
-    /// Removes the peg at the given position
-    /// Constraints: the position must lie inside one of the peg's area, otherwise nothing happens
+    /// Removes the object at the given position
+    /// Constraints: the position must lie inside one of the object's area, otherwise nothing happens
     func removePeg(at position: CGPoint) {
-        guard let peg = getPegThatContains(position) else {
+        guard let object = getObjectThatContains(position) else {
             return
         }
-        pegs.remove(peg)
+        remove(object)
     }
 
-    func getPegThatContains(_ point: CGPoint) -> Peg? {
-        pegs.first(where: { $0.contains(point) })
+    func getObjectThatContains(_ point: CGPoint) -> PeggleObject? {
+        let peg = pegs.first(where: { $0.contains(point) })
+        return peg == nil ? blocks.first(where: { $0.contains(point) }) : peg
     }
 
-    /// Moves the peg at the `oldPosition` to the `newPosition`
-    /// - Returns the new peg if the peg is successfully moved, and nil otherwise
-    func movePeg(from oldPosition: CGPoint, to newPosition: CGPoint) -> Peg? {
-        guard let oldPeg = getPegThatContains(oldPosition) else {
+    func modify(object: PeggleObject, by modification: (PeggleObject) -> PeggleObject) -> PeggleObject? {
+        guard contains(object) else {
             return nil
         }
-        pegs.remove(oldPeg)
+        remove(object)
 
-        let newPeg = oldPeg.moveTo(newPosition)
+        let newObject = modification(object)
 
-        guard isObjectValidOnBoard(object: newPeg) else {
-            pegs.insert(oldPeg)
-            return nil
-        }
-
-        pegs.insert(newPeg)
-        return newPeg
-    }
-
-    /// Resizes the given `Peg`. if the scale is negative, the `Peg` is unchanged
-    /// - Returns: the new peg if the new peg has a valid size and is valid on board, and nil otherwise
-    func resizePeg(peg: Peg, by scale: CGFloat) -> Peg? {
-        guard pegs.contains(peg) else {
-            return nil
-        }
-        pegs.remove(peg)
-
-        let newPeg = peg.resize(by: scale)
-
-        guard isObjectValidOnBoard(object: newPeg) && isPegSizeValid(peg: newPeg) else {
-            pegs.insert(peg)
+        guard isObjectValidOnBoard(object: newObject) else {
+            add(object)
             return nil
         }
 
-        pegs.insert(newPeg)
-        return newPeg
+        add(newObject)
+        return newObject
+    }
+    /// Moves the object to the `newPosition`
+    /// - Returns the new object if the object is successfully moved, and nil otherwise
+    func moveObject(_ object: PeggleObject, to newPosition: CGPoint) -> PeggleObject? {
+        modify(object: object, by: { $0.moveTo(newPosition) })
     }
 
-    private func isPegSizeValid(peg: Peg) -> Bool {
-        let physicsShape = peg.physicsShape
-        switch physicsShape.shape {
-        case .circle:
-            return physicsShape.radius >= Constants.minCirclePegRadius
-                && physicsShape.radius <= Constants.maxCirclePegRadius
-        case .rectangle:
-            return false
-        }
-    }
-
-    private func isBlockSizeValid(block: Block) -> Bool {
-        let width = block.physicsShape.width
-        let height = block.physicsShape.height
-        return width >= Constants.minBlockWidth && width <= Constants.maxBlockWidth
-            && height >= Constants.minBlockHeight && height <= Constants.maxBlockHeight
+    /// Resizes the given `object`. if the scale is negative, the `object` is unchanged
+    /// - Returns: the new object if the new object has a valid size and is valid on board, and nil otherwise
+    func resizeObject(_ object: PeggleObject, by scale: CGFloat) -> PeggleObject? {
+        modify(object: object, by: { $0.resize(by: scale) })
     }
 
     func resetPegBoard() {
@@ -134,34 +117,70 @@ class PeggleLevel: Codable {
         return pegCounts
     }
 
-    /// - Returns: the number of orange pegs in this level
-    func getOragnePegCount() -> Int {
-        pegs.filter({ $0.color == .orange }).count
+    private func add(_ object: PeggleObject) {
+        if let peg = object as? Peg {
+            pegs.insert(peg)
+        }
+        if let block = object as? Block {
+            blocks.insert(block)
+        }
     }
-
-    /// Checks whether there is an orange peg in this level
-    func hasOrangePeg() -> Bool {
-        pegs.contains(where: { $0.color == .orange })
+    private func remove(_ object: PeggleObject) {
+        if let peg = object as? Peg {
+            pegs.remove(peg)
+        }
+        if let block = object as? Block {
+            blocks.remove(block)
+        }
     }
-
-    /// Checks whether there is an green peg in this level
-    func hasGreenPeg() -> Bool {
-        pegs.contains(where: { $0.color == .green })
+    private func contains(_ object: PeggleObject) -> Bool {
+        if let peg = object as? Peg {
+            return pegs.contains(peg)
+        }
+        if let block = object as? Block {
+            return blocks.contains(block)
+        }
+        return false
     }
 
     /// Checks whether the given object lies inside the boundary of the game board
     /// and does not overlap with other objects
-    private func isObjectValidOnBoard(object: Oscillatable) -> Bool {
-        isObjectWithinBoundary(object: object)
+    private func isObjectValidOnBoard(object: PeggleObject) -> Bool {
+        isWithinBoundary(object: object)
+            && isSizeValid(object: object)
             && pegs.allSatisfy({ !$0.overlaps(with: object) })
             && blocks.allSatisfy({ !$0.overlaps(with: object) })
     }
 
     /// Checks whether the given object lies inside the boundary of the game board
-    private func isObjectWithinBoundary(object: Oscillatable) -> Bool {
+    private func isWithinBoundary(object: Oscillatable) -> Bool {
         let frame = object.areaShape.frame
         return frame.minX >= 0 && frame.maxX <= boardSize.width
             && frame.minY >= 0 && frame.maxY <= boardSize.height
     }
-
+    private func isSizeValid(object: PeggleObject) -> Bool {
+        if let peg = object as? Peg {
+            return isSizeValid(peg: peg)
+        }
+        if let block = object as? Block {
+            return isSizeValid(block: block)
+        }
+        return false
+    }
+    private func isSizeValid(peg: Peg) -> Bool {
+        let physicsShape = peg.physicsShape
+        switch physicsShape.shape {
+        case .circle:
+            return physicsShape.radius >= Constants.minCirclePegRadius
+                && physicsShape.radius <= Constants.maxCirclePegRadius
+        case .rectangle:
+            return false
+        }
+    }
+    private func isSizeValid(block: Block) -> Bool {
+        let width = block.physicsShape.width
+        let height = block.physicsShape.height
+        return width >= Constants.minBlockWidth && width <= Constants.maxBlockWidth
+            && height >= Constants.minBlockHeight && height <= Constants.maxBlockHeight
+    }
 }

@@ -7,7 +7,7 @@
 
 import UIKit
 
-class PegView: UIImageView {
+class PegView: UIImageView, SelectableView {
     var isGlowing = false {
         didSet {
             refreshPegImage()
@@ -33,11 +33,11 @@ class PegView: UIImageView {
                        animations: { self.alpha = 0 })
     }
 
-    func glow() {
+    func select() {
         isGlowing = true
     }
 
-    func dim() {
+    func unselect() {
         isGlowing = false
     }
 
