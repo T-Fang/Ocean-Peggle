@@ -11,28 +11,23 @@ struct Block: PeggleObject {
     private(set) var physicsShape: PhysicsShape
 
     // Oscillatable Attributes
-    var isOscillating: Bool
-    var isGoingRightFirst: Bool
-    var greenHandleLength = Constants.defaultHandleLength
-    var redHandleLength = Constants.defaultHandleLength
+    var oscillationInfo: OscillationInfo?
 
-    private init(physicsShape: PhysicsShape,
-                 isOscillating: Bool, isGoingRightFirst: Bool) {
+    private init(physicsShape: PhysicsShape, oscillationInfo: OscillationInfo?) {
         self.physicsShape = physicsShape
-        self.isOscillating = isOscillating
-        self.isGoingRightFirst = isGoingRightFirst
+        self.oscillationInfo = oscillationInfo
     }
-    init(size: CGSize, center: CGPoint,
-         isOscillating: Bool = false, isGoingRightFirst: Bool = false) {
+
+    init(size: CGSize, center: CGPoint, period: CGFloat? = nil) {
         self.physicsShape = PhysicsShape(rectOfSize: size, center: center)
 
-        self.isOscillating = isOscillating
-        self.isGoingRightFirst = isGoingRightFirst
+        if let period = period {
+            self.oscillationInfo = OscillationInfo(period: period)
+        }
     }
 
     func changeShape(to physicsShape: PhysicsShape) -> Block {
-        Block(physicsShape: physicsShape,
-              isOscillating: isOscillating, isGoingRightFirst: isGoingRightFirst)
+        Block(physicsShape: physicsShape, oscillationInfo: oscillationInfo)
     }
 }
 

@@ -24,6 +24,7 @@ protocol GameEventHandlerDelegate: AnyObject {
 
     func spookyCountDidChange(spookyCount: Int)
     func didActivateSpaceBlast(gamePeg: GamePeg)
+    func didActivateSpookyBall()
 
     func showMessage(_ message: String)
 }

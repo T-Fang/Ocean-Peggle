@@ -175,14 +175,17 @@ class GameEngine: PhysicsWorld<GamePeg> {
     private func activatePowerUp(greenPeg: GamePeg) {
         switch master {
         case .Splork:
-            delegate?.didActivateSpaceBlast(gamePeg: greenPeg)
             objects
                 .filter({ $0.hitCount == 0 })
                 .filter({ greenPeg.center.distanceTo($0.center) <= Constants.spaceBlastRadius })
                 .forEach({ hitPeg($0) })
+
+            delegate?.didActivateSpaceBlast(gamePeg: greenPeg)
             delegate?.showMessage(Constants.spaceBlastActivatedMessage)
         case .Renfield:
             spookyCount += 1
+
+            delegate?.didActivateSpookyBall()
             delegate?.showMessage(Constants.spookyBallActivatedMessage)
         }
     }

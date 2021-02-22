@@ -71,4 +71,8 @@ class GameBoardView: UIView {
                        animations: { bubbleView.alpha = 0 },
                        completion: { _ in bubbleView.removeFromSuperview() })
     }
+
+    func activateSpookyBall() {
+        ballView?.putInPlasticBag()
+    }
 }

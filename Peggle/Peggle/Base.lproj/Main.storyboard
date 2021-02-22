@@ -8,10 +8,10 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Level Designer View Controller-->
+        <!--Level Designer Controller-->
         <scene sceneID="wgy-zf-xWu">
             <objects>
-                <viewController modalPresentationStyle="fullScreen" id="zYm-l8-5rZ" userLabel="Level Designer View Controller" customClass="LevelDesignerController" customModule="Peggle" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController modalPresentationStyle="fullScreen" id="zYm-l8-5rZ" customClass="LevelDesignerController" customModule="Peggle" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" opaque="NO" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" id="sjL-NL-axq">
                         <rect key="frame" x="0.0" y="0.0" width="834" height="1194"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -212,16 +212,16 @@
                                 </connections>
                             </button>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="17" translatesAutoresizingMaskIntoConstraints="NO" id="Djs-XS-yQ3" userLabel="Sliders">
-                                <rect key="frame" x="459.5" y="1005.5" width="313.5" height="116.5"/>
+                                <rect key="frame" x="459.5" y="1005.5" width="373.5" height="116.5"/>
                                 <subviews>
                                     <slider opaque="NO" contentMode="scaleToFill" verticalCompressionResistancePriority="749" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="3Zp-Zh-pWv">
-                                        <rect key="frame" x="-2" y="0.0" width="317.5" height="23.5"/>
+                                        <rect key="frame" x="-2" y="0.0" width="377.5" height="23.5"/>
                                     </slider>
                                     <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="NYA-0Z-1SC" userLabel="Height Slider">
-                                        <rect key="frame" x="-2" y="39.5" width="317.5" height="31"/>
+                                        <rect key="frame" x="-2" y="39.5" width="377.5" height="31"/>
                                     </slider>
                                     <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="pIO-up-2I0" userLabel="Period Slider">
-                                        <rect key="frame" x="-2" y="86.5" width="317.5" height="31"/>
+                                        <rect key="frame" x="-2" y="86.5" width="377.5" height="31"/>
                                     </slider>
                                 </subviews>
                             </stackView>
@@ -254,8 +254,11 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xn9-YJ-rgV" userLabel="Oscillate Switch">
+                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="xn9-YJ-rgV" userLabel="Oscillate Switch">
                                 <rect key="frame" x="305.5" y="1090.5" width="51" height="31.5"/>
+                                <connections>
+                                    <action selector="toggleOscillationMode" destination="zYm-l8-5rZ" eventType="valueChanged" id="0QN-xA-9ff"/>
+                                </connections>
                             </switch>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="w1S-3K-n3c"/>
@@ -333,11 +336,13 @@
                 <rotationGestureRecognizer id="I3z-bt-MQb">
                     <connections>
                         <action selector="handleRotation:" destination="zYm-l8-5rZ" id="rbV-LG-sE9"/>
+                        <outlet property="delegate" destination="zYm-l8-5rZ" id="MBw-V9-Z46"/>
                     </connections>
                 </rotationGestureRecognizer>
                 <pinchGestureRecognizer delaysTouchesEnded="NO" requiresExclusiveTouchType="NO" id="icU-VV-QCn">
                     <connections>
                         <action selector="handlePinch:" destination="zYm-l8-5rZ" id="8bz-gJ-JZb"/>
+                        <outlet property="delegate" destination="zYm-l8-5rZ" id="2dP-eW-Rjk"/>
                     </connections>
                 </pinchGestureRecognizer>
             </objects>

@@ -29,23 +29,24 @@ struct PhysicsShape {
             return CGRect(origin: origin, size: size)
         default:
             // polygon
-            guard let minX = vertices.map({ $0.x }).min(),
-                  let maxX = vertices.map({ $0.x }).max(),
-                  let minY = vertices.map({ $0.y }).max(),
-                  let maxY = vertices.map({ $0.y }).max() else {
+            let sortedX = vertices.map({ $0.x }).sorted()
+            let sortedY = vertices.map({ $0.y }).sorted()
+            guard let minX = sortedX.last,
+                  let maxX = sortedX.first,
+                  let minY = sortedY.last,
+                  let maxY = sortedY.first else {
                 return .zero
             }
 
             let width = maxX - minX
             let height = maxY - minY
             let origin = CGPoint(x: minX, y: minY)
-
             return CGRect(origin: origin, size: CGSize(width: width, height: height))
         }
     }
 
     var leftMidPoint: CGPoint {
-        let unrotatedLeftMidPoint = CGPoint(x: unrotatedFrame.minX, y: unrotatedFrame.midY)
+        let unrotatedLeftMidPoint = CGPoint(x: bounds.minX, y: bounds.midY)
         switch shape {
         case .circle:
         return unrotatedLeftMidPoint.rotate(around: center, by: rotation)
@@ -56,7 +57,7 @@ struct PhysicsShape {
     }
 
     var rightMidPoint: CGPoint {
-        let unrotatedRightMidPoint = CGPoint(x: unrotatedFrame.maxX, y: unrotatedFrame.midY)
+        let unrotatedRightMidPoint = CGPoint(x: bounds.maxX, y: bounds.midY)
         switch shape {
         case .circle:
         return unrotatedRightMidPoint.rotate(around: center, by: rotation)
@@ -66,7 +67,7 @@ struct PhysicsShape {
         }
     }
 
-    var unrotatedFrame: CGRect {
+    var bounds: CGRect {
         rotate(by: -rotation).frame
     }
 

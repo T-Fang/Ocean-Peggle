@@ -9,6 +9,6 @@ import CoreGraphics
 
 extension CGPoint {
     func midpoint(with other: CGPoint) -> CGPoint {
-        CGPoint(x: x + other.x, y: y + other.y)
+        CGPoint(x: (x + other.x) / 2, y: (y + other.y) / 2)
     }
 }

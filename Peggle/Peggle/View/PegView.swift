@@ -17,10 +17,10 @@ class PegView: UIImageView, SelectableView {
     private(set) var shape = PegShape.circle
     private(set) var color = PegColor.blue
 
-    init(shape: PegShape, color: PegColor, frame: CGRect, rotation: CGFloat = 0) {
+    init(shape: PegShape, color: PegColor, unrotatedframe: CGRect, rotation: CGFloat = 0) {
         self.shape = shape
         self.color = color
-        super.init(frame: frame)
+        super.init(frame: unrotatedframe)
         refreshPegImage()
 
         transform = transform.rotated(by: rotation)
@@ -46,8 +46,8 @@ class PegView: UIImageView, SelectableView {
             : DisplayUtility.getPegDimImage(color: color, shape: shape)
     }
 
-    required init?(coder decoder: NSCoder) {
-        super.init(coder: decoder)
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
     }
 
 }

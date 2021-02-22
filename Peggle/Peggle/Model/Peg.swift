@@ -8,24 +8,21 @@
 import CoreGraphics
 
 struct Peg: PeggleObject {
+
     private(set) var shape: PegShape
     private(set) var color: PegColor
     private(set) var physicsShape: PhysicsShape
 
     // Oscillatable Attributes
-    private(set) var isOscillating: Bool
-    var isGoingRightFirst: Bool
-    var greenHandleLength = Constants.defaultHandleLength
-    var redHandleLength = Constants.defaultHandleLength
+    var oscillationInfo: OscillationInfo?
 
     private init(shape: PegShape, color: PegColor, physicsShape: PhysicsShape,
-                 isOscillating: Bool, isGoingRightFirst: Bool) {
+                 oscillationInfo: OscillationInfo?) {
         self.shape = shape
         self.color = color
         self.physicsShape = physicsShape
 
-        self.isOscillating = isOscillating
-        self.isGoingRightFirst = isGoingRightFirst
+        self.oscillationInfo = oscillationInfo
     }
 
     /// Constructs a circle peg. Returns a circle peg of radius 0 if the radius is negative.
@@ -33,24 +30,24 @@ struct Peg: PeggleObject {
     /// Note that peg with negative center is allowed.
     /// However, what is not allowed is that peg appearing on the game board.
     init(circlePegOfRadius: CGFloat, center: CGPoint, color: PegColor,
-         isOscillating: Bool = false, isGoingRightFirst: Bool = false) {
+         period: CGFloat? = nil) {
         self.shape = .circle
         self.color = color
         self.physicsShape = PhysicsShape(circleOfRadius: circlePegOfRadius, center: center)
 
-        self.isOscillating = isOscillating
-        self.isGoingRightFirst = isGoingRightFirst
+        if let period = period {
+            self.oscillationInfo = OscillationInfo(period: period)
+        }
     }
 
     init(circlePegOfCenter: CGPoint, color: PegColor,
-         isOscillating: Bool = false) {
+         period: CGFloat? = nil) {
         self.init(circlePegOfRadius: Constants.defaultCirclePegRadius,
-                  center: circlePegOfCenter, color: color, isOscillating: isOscillating)
+                  center: circlePegOfCenter, color: color, period: period)
     }
 
     func changeShape(to physicsShape: PhysicsShape) -> Peg {
-        Peg(shape: shape, color: color, physicsShape: physicsShape,
-            isOscillating: isOscillating, isGoingRightFirst: isGoingRightFirst)
+        Peg(shape: shape, color: color, physicsShape: physicsShape, oscillationInfo: oscillationInfo)
     }
 }
 

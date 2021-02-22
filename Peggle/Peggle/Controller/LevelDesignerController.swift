@@ -33,6 +33,11 @@ class LevelDesignerController: UIViewController {
         }
     }
 
+    private var isOscillating = false
+    @IBAction private func toggleOscillationMode() {
+        isOscillating.toggle()
+    }
+
     @IBOutlet private var gameBoardView: GameBoardView!
 
     @IBOutlet private var bluePegButton: PaletteButton!
@@ -105,17 +110,23 @@ class LevelDesignerController: UIViewController {
             peggleLevel.removePeg(at: tapPosition)
         case .block:
             // TODO
+            if let existingObject = peggleLevel.getObjectThatContains(tapPosition) {
+                selectedPeggleObject = existingObject
+                return
+            }
             peggleLevel.addBlock(at: tapPosition, width: 0, height: 0)
         case .peg:
+            if let existingObject = peggleLevel.getObjectThatContains(tapPosition) {
+                selectedPeggleObject = existingObject
+                return
+            }
             guard let shape = selectedPaletteButton?.shape,
                   let color = selectedPaletteButton?.color else {
                 return
             }
-            if let existingPeg = peggleLevel.getObjectThatContains(tapPosition) {
-                selectedPeggleObject = existingPeg
-                return
-            }
-            peggleLevel.addPeg(at: tapPosition, shape: shape, color: color)
+            // TODO
+            peggleLevel.addPeg(at: tapPosition, shape: shape, color: color,
+                               period: isOscillating ? 2 : nil)
         case nil:
             return
         }
@@ -174,15 +185,26 @@ class LevelDesignerController: UIViewController {
     }
 
     @IBAction private func handleRotation(_ sender: UIRotationGestureRecognizer) {
+        guard let object = selectedPeggleObject else {
+            return
+        }
+
+        let rotation = sender.rotation
+        sender.rotation = .zero
+
+        guard let rotatedObject = peggleLevel.rotateObject(object, by: rotation) else {
+            return
+        }
+
+        loadGameBoard()
+        selectedPeggleObject = rotatedObject
     }
 
     private func loadGameBoard() {
         gameBoardView.resetBoard()
         pegViews = [:]
         peggleLevel.pegs.forEach { peg in
-            let pegView = PegView(shape: peg.shape,
-                                  color: peg.color,
-                                  frame: peg.unrotatedFrame)
+            let pegView = DisplayUtility.generatePegView(for: peg)
             gameBoardView.addPegView(pegView)
             pegViews[peg] = pegView
         }
@@ -238,4 +260,12 @@ extension LevelDesignerController {
         loadGameBoard()
     }
 
+}
+
+extension LevelDesignerController: UIGestureRecognizerDelegate {
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer,
+                           shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        gestureRecognizer is UIRotationGestureRecognizer
+            && otherGestureRecognizer is UIPinchGestureRecognizer
+    }
 }

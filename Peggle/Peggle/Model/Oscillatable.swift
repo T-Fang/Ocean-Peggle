@@ -9,34 +9,52 @@ import CoreGraphics
 
 protocol Oscillatable {
     var physicsShape: PhysicsShape { get }
-    var isOscillating: Bool { get }
-    var isGoingRightFirst: Bool { get set }
-    var greenHandleLength: CGFloat { get set }
-    var redHandleLength: CGFloat { get set }
+    var oscillationInfo: OscillationInfo? { get set }
 }
 
 extension Oscillatable {
+    var vectorTowardRight: CGVector {
+        CGVector.generateVector(from: physicsShape.center, to: physicsShape.rightMidPoint)
+    }
+    var vectorTowardLeft: CGVector {
+        CGVector.generateVector(from: physicsShape.center, to: physicsShape.leftMidPoint)
+    }
     var initialDirection: CGVector {
-        if isGoingRightFirst {
-            return CGVector.generateVector(from: physicsShape.center, to: physicsShape.rightMidPoint)
+        if oscillationInfo?.isGoingRightFirst == true {
+            return vectorTowardRight
         } else {
-            return CGVector.generateVector(from: physicsShape.center, to: physicsShape.leftMidPoint)
+            return vectorTowardLeft
         }
     }
-
+    var rightHandlePosition: CGPoint {
+        physicsShape.rightMidPoint
+            .offset(by: vectorTowardRight.normalized().scale(by: oscillationInfo?.rightHandleLength ?? 0))
+    }
+    var leftHandlePosition: CGPoint {
+        physicsShape.leftMidPoint
+            .offset(by: vectorTowardLeft.normalized().scale(by: oscillationInfo?.leftHandleLength ?? 0))
+    }
+    var movementCenter: CGPoint {
+        rightHandlePosition.midpoint(with: leftHandlePosition)
+    }
+    var leftArrowLength: CGFloat {
+        movementCenter.distanceTo(leftHandlePosition)
+    }
+    var rightArrowLength: CGFloat {
+        movementCenter.distanceTo(rightHandlePosition)
+    }
     var greenHandlePosition: CGPoint {
-        if isGoingRightFirst {
-            return physicsShape.rightMidPoint.offset(by: initialDirection.normalized().scale(by: greenHandleLength))
+        if oscillationInfo?.isGoingRightFirst == true {
+            return rightHandlePosition
         } else {
-            return physicsShape.leftMidPoint.offset(by: initialDirection.normalized().scale(by: greenHandleLength))
+            return leftHandlePosition
         }
     }
-
     var redHandlePosition: CGPoint {
-        if isGoingRightFirst {
-            return physicsShape.leftMidPoint.offset(by: initialDirection.normalized().scale(by: -redHandleLength))
+        if oscillationInfo?.isGoingRightFirst == true {
+            return leftHandlePosition
         } else {
-            return physicsShape.rightMidPoint.offset(by: initialDirection.normalized().scale(by: -redHandleLength))
+            return rightHandlePosition
         }
     }
 
@@ -51,16 +69,17 @@ extension Oscillatable {
     /// - Returns: a rectangle shape the surrounds the area that this object will go through.
     ///            the orginial physics shape is returned if the object is static
     var areaShape: PhysicsShape {
-        guard isOscillating else {
+        guard oscillationInfo != nil else {
             return physicsShape
         }
-        let width = 2 * Constants.defaultHandleRadius
+        var width = 2 * Constants.defaultHandleRadius
             + greenHandlePosition.distanceTo(redHandlePosition)
-        let height = physicsShape.unrotatedFrame.height
+        width = max(width, physicsShape.bounds.height)
+        let height = physicsShape.bounds.height
         let size = CGSize(width: width, height: height)
 
         return PhysicsShape(rectOfSize: size,
-                            center: greenHandlePosition.midpoint(with: redHandlePosition),
+                            center: movementCenter,
                             rotation: physicsShape.rotation)
     }
 

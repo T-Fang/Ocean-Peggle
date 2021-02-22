@@ -42,6 +42,7 @@
 		B387BB8525E3B05000A0E0DE /* CGPoint+midpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = B387BB8425E3B05000A0E0DE /* CGPoint+midpoint.swift */; };
 		B387BB9025E3D17400A0E0DE /* PeggleObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = B387BB8F25E3D17400A0E0DE /* PeggleObject.swift */; };
 		B387BB9A25E3D66900A0E0DE /* SelectableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B387BB9925E3D66900A0E0DE /* SelectableView.swift */; };
+		B387BBAD25E4123400A0E0DE /* OscillationInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = B387BBAC25E4123400A0E0DE /* OscillationInfo.swift */; };
 		B3903FDF25C021270003DF7E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3903FDE25C021270003DF7E /* AppDelegate.swift */; };
 		B3903FE125C021270003DF7E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3903FE025C021270003DF7E /* SceneDelegate.swift */; };
 		B3903FE325C021270003DF7E /* LevelDesignerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3903FE225C021270003DF7E /* LevelDesignerController.swift */; };
@@ -135,6 +136,7 @@
 		B387BB8425E3B05000A0E0DE /* CGPoint+midpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGPoint+midpoint.swift"; sourceTree = "<group>"; };
 		B387BB8F25E3D17400A0E0DE /* PeggleObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeggleObject.swift; sourceTree = "<group>"; };
 		B387BB9925E3D66900A0E0DE /* SelectableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectableView.swift; sourceTree = "<group>"; };
+		B387BBAC25E4123400A0E0DE /* OscillationInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OscillationInfo.swift; sourceTree = "<group>"; };
 		B3903FDB25C021270003DF7E /* Peggle.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Peggle.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B3903FDE25C021270003DF7E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B3903FE025C021270003DF7E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -317,6 +319,7 @@
 			isa = PBXGroup;
 			children = (
 				B387BB6E25E2DDE400A0E0DE /* Oscillatable.swift */,
+				B387BBAC25E4123400A0E0DE /* OscillationInfo.swift */,
 				B387BB8F25E3D17400A0E0DE /* PeggleObject.swift */,
 				B390401425C156EA0003DF7E /* Peg.swift */,
 				B3D3E3FF25E2B00700775ACB /* Block.swift */,
@@ -601,6 +604,7 @@
 				B30D54A025C17624008CCD5F /* Constants.swift in Sources */,
 				B3381A6E25D24AF6007E28A6 /* PegColor.swift in Sources */,
 				B3381ABC25D457B6007E28A6 /* CGPoint+Hashable.swift in Sources */,
+				B387BBAD25E4123400A0E0DE /* OscillationInfo.swift in Sources */,
 				B32C9B8825C1A94100CFEF39 /* PegView.swift in Sources */,
 				B3381A9225D3E803007E28A6 /* GamePeg.swift in Sources */,
 			);

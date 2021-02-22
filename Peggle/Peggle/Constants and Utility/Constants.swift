@@ -49,6 +49,7 @@ class Constants {
 
     static let defaultHandleRadius: CGFloat = 10
     static let defaultHandleLength: CGFloat = 15
+    static let defaultHandleWidth: CGFloat = 6
 
     static let defaultBallCount = 10
     static let hitCountForStuckPeg = 15

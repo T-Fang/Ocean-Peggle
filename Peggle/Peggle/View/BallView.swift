@@ -21,7 +21,11 @@ class BallView: UIImageView {
     }
 
     func moveTo(_ position: CGPoint) {
-        self.center = position
+        center = position
+    }
+
+    func putInPlasticBag() {
+        image = #imageLiteral(resourceName: "ball-with-plastic")
     }
 
 }

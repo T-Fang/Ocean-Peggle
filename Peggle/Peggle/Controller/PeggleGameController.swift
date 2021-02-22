@@ -49,7 +49,7 @@ class PeggleGameController: UIViewController {
     private func loadPegViews() {
         gameBoardView.resetBoard()
         engine.objects.forEach { gamePeg in
-            let pegView = PegView(shape: gamePeg.shape, color: gamePeg.color, frame: gamePeg.frame)
+            let pegView = PegView(shape: gamePeg.shape, color: gamePeg.color, unrotatedframe: gamePeg.frame)
             pegToView[gamePeg] = pegView
             gameBoardView.addPegView(pegView)
         }
@@ -58,6 +58,10 @@ class PeggleGameController: UIViewController {
 
 // MARK: GameEventHandlerDelegate
 extension PeggleGameController: GameEventHandlerDelegate {
+    func didActivateSpookyBall() {
+        gameBoardView.activateSpookyBall()
+    }
+
     func didActivateSpaceBlast(gamePeg: GamePeg) {
         guard let pegView = pegToView[gamePeg] else {
             return

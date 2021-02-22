@@ -36,7 +36,7 @@ class PeggleLevel: Codable {
     func addBlock(at position: CGPoint, width: CGFloat, height: CGFloat,
                   isOscillating: Bool = false) {
         let newBlock = Block(size: CGSize(width: width, height: height),
-                             center: position, isOscillating: isOscillating)
+                             center: position)
 
         if isObjectValidOnBoard(object: newBlock) {
             blocks.insert(newBlock)
@@ -46,8 +46,8 @@ class PeggleLevel: Codable {
     /// Adds a peg with the given shape and color at the given position
     /// Constraints: the new peg is valid on the game board, otherwise nothing happens
     func addPeg(at position: CGPoint, shape: PegShape, color: PegColor,
-                isOscillating: Bool = false) {
-        let newPeg = Peg(circlePegOfCenter: position, color: color, isOscillating: isOscillating)
+                period: CGFloat?) {
+        let newPeg = Peg(circlePegOfCenter: position, color: color, period: period)
 
         if isObjectValidOnBoard(object: newPeg) {
             pegs.insert(newPeg)
@@ -94,6 +94,10 @@ class PeggleLevel: Codable {
     /// - Returns: the new object if the new object has a valid size and is valid on board, and nil otherwise
     func resizeObject(_ object: PeggleObject, by scale: CGFloat) -> PeggleObject? {
         modify(object: object, by: { $0.resize(by: scale) })
+    }
+
+    func rotateObject(_ object: PeggleObject, by angle: CGFloat) -> PeggleObject? {
+        modify(object: object, by: { $0.rotate(by: angle) })
     }
 
     func resetPegBoard() {
