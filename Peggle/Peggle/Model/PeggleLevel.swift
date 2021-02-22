@@ -22,14 +22,22 @@ class PeggleLevel: Codable {
     }
 
     /// Adds a block with the given shape and color at the given position
-    /// Constraints: the new peg is valid on the game board, otherwise nothing happens
-    func addBlock(at position: CGPoint, width: CGFloat, height: CGFloat) {
+    /// Constraints: the new block is valid on the game board, otherwise nothing happens
+    func addBlock(at position: CGPoint, width: CGFloat, height: CGFloat,
+                  isOscillating: Bool = false) {
+        let newBlock = Block(size: CGSize(width: width, height: height),
+                             center: position, isOscillating: isOscillating)
 
+        if isObjectValidOnBoard(object: newBlock) {
+            blocks.insert(newBlock)
+        }
     }
+
     /// Adds a peg with the given shape and color at the given position
     /// Constraints: the new peg is valid on the game board, otherwise nothing happens
-    func addPeg(at position: CGPoint, shape: PegShape, color: PegColor) {
-        let newPeg = Peg(circlePegOfCenter: position, color: color)
+    func addPeg(at position: CGPoint, shape: PegShape, color: PegColor,
+                isOscillating: Bool = false) {
+        let newPeg = Peg(circlePegOfCenter: position, color: color, isOscillating: isOscillating)
 
         if isObjectValidOnBoard(object: newPeg) {
             pegs.insert(newPeg)
@@ -98,8 +106,16 @@ class PeggleLevel: Codable {
         }
     }
 
+    private func isBlockSizeValid(block: Block) -> Bool {
+        let width = block.physicsShape.width
+        let height = block.physicsShape.height
+        return width >= Constants.minBlockWidth && width <= Constants.maxBlockWidth
+            && height >= Constants.minBlockHeight && height <= Constants.maxBlockHeight
+    }
+
     func resetPegBoard() {
         pegs = []
+        blocks = []
     }
 
     /// - Returns: a nested dictionary containing the numbers of pegs of different shapes and colors.
@@ -138,6 +154,7 @@ class PeggleLevel: Codable {
     private func isObjectValidOnBoard(object: Oscillatable) -> Bool {
         isObjectWithinBoundary(object: object)
             && pegs.allSatisfy({ !$0.overlaps(with: object) })
+            && blocks.allSatisfy({ !$0.overlaps(with: object) })
     }
 
     /// Checks whether the given object lies inside the boundary of the game board
