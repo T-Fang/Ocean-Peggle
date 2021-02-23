@@ -13,6 +13,7 @@ class PeggleGameController: UIViewController {
     // peggleLevel is guaranteed to be initialized in segue preperation
     var peggleLevel: PeggleLevel!
     private var pegToView = [GamePeg: PegView]()
+    private var blockToView = [GameBlock: BlockView]()
 
     var gameState: State {
         engine.gameStatus.state
@@ -58,6 +59,15 @@ class PeggleGameController: UIViewController {
 
 // MARK: GameEventHandlerDelegate
 extension PeggleGameController: GameEventHandlerDelegate {
+    func objectsDidMove() {
+        if let ballCenter = engine.ball?.center {
+            gameBoardView.moveBall(to: ballCenter)
+        }
+        gameBoardView.moveBucket(to: engine.bucket.center)
+        engine.objects.forEach({ pegToView[$0]?.moveTo($0.center) })
+        engine.blocks.forEach({ blockToView[$0]?.moveTo($0.center) })
+    }
+
     func didActivateSpookyBall() {
         gameBoardView.activateSpookyBall()
     }

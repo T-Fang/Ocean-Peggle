@@ -57,10 +57,10 @@ class Constants {
     static let defaultHandleWidth: CGFloat = 6
 
     static let defaultBallCount = 10
-    static let hitCountForStuckPeg = 15
+    static let hitCountForStuckObject = 15
 
     static let initialAcceleration = CGVector(dx: 0, dy: 0.2)
-    static let initialBallSpeed: CGFloat = 8
+    static let initialBallSpeed: CGFloat = 90
     static let defaultBucketSpeed = CGVector(dx: 3, dy: 0)
 
     // cor stands for coefficient of restitution

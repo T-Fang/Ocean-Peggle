@@ -15,6 +15,9 @@ protocol Oscillatable {
 }
 
 extension Oscillatable {
+    var period: CGFloat {
+        oscillationInfo?.period ?? .zero
+    }
     var vectorTowardRight: CGVector {
         CGVector.generateVector(from: physicsShape.center, to: physicsShape.rightMidPoint)
     }
@@ -41,6 +44,9 @@ extension Oscillatable {
     }
     var leftArrowLength: CGFloat {
         physicsShape.center.distanceTo(leftHandlePosition)
+    }
+    var amplitude: CGFloat {
+        leftArrowLength + rightArrowLength
     }
     var rightArrowLength: CGFloat {
         physicsShape.center.distanceTo(rightHandlePosition)

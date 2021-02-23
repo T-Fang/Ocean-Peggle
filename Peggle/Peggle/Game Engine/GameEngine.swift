@@ -15,16 +15,16 @@ class GameEngine: PhysicsWorld<GamePeg> {
         }
     }
 
-    private var ball: Ball?
-    private var bucket: Bucket
+    private(set) var ball: Ball?
+    private(set) var bucket: Bucket
     private(set) var gameStatus: GameStatus
     private let peggleLevel: PeggleLevel
     private var master: Master
-    private var blocks = Set<GameBlock>()
+    private(set) var blocks = Set<GameBlock>()
 
     var allObjects: [OscillatableObject] {
-        var arr = Array<OscillatableObject>()
-//        objects.forEach({ arr.append($0) })
+        var arr = [OscillatableObject]()
+        objects.forEach({ arr.append($0) })
         blocks.forEach({ arr.append($0) })
         return arr
     }
@@ -40,7 +40,7 @@ class GameEngine: PhysicsWorld<GamePeg> {
         objects.filter({ $0.hitCount > 0 })
     }
     var stuckPegs: [GamePeg] {
-        objects.filter({ $0.hitCount >= Constants.hitCountForStuckPeg })
+        objects.filter({ $0.hitCount >= Constants.hitCountForStuckObject })
     }
 
     var canFire: Bool {
@@ -71,13 +71,13 @@ class GameEngine: PhysicsWorld<GamePeg> {
         }
 
         moveBucket()
-        delegate?.bucketDidMove(bucket: bucket)
+//        allObjects.forEach({ $0.move() })
 
-        guard let ball = ball else {
-            return
+        if let ball = ball {
+            moveBall(ball: ball)
         }
-        moveBall(ball: ball)
-        delegate?.ballDidMove(ball: ball)
+
+        delegate?.objectsDidMove()
     }
 
     func pause() {
@@ -162,19 +162,24 @@ class GameEngine: PhysicsWorld<GamePeg> {
         ball.move()
     }
     private func checkCollisionWithPeg(ball: Ball) {
-        // TODO
-//        while(!objects.filter({ ball.overlaps(with: $0) }).isEmpty) {
-//            let overlappingPegs = objects.filter({ ball.overlaps(with: $0) })
-//        }
+        while(objects.contains(where: { ball.overlaps(with: $0) }))
+                || objects.contains(where: { ball.willCollide(with: $0) }) {
+            if !stuckPegs.isEmpty {
+                removePegs(stuckPegs)
+            }
+            if let overlappingPegs = objects.first(where: { ball.overlaps(with: $0) }) {
+                while ball.overlaps(with: overlappingPegs) {
+                    ball.undoMove()
+                }
+                ball.collide(with: overlappingPegs)
+                hitPeg(overlappingPegs)
+                continue
+            }
+            if let pegToBeHit = objects.first(where: { ball.willCollide(with: $0) }) {
+                ball.collide(with: pegToBeHit)
+                hitPeg(pegToBeHit)
+            }
 
-        let pegsWillBeHit = objects.filter({ ball.willCollide(with: $0) })
-        for gamePeg in pegsWillBeHit {
-            ball.collide(with: gamePeg)
-            hitPeg(gamePeg)
-        }
-
-        if !stuckPegs.isEmpty {
-            removePegs(stuckPegs)
         }
     }
     private func hitPeg(_ gamePeg: GamePeg) {

@@ -23,10 +23,6 @@ class PhysicsWorld<Object: PhysicsObject> {
         self.frame = frame
     }
 
-    func updateFrame(frame: CGRect) {
-        self.frame = frame
-    }
-
     func add(_ object: Object) {
         objects.append(object)
     }

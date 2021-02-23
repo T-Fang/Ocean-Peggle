@@ -13,6 +13,10 @@ protocol OscillatableView: UIView {
 }
 
 extension OscillatableView {
+    func moveTo(_ position: CGPoint) {
+        self.center = position
+    }
+
     func setUp(handleView: UIView, periodLabel: UIView) {
         self.handleView = handleView
         self.periodLabel = periodLabel

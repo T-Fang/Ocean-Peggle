@@ -50,6 +50,12 @@ class MovablePhysicsObject: PhysicsObject, Movable {
         velocity = velocity.add(acceleration)
     }
 
+    func undoMove() {
+        let previousPosition = center.offset(by: velocity.scale(by: -1))
+        physicsShape = physicsShape.moveTo(previousPosition)
+        velocity = velocity.add(acceleration.scale(by: -1))
+    }
+
     /// Checks whether this object will collide with the given object
     func willCollide(with object: PhysicsObject) -> Bool {
         movedCopy.overlaps(with: object)
@@ -82,6 +88,10 @@ class MovablePhysicsObject: PhysicsObject, Movable {
             collide(withCircle: object, cor: cor)
         default:
             collide(withPolygon: object, cor: cor)
+        }
+
+        while overlaps(with: object) {
+            move(distance: 0.000_000_000_001)
         }
     }
 

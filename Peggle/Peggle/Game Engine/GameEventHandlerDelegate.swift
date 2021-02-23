@@ -21,6 +21,7 @@ protocol GameEventHandlerDelegate: AnyObject {
     func orangePegCountDidChange(orangePegCount: Int)
 
     func bucketDidMove(bucket: Bucket)
+    func objectsDidMove()
 
     func spookyCountDidChange(spookyCount: Int)
     func didActivateSpaceBlast(gamePeg: GamePeg)
