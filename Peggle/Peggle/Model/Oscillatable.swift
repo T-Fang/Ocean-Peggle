@@ -28,11 +28,11 @@ extension Oscillatable {
     }
     var rightHandlePosition: CGPoint {
         physicsShape.rightMidPoint
-            .offset(by: vectorTowardRight.normalized().scale(by: oscillationInfo?.rightHandleLength ?? 0))
+            .offset(by: vectorTowardRight.normalized.scale(by: oscillationInfo?.rightHandleLength ?? 0))
     }
     var leftHandlePosition: CGPoint {
         physicsShape.leftMidPoint
-            .offset(by: vectorTowardLeft.normalized().scale(by: oscillationInfo?.leftHandleLength ?? 0))
+            .offset(by: vectorTowardLeft.normalized.scale(by: oscillationInfo?.leftHandleLength ?? 0))
     }
     var movementCenter: CGPoint {
         rightHandlePosition.midpoint(with: leftHandlePosition)
@@ -74,8 +74,8 @@ extension Oscillatable {
         }
         var width = 2 * Constants.defaultHandleRadius
             + greenHandlePosition.distanceTo(redHandlePosition)
-        width = max(width, physicsShape.bounds.height)
-        let height = physicsShape.bounds.height
+        width = max(width, physicsShape.unrotatedFrame.height)
+        let height = physicsShape.unrotatedFrame.height
         let size = CGSize(width: width, height: height)
 
         return PhysicsShape(rectOfSize: size,

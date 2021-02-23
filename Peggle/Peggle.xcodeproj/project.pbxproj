@@ -43,6 +43,9 @@
 		B387BB9025E3D17400A0E0DE /* PeggleObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = B387BB8F25E3D17400A0E0DE /* PeggleObject.swift */; };
 		B387BB9A25E3D66900A0E0DE /* SelectableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B387BB9925E3D66900A0E0DE /* SelectableView.swift */; };
 		B387BBAD25E4123400A0E0DE /* OscillationInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = B387BBAC25E4123400A0E0DE /* OscillationInfo.swift */; };
+		B387BBB525E4E7D600A0E0DE /* OscillatableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B387BBB425E4E7D600A0E0DE /* OscillatableView.swift */; };
+		B387BBBA25E4F1CE00A0E0DE /* PhysicsUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = B387BBB925E4F1CE00A0E0DE /* PhysicsUtility.swift */; };
+		B387BBC225E5041500A0E0DE /* BlockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B387BBC125E5041400A0E0DE /* BlockView.swift */; };
 		B3903FDF25C021270003DF7E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3903FDE25C021270003DF7E /* AppDelegate.swift */; };
 		B3903FE125C021270003DF7E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3903FE025C021270003DF7E /* SceneDelegate.swift */; };
 		B3903FE325C021270003DF7E /* LevelDesignerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3903FE225C021270003DF7E /* LevelDesignerController.swift */; };
@@ -137,6 +140,9 @@
 		B387BB8F25E3D17400A0E0DE /* PeggleObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeggleObject.swift; sourceTree = "<group>"; };
 		B387BB9925E3D66900A0E0DE /* SelectableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectableView.swift; sourceTree = "<group>"; };
 		B387BBAC25E4123400A0E0DE /* OscillationInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OscillationInfo.swift; sourceTree = "<group>"; };
+		B387BBB425E4E7D600A0E0DE /* OscillatableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OscillatableView.swift; sourceTree = "<group>"; };
+		B387BBB925E4F1CE00A0E0DE /* PhysicsUtility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhysicsUtility.swift; sourceTree = "<group>"; };
+		B387BBC125E5041400A0E0DE /* BlockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockView.swift; sourceTree = "<group>"; };
 		B3903FDB25C021270003DF7E /* Peggle.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Peggle.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B3903FDE25C021270003DF7E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B3903FE025C021270003DF7E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -222,6 +228,7 @@
 			isa = PBXGroup;
 			children = (
 				B3381A6025D247F0007E28A6 /* PhysicsShape.swift */,
+				B387BBB925E4F1CE00A0E0DE /* PhysicsUtility.swift */,
 				B3381A7725D28987007E28A6 /* PhysicsObject.swift */,
 				B3381A7C25D28D01007E28A6 /* MovablePhysicsObject.swift */,
 				B3D3E3D825E1062600775ACB /* OscillatingObject.swift */,
@@ -334,7 +341,9 @@
 			isa = PBXGroup;
 			children = (
 				B387BB9925E3D66900A0E0DE /* SelectableView.swift */,
+				B387BBB425E4E7D600A0E0DE /* OscillatableView.swift */,
 				B32C9B8725C1A94100CFEF39 /* PegView.swift */,
+				B387BBC125E5041400A0E0DE /* BlockView.swift */,
 				B3D3E3DD25E1078800775ACB /* BucketView.swift */,
 				B390E4A025D68F9600FBA95D /* PaletteButton.swift */,
 				B3F79A6A25C55BEB002F83C5 /* GameBoardView.swift */,
@@ -566,10 +575,12 @@
 				B3381A6125D247F0007E28A6 /* PhysicsShape.swift in Sources */,
 				B3D3E3E825E13B8300775ACB /* CGVector+cosTheta.swift in Sources */,
 				B3D3E3ED25E15C4E00775ACB /* CGPoint+distanceToLineBetween.swift in Sources */,
+				B387BBC225E5041500A0E0DE /* BlockView.swift in Sources */,
 				B3381A9C25D3EF26007E28A6 /* GameEngine.swift in Sources */,
 				B3903FDF25C021270003DF7E /* AppDelegate.swift in Sources */,
 				B3381A8925D3B8E7007E28A6 /* PhysicsWorld.swift in Sources */,
 				B390E4CA25D6B66200FBA95D /* String+isAlphanumeric.swift in Sources */,
+				B387BBBA25E4F1CE00A0E0DE /* PhysicsUtility.swift in Sources */,
 				B390E4D725D6D02700FBA95D /* MasterChooserTableCell.swift in Sources */,
 				B3381A7325D25488007E28A6 /* PegShape.swift in Sources */,
 				B36EAC3D25C326B900C89394 /* HomeController.swift in Sources */,
@@ -603,6 +614,7 @@
 				B30D549B25C17427008CCD5F /* PeggleLevel.swift in Sources */,
 				B30D54A025C17624008CCD5F /* Constants.swift in Sources */,
 				B3381A6E25D24AF6007E28A6 /* PegColor.swift in Sources */,
+				B387BBB525E4E7D600A0E0DE /* OscillatableView.swift in Sources */,
 				B3381ABC25D457B6007E28A6 /* CGPoint+Hashable.swift in Sources */,
 				B387BBAD25E4123400A0E0DE /* OscillationInfo.swift in Sources */,
 				B32C9B8825C1A94100CFEF39 /* PegView.swift in Sources */,

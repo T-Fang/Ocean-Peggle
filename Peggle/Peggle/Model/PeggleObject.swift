@@ -16,8 +16,8 @@ extension PeggleObject {
         physicsShape.center
     }
 
-    var bounds: CGRect {
-        physicsShape.bounds
+    var unrotatedFrame: CGRect {
+        physicsShape.unrotatedFrame
     }
 
     func overlaps(with object: PeggleObject) -> Bool {

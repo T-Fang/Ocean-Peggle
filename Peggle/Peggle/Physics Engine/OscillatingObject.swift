@@ -19,7 +19,7 @@ class OscillatingObject: MovablePhysicsObject {
             // based on 60Hz refresh rate
             let newDisplacement = amplitude * sin(CGFloat.pi / (30 * period) * time + phase)
             let newPosition = movementCenter
-                .offset(by: initialDirection.normalized().scale(by: newDisplacement))
+                .offset(by: initialDirection.normalized.scale(by: newDisplacement))
             physicsShape = physicsShape.moveTo(newPosition)
         }
     }

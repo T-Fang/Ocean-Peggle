@@ -34,33 +34,7 @@ class DisplayUtility {
             }
         }
     }
-    static func generatePegView(for peg: Peg) -> PegView {
-        let pegView = PegView(shape: peg.shape, color: peg.color, unrotatedframe: peg.bounds)
-        if let handleView = generateHandleView(for: peg),
-           let period = peg.oscillationInfo?.period {
-            let periodLabel = UILabel(frame: pegView.bounds)
-            periodLabel.textAlignment = .center
-            periodLabel.text = String(format: "%ds", period)
-            pegView.addSubview(periodLabel)
-            pegView.addSubview(handleView)
-            let centerToMovementCenter = CGVector.generateVector(from: peg.center,
-                                                                 to: peg.movementCenter)
-            let pegViewBoundsCenter = CGPoint(x: pegView.bounds.midX,
-                                              y: pegView.bounds.midY)
-            handleView.center = pegViewBoundsCenter.offset(by: centerToMovementCenter)
-            pegView.sendSubviewToBack(handleView)
-        }
-        pegView.transform = pegView.transform.rotated(by: peg.physicsShape.rotation)
-        return pegView
-    }
-    static func generateHandleView(for peg: Peg) -> UIView? {
-        guard let info = peg.oscillationInfo else {
-            return nil
-        }
-        return DisplayUtility.getHandleView(isGoingRightFirst: info.isGoingRightFirst,
-                                            leftArrowLength: peg.leftArrowLength,
-                                            rightArrowLength: peg.rightArrowLength)
-    }
+
     static func getBubbleImageView(at center: CGPoint) -> UIImageView {
         let radius = Constants.spaceBlastRadius
         let origin = center.offsetBy(x: -radius, y: -radius)
@@ -70,6 +44,41 @@ class DisplayUtility {
         let bubble = UIImageView(frame: frame)
         bubble.image = #imageLiteral(resourceName: "soap-bubbles")
         return bubble
+    }
+
+    static func generatePegView(for peg: Peg) -> PegView {
+        let pegView = PegView(shape: peg.shape, color: peg.color, unrotatedframe: peg.unrotatedFrame)
+        setUpOscillatableView(for: peg, objectView: pegView)
+        return pegView
+    }
+
+    static func setUpOscillatableView(for object: Oscillatable,
+                                      objectView: OscillatableView) {
+        guard let info = object.oscillationInfo else {
+            return
+        }
+        let handleView = DisplayUtility
+            .getHandleView(isGoingRightFirst: info.isGoingRightFirst,
+                           leftArrowLength: object.leftArrowLength,
+                           rightArrowLength: object.rightArrowLength)
+        let periodLabel = DisplayUtility.getPeriodLabel(frame: objectView.bounds,
+                                                        period: info.period)
+        let centerToMovementCenter = CGVector
+            .generateVector(from: object.physicsShape.center,
+                            to: object.movementCenter)
+        let objectViewBoundsCenter = CGPoint(x: objectView.bounds.midX,
+                                             y: objectView.bounds.midY)
+        handleView.center = objectViewBoundsCenter.offset(by: centerToMovementCenter)
+        objectView.setUp(handleView: handleView, periodLabel: periodLabel)
+
+        objectView.transform = objectView.transform.rotated(by: object.physicsShape.rotation)
+    }
+
+    static func getPeriodLabel(frame: CGRect, period: CGFloat) -> UIView {
+        let periodLabel = UILabel(frame: frame)
+        periodLabel.textAlignment = .center
+        periodLabel.text = String(format: "%.1fs", Float(period))
+        return periodLabel
     }
 
     static func getArrowBodyImageView(arrowLength: CGFloat, isGreen: Bool) -> UIImageView {

@@ -10,15 +10,17 @@ import UIKit
 class PaletteButton: UIButton, SelectableView {
     private(set) var color: PegColor? {
         didSet {
-            refreshPegButtonImage()
+            refreshView()
         }
     }
     private(set) var shape: PegShape? {
         didSet {
-            refreshPegButtonImage()
+            refreshView()
         }
     }
     private(set) var type = TypeOfButton.peg
+
+    var isChosen = false
 
     func setUp(type: TypeOfButton) {
         self.type = type
@@ -30,21 +32,18 @@ class PaletteButton: UIButton, SelectableView {
         self.type = .peg
     }
 
-    func select() {
-        alpha = Constants.alphaForSelectedPaletteButton
-    }
-
-    func unselect() {
-        alpha = Constants.alphaForUnselectedPaletteButton
-    }
-
-    private func refreshPegButtonImage() {
+    func refreshView() {
         guard let color = color, let shape = shape else {
             return
         }
         setImage(DisplayUtility.getPegDimImage(color: color, shape: shape), for: .normal)
-    }
 
+        guard isChosen else {
+            alpha = Constants.alphaForUnselectedPaletteButton
+            return
+        }
+        alpha = Constants.alphaForSelectedPaletteButton
+    }
 }
 
 enum TypeOfButton {

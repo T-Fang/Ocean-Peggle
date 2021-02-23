@@ -46,13 +46,9 @@ class LevelDesignerController: UIViewController {
     @IBOutlet private var blockButton: PaletteButton!
     @IBOutlet private var eraseButton: PaletteButton!
 
-    @IBOutlet private var widthSlider: UISlider!
-    var blockWidth: CGFloat {
-        let width = CGFloat(widthSlider.value)
-            * (Constants.maxBlockWidth - Constants.minBlockWidth) + Constants.minBlockWidth
-        print(width)
-        return width
-    }
+    var blockWidth: CGFloat = (Constants.minBlockWidth + Constants.maxBlockWidth) / 2
+    var blockHeight: CGFloat = (Constants.minBlockHeight + Constants.maxBlockHeight) / 2
+    var period: CGFloat = (Constants.minPeriod + Constants.maxPeriod) / 2
 
     @IBOutlet private var loadButton: UIButton!
     @IBOutlet private var saveButton: UIButton!
@@ -102,6 +98,50 @@ class LevelDesignerController: UIViewController {
         }
     }
 
+    private func loadGameBoard() {
+        gameBoardView.resetBoard()
+        pegViews = [:]
+        peggleLevel.pegs.forEach { peg in
+            let pegView = DisplayUtility.generatePegView(for: peg)
+            gameBoardView.addPegView(pegView)
+            pegViews[peg] = pegView
+        }
+        selectedPeggleObject = nil
+
+        displayPegCounts()
+    }
+
+    private func displayPegCounts() {
+        guard let blueCirclePegCount = peggleLevel.getPegCounts()[.circle]?[.blue],
+              let orangeCirclePegCount = peggleLevel.getPegCounts()[.circle]?[.orange],
+              let greenCirclePegCount = peggleLevel.getPegCounts()[.circle]?[.green] else {
+            return
+        }
+
+        bluePegCountLabel.text = String(blueCirclePegCount)
+        orangePegCountLabel.text = String(orangeCirclePegCount)
+        greenPegCountLabel.text = String(greenCirclePegCount)
+    }
+
+}
+// MARK: Gestures
+extension LevelDesignerController {
+
+    @IBAction private func changeBlockWidth(_ sender: UISlider) {
+        blockWidth = CGFloat(sender.value)
+            * (Constants.maxBlockWidth - Constants.minBlockWidth) + Constants.minBlockWidth
+    }
+
+    @IBAction private func changeBlockHeight(_ sender: UISlider) {
+        blockHeight = CGFloat(sender.value)
+            * (Constants.maxBlockHeight - Constants.minBlockHeight) + Constants.minBlockHeight
+    }
+
+    @IBAction private func changePeriod(_ sender: UISlider) {
+        period = CGFloat(sender.value)
+            * (Constants.maxPeriod - Constants.minPeriod) + Constants.minPeriod
+    }
+
     @IBAction private func handleSingleTap(_ sender: UITapGestureRecognizer) {
         let tapPosition = sender.location(in: gameBoardView)
 
@@ -109,12 +149,12 @@ class LevelDesignerController: UIViewController {
         case .erase:
             peggleLevel.removePeg(at: tapPosition)
         case .block:
-            // TODO
             if let existingObject = peggleLevel.getObjectThatContains(tapPosition) {
                 selectedPeggleObject = existingObject
                 return
             }
-            peggleLevel.addBlock(at: tapPosition, width: 0, height: 0)
+            peggleLevel.addBlock(at: tapPosition, width: blockWidth, height: blockHeight,
+                                 period: isOscillating ? period : nil)
         case .peg:
             if let existingObject = peggleLevel.getObjectThatContains(tapPosition) {
                 selectedPeggleObject = existingObject
@@ -126,7 +166,7 @@ class LevelDesignerController: UIViewController {
             }
             // TODO
             peggleLevel.addPeg(at: tapPosition, shape: shape, color: color,
-                               period: isOscillating ? 2 : nil)
+                               period: isOscillating ? period : nil)
         case nil:
             return
         }
@@ -200,33 +240,7 @@ class LevelDesignerController: UIViewController {
         selectedPeggleObject = rotatedObject
     }
 
-    private func loadGameBoard() {
-        gameBoardView.resetBoard()
-        pegViews = [:]
-        peggleLevel.pegs.forEach { peg in
-            let pegView = DisplayUtility.generatePegView(for: peg)
-            gameBoardView.addPegView(pegView)
-            pegViews[peg] = pegView
-        }
-        selectedPeggleObject = nil
-
-        displayPegCounts()
-    }
-
-    private func displayPegCounts() {
-        guard let blueCirclePegCount = peggleLevel.getPegCounts()[.circle]?[.blue],
-              let orangeCirclePegCount = peggleLevel.getPegCounts()[.circle]?[.orange],
-              let greenCirclePegCount = peggleLevel.getPegCounts()[.circle]?[.green] else {
-            return
-        }
-
-        bluePegCountLabel.text = String(blueCirclePegCount)
-        orangePegCountLabel.text = String(orangeCirclePegCount)
-        greenPegCountLabel.text = String(greenCirclePegCount)
-    }
-
 }
-
 // MARK: Button Actions
 extension LevelDesignerController {
     @IBAction private func handleBluePegButtonTap(_ sender: UIButton) {
@@ -262,6 +276,7 @@ extension LevelDesignerController {
 
 }
 
+// MARK: UIGestureRecognizerDelegate
 extension LevelDesignerController: UIGestureRecognizerDelegate {
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer,
                            shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {

@@ -34,9 +34,9 @@ class PeggleLevel: Codable {
     /// Adds a block with the given shape and color at the given position
     /// Constraints: the new block is valid on the game board, otherwise nothing happens
     func addBlock(at position: CGPoint, width: CGFloat, height: CGFloat,
-                  isOscillating: Bool = false) {
-        let newBlock = Block(size: CGSize(width: width, height: height),
-                             center: position)
+                  period: CGFloat?) {
+        let newBlock = Block(size: CGSize(width: width, height: height), center: position,
+                             period: period)
 
         if isObjectValidOnBoard(object: newBlock) {
             blocks.insert(newBlock)

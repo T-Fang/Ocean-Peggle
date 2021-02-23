@@ -9,12 +9,12 @@ import CoreGraphics
 
 extension CGVector {
 
-    func normalized() -> CGVector {
+    var normalized: CGVector {
         CGVector(dx: self.dx / norm, dy: self.dy / norm)
     }
 
     func componentOn(_ vector: CGVector) -> CGFloat {
-        dotProduct(with: vector.normalized())
+        dotProduct(with: vector.normalized)
     }
 
     func scale(by scale: CGFloat) -> CGVector {
@@ -22,7 +22,7 @@ extension CGVector {
     }
 
     func projectionOn(_ vector: CGVector) -> CGVector {
-        vector.normalized().scale(by: componentOn(vector))
+        vector.normalized.scale(by: componentOn(vector))
     }
 
     /// Reflects the vector along the given axis

@@ -1,30 +1,25 @@
 //
-//  PegView.swift
+//  BlockView.swift
 //  Peggle
 //
-//  Created by TFang on 27/1/21.
+//  Created by TFang on 23/2/21.
 //
 
 import UIKit
 
-class PegView: UIView, OscillatableView, SelectableView {
+class BlockView: UIView, OscillatableView, SelectableView {
 
-    private(set) var pegBody = UIImageView(image: #imageLiteral(resourceName: "peg-blue"))
+    private(set) var blockBody = UIImageView(image: #imageLiteral(resourceName: "block"))
     var handleView: UIView?
     var periodLabel: UIView?
 
     var isChosen = false
 
-    private(set) var shape = PegShape.circle
-    private(set) var color = PegColor.blue
-
-    init(shape: PegShape, color: PegColor, unrotatedframe: CGRect, rotation: CGFloat = .zero) {
-        self.shape = shape
-        self.color = color
+    init(unrotatedframe: CGRect, rotation: CGFloat = .zero) {
         super.init(frame: unrotatedframe)
 
-        self.pegBody.frame = bounds
-        addSubview(pegBody)
+        self.blockBody.frame = bounds
+        addSubview(blockBody)
         refreshView()
 
         transform = transform.rotated(by: rotation)
@@ -39,16 +34,15 @@ class PegView: UIView, OscillatableView, SelectableView {
 
     func refreshView() {
         guard isChosen else {
-            pegBody.image = DisplayUtility.getPegDimImage(color: color, shape: shape)
+            blockBody.image = #imageLiteral(resourceName: "block")
             unselectHandlePeriodViews()
             return
         }
-        pegBody.image = DisplayUtility.getPegGlowImage(color: color, shape: shape)
+        blockBody.image = #imageLiteral(resourceName: "block-glow")
         selectHandlePeriodViews()
     }
 
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
-
 }

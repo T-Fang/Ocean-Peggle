@@ -31,10 +31,10 @@ struct PhysicsShape {
             // polygon
             let sortedX = vertices.map({ $0.x }).sorted()
             let sortedY = vertices.map({ $0.y }).sorted()
-            guard let minX = sortedX.last,
-                  let maxX = sortedX.first,
-                  let minY = sortedY.last,
-                  let maxY = sortedY.first else {
+            guard let minX = sortedX.first,
+                  let maxX = sortedX.last,
+                  let minY = sortedY.first,
+                  let maxY = sortedY.last else {
                 return .zero
             }
 
@@ -46,7 +46,7 @@ struct PhysicsShape {
     }
 
     var leftMidPoint: CGPoint {
-        let unrotatedLeftMidPoint = CGPoint(x: bounds.minX, y: bounds.midY)
+        let unrotatedLeftMidPoint = CGPoint(x: unrotatedFrame.minX, y: unrotatedFrame.midY)
         switch shape {
         case .circle:
         return unrotatedLeftMidPoint.rotate(around: center, by: rotation)
@@ -57,7 +57,7 @@ struct PhysicsShape {
     }
 
     var rightMidPoint: CGPoint {
-        let unrotatedRightMidPoint = CGPoint(x: bounds.maxX, y: bounds.midY)
+        let unrotatedRightMidPoint = CGPoint(x: unrotatedFrame.maxX, y: unrotatedFrame.midY)
         switch shape {
         case .circle:
         return unrotatedRightMidPoint.rotate(around: center, by: rotation)
@@ -67,7 +67,7 @@ struct PhysicsShape {
         }
     }
 
-    var bounds: CGRect {
+    var unrotatedFrame: CGRect {
         rotate(by: -rotation).frame
     }
 
@@ -111,7 +111,7 @@ struct PhysicsShape {
         self.center = center
         self.rotation = rotation
         self.radius = .zero
-        let unrotatedVertices = PhysicsShape.getVerticesOf(rectOfSize: rectOfSize, center: center)
+        let unrotatedVertices = PhysicsUtility.getVerticesOf(rectOfSize: rectOfSize, center: center)
         self.vertices = unrotatedVertices.map({ $0.rotate(around: center, by: rotation) })
 
     }
@@ -135,21 +135,30 @@ struct PhysicsShape {
         case .circle:
             switch physicsShape.shape {
             case .circle:
-                return center.distanceTo(physicsShape.center) <= radius + physicsShape.radius
+                return PhysicsUtility.hasOverlapBetween(circle1: self,
+                                                        circle2: physicsShape)
             default:
-                return circleOverlapsWith(polygon: physicsShape)
+                return PhysicsUtility.hasOverlapBetween(circle: self,
+                                                        polygon: physicsShape)
             }
-        default:
-            return false
+        case .rectangle:
+            switch physicsShape.shape {
+            case .circle:
+                return PhysicsUtility.hasOverlapBetween(circle: physicsShape,
+                                                        polygon: self)
+            default:
+                return PhysicsUtility.hasOverlapBetween(polygon1: self,
+                                                        polygon2: physicsShape)
+            }
         }
     }
 
     func contains(_ point: CGPoint) -> Bool {
         switch shape {
         case .circle:
-            return center.distanceTo(point) <= radius
+            return PhysicsUtility.contains(point, circle: self)
         case .rectangle:
-            return rectangeContains(point)
+            return PhysicsUtility.contains(point, rect: self)
         }
     }
 
@@ -174,73 +183,6 @@ struct PhysicsShape {
         }
     }
 
-    private static func getVerticesOf(rectOfSize: CGSize, center: CGPoint) -> [CGPoint] {
-        let height = rectOfSize.height
-        let width = rectOfSize.width
-
-        let topLeft = center.offsetBy(x: -width / 2, y: -height / 2)
-        let topRight = center.offsetBy(x: width / 2, y: -height / 2)
-        let bottomLeft = center.offsetBy(x: -width / 2, y: height / 2)
-        let bottomRight = center.offsetBy(x: width / 2, y: height / 2)
-        return [topLeft, topRight, bottomRight, bottomLeft]
-    }
-
-    private func circleOverlapsWith(polygon: PhysicsShape) -> Bool {
-        guard shape == .circle && polygon.shape != .circle else {
-            return false
-        }
-        if polygon.contains(center) {
-            return true
-        }
-
-        let vertices = polygon.vertices
-        for i in vertices.indices {
-            let point1 = vertices[i]
-            let point2 = vertices[(i + 1) % vertices.count]
-            if circleIntersectWithLineBetween(point1, point2) {
-                return true
-            }
-        }
-
-        return false
-    }
-
-    func circleIntersectWithLineBetween(_ p1: CGPoint, _ p2: CGPoint) -> Bool {
-        guard shape == .circle else {
-            return false
-        }
-        if contains(p1) || contains(p2) {
-            return true
-        }
-
-        let projectedPoint = center.projectedPointOnLineBetween(p1, p2)
-        guard projectedPoint.isOnLineBetween(p1, p2) else {
-            return false
-        }
-
-        let tolerableError = CGFloat(0.001)
-        return center.distanceToLineBetween(p1, p2) <= radius + tolerableError
-    }
-
-    private func rectangeContains(_ P: CGPoint) -> Bool {
-        guard shape == .rectangle else {
-            return false
-        }
-
-        let A = vertices[0] // top left vertex
-        let B = vertices[1] // top right vertex
-        let C = vertices[2] // bottom right vertex
-
-        let AB = CGVector.generateVector(from: A, to: B)
-        let BC = CGVector.generateVector(from: B, to: C)
-        let AP = CGVector.generateVector(from: A, to: P)
-        let BP = CGVector.generateVector(from: B, to: P)
-
-        return 0 <= AB.dotProduct(with: AP)
-            && AB.dotProduct(with: AP) <= AB.dotProduct(with: AB)
-            && 0 <= BC.dotProduct(with: BP)
-            && BC.dotProduct(with: BP) <= BC.dotProduct(with: BC)
-    }
 }
 
 // MARK: Hashable

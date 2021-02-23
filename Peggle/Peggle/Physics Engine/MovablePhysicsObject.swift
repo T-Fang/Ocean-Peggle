@@ -109,7 +109,8 @@ class MovablePhysicsObject: PhysicsObject, Movable {
         for i in vertices.indices {
             let point1 = vertices[i]
             let point2 = vertices[(i + 1) % vertices.count]
-            if physicsShape.circleIntersectWithLineBetween(point1, point2) {
+            if PhysicsUtility.intersectsWithLineBetween(point1, point2,
+                                                        circle: physicsShape) {
                 return (point1, point2)
             }
         }
@@ -161,7 +162,7 @@ class MovablePhysicsObject: PhysicsObject, Movable {
         }
     }
     private func move(distance: CGFloat) {
-        let newPosition = center.offset(by: velocity.normalized().scale(by: distance))
+        let newPosition = center.offset(by: velocity.normalized.scale(by: distance))
         physicsShape = physicsShape.moveTo(newPosition)
         velocity = velocity.add(acceleration)
     }

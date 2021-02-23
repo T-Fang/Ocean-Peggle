@@ -31,6 +31,8 @@ class Constants {
 
     static let alphaForSelectedPaletteButton: CGFloat = 1
     static let alphaForUnselectedPaletteButton: CGFloat = 0.3
+    static let alphaForSelectedHandle: CGFloat = 1
+    static let alphaForUnselectedHandle: CGFloat = 0.4
 
     static let screenWidth = UIScreen.main.bounds.width
     static let defaultCannonHeight: CGFloat = 60
@@ -40,11 +42,13 @@ class Constants {
     static let spaceBlastRadius: CGFloat = 100
     static let defaultCirclePegRadius: CGFloat = 20
     static let maxCirclePegRadius: CGFloat = 40
-    static let minCirclePegRadius: CGFloat = 15
+    static let minCirclePegRadius: CGFloat = 20
     static let maxBlockHeight: CGFloat = 100
     static let minBlockHeight: CGFloat = 30
     static let maxBlockWidth: CGFloat = 100
     static let minBlockWidth: CGFloat = 30
+    static let maxPeriod: CGFloat = 9.9
+    static let minPeriod: CGFloat = 1
     static let defaultBallRadius: CGFloat = 15
 
     static let defaultHandleRadius: CGFloat = 10
