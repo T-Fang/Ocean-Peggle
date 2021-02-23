@@ -27,6 +27,7 @@ extension PeggleObject {
     func contains(_ point: CGPoint) -> Bool {
         physicsShape.contains(point)
     }
+
     func moveTo(_ position: CGPoint) -> Self {
         changeShape(to: physicsShape.moveTo(position))
     }

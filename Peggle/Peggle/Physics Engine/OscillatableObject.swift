@@ -1,5 +1,5 @@
 //
-//  OscillatingObject.swift
+//  OscillatableObject.swift
 //  Peggle
 //
 //  Created by TFang on 20/2/21.
@@ -7,8 +7,9 @@
 
 import CoreGraphics
 
-class OscillatingObject: MovablePhysicsObject {
-    let period: CGFloat
+class OscillatableObject: MovablePhysicsObject {
+
+    var period: CGFloat
     let initialDirection: CGVector
     let amplitude: CGFloat
     let phase: CGFloat
@@ -38,6 +39,9 @@ class OscillatingObject: MovablePhysicsObject {
     }
 
     override func move() {
+        guard amplitude > 0, period > 0 else {
+            return
+        }
         time += 1
     }
 }

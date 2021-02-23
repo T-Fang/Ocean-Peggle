@@ -33,10 +33,17 @@ class PaletteButton: UIButton, SelectableView {
     }
 
     func refreshView() {
-        guard let color = color, let shape = shape else {
-            return
+        switch type {
+        case .block:
+            setImage(#imageLiteral(resourceName: "block"), for: .normal)
+        case .erase:
+            setImage(#imageLiteral(resourceName: "delete"), for: .normal)
+        case .peg:
+            guard let color = color, let shape = shape else {
+                return
+            }
+            setImage(DisplayUtility.getPegDimImage(color: color, shape: shape), for: .normal)
         }
-        setImage(DisplayUtility.getPegDimImage(color: color, shape: shape), for: .normal)
 
         guard isChosen else {
             alpha = Constants.alphaForUnselectedPaletteButton

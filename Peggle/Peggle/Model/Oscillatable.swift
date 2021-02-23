@@ -10,6 +10,8 @@ import CoreGraphics
 protocol Oscillatable {
     var physicsShape: PhysicsShape { get }
     var oscillationInfo: OscillationInfo? { get set }
+
+    func changeInfo(to info: OscillationInfo) -> Self
 }
 
 extension Oscillatable {
@@ -38,10 +40,10 @@ extension Oscillatable {
         rightHandlePosition.midpoint(with: leftHandlePosition)
     }
     var leftArrowLength: CGFloat {
-        movementCenter.distanceTo(leftHandlePosition)
+        physicsShape.center.distanceTo(leftHandlePosition)
     }
     var rightArrowLength: CGFloat {
-        movementCenter.distanceTo(rightHandlePosition)
+        physicsShape.center.distanceTo(rightHandlePosition)
     }
     var greenHandlePosition: CGPoint {
         if oscillationInfo?.isGoingRightFirst == true {
@@ -59,11 +61,11 @@ extension Oscillatable {
     }
 
     var greenHandleArea: PhysicsShape {
-        PhysicsShape(circleOfRadius: Constants.defaultHandleRadius, center: greenHandlePosition)
+        PhysicsShape(circleOfRadius: Constants.handleTouchableRadius, center: greenHandlePosition)
     }
 
     var redHandleArea: PhysicsShape {
-        PhysicsShape(circleOfRadius: Constants.defaultHandleRadius, center: redHandlePosition)
+        PhysicsShape(circleOfRadius: Constants.handleTouchableRadius, center: redHandlePosition)
     }
 
     /// - Returns: a rectangle shape the surrounds the area that this object will go through.
@@ -83,4 +85,34 @@ extension Oscillatable {
                             rotation: physicsShape.rotation)
     }
 
+    func handleContains(_ point: CGPoint) -> Bool {
+        guard oscillationInfo != nil else {
+            return false
+        }
+
+        return redHandleArea.contains(point)
+            || greenHandleArea.contains(point)
+    }
+
+    func flipHandle() -> Self {
+        guard let info = oscillationInfo else {
+            return self
+        }
+        return changeInfo(to: info.flipHandle())
+    }
+
+    func isPointOnTheRight(_ point: CGPoint) -> Bool {
+        let centerToPoint = CGVector.generateVector(from: physicsShape.center, to: point)
+        return vectorTowardRight.dotProduct(with: centerToPoint) >= 0
+    }
+
+    func changeHandleLength(to length: CGFloat, isRightHandle: Bool) -> Self {
+        guard let info = oscillationInfo else {
+            return self
+        }
+
+        let newInfo = isRightHandle ? info.changeRightHandleLength(to: length)
+            : info.changeLeftHandleLength(to: length)
+        return changeInfo(to: newInfo)
+    }
 }

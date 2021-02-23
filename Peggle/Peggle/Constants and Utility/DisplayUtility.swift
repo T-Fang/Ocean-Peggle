@@ -51,24 +51,31 @@ class DisplayUtility {
         setUpOscillatableView(for: peg, objectView: pegView)
         return pegView
     }
+    static func generateBlockView(for block: Block) -> BlockView {
+        let blockView = BlockView(unrotatedframe: block.unrotatedFrame)
+        setUpOscillatableView(for: block, objectView: blockView)
+        return blockView
+    }
 
     static func setUpOscillatableView(for object: Oscillatable,
                                       objectView: OscillatableView) {
         guard let info = object.oscillationInfo else {
             return
         }
+
         let handleView = DisplayUtility
             .getHandleView(isGoingRightFirst: info.isGoingRightFirst,
                            leftArrowLength: object.leftArrowLength,
                            rightArrowLength: object.rightArrowLength)
         let periodLabel = DisplayUtility.getPeriodLabel(frame: objectView.bounds,
                                                         period: info.period)
-        let centerToMovementCenter = CGVector
-            .generateVector(from: object.physicsShape.center,
-                            to: object.movementCenter)
         let objectViewBoundsCenter = CGPoint(x: objectView.bounds.midX,
                                              y: objectView.bounds.midY)
-        handleView.center = objectViewBoundsCenter.offset(by: centerToMovementCenter)
+
+        let xOffset = CGVector
+            .generateVector(from: object.physicsShape.center, to: object.movementCenter)
+            .componentOn(object.vectorTowardRight)
+        handleView.center = objectViewBoundsCenter.offsetBy(x: xOffset, y: 0)
         objectView.setUp(handleView: handleView, periodLabel: periodLabel)
 
         objectView.transform = objectView.transform.rotated(by: object.physicsShape.rotation)
@@ -120,6 +127,7 @@ class DisplayUtility {
             arrowHead.center = CGPoint(x: radius, y: radius)
             arrowBody.center = CGPoint(x: radius + arrowLength / 2, y: radius)
         }
+
         return arrowView
     }
     static func getHandleView(isGoingRightFirst: Bool, leftArrowLength: CGFloat,
@@ -133,6 +141,7 @@ class DisplayUtility {
 
         let greenHandleLength = isGoingRightFirst ? rightArrowLength : leftArrowLength
         let redHandleLength = isGoingRightFirst ? leftArrowLength : rightArrowLength
+
         let greenHandle = DisplayUtility
             .getArrowView(arrowLength: greenHandleLength,
                           isGreen: true, towardRight: isGoingRightFirst)

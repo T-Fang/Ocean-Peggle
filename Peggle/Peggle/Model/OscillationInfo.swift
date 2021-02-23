@@ -13,6 +13,27 @@ struct OscillationInfo {
     var period: CGFloat = .zero
 }
 
+extension OscillationInfo {
+    func flipHandle() -> OscillationInfo {
+        OscillationInfo(isGoingRightFirst: !isGoingRightFirst,
+                        leftHandleLength: rightHandleLength,
+                        rightHandleLength: leftHandleLength,
+                        period: period)
+    }
+
+    func changeLeftHandleLength(to length: CGFloat) -> OscillationInfo {
+        OscillationInfo(isGoingRightFirst: isGoingRightFirst,
+                        leftHandleLength: length,
+                        rightHandleLength: rightHandleLength,
+                        period: period)
+    }
+    func changeRightHandleLength(to length: CGFloat) -> OscillationInfo {
+        OscillationInfo(isGoingRightFirst: isGoingRightFirst,
+                        leftHandleLength: leftHandleLength,
+                        rightHandleLength: length,
+                        period: period)
+    }
+}
 // MARK: Hashable
 extension OscillationInfo: Hashable {
 }

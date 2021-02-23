@@ -46,6 +46,7 @@
 		B387BBB525E4E7D600A0E0DE /* OscillatableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B387BBB425E4E7D600A0E0DE /* OscillatableView.swift */; };
 		B387BBBA25E4F1CE00A0E0DE /* PhysicsUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = B387BBB925E4F1CE00A0E0DE /* PhysicsUtility.swift */; };
 		B387BBC225E5041500A0E0DE /* BlockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B387BBC125E5041400A0E0DE /* BlockView.swift */; };
+		B387BBC725E562D900A0E0DE /* GameBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = B387BBC625E562D900A0E0DE /* GameBlock.swift */; };
 		B3903FDF25C021270003DF7E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3903FDE25C021270003DF7E /* AppDelegate.swift */; };
 		B3903FE125C021270003DF7E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3903FE025C021270003DF7E /* SceneDelegate.swift */; };
 		B3903FE325C021270003DF7E /* LevelDesignerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3903FE225C021270003DF7E /* LevelDesignerController.swift */; };
@@ -72,7 +73,7 @@
 		B390E50C25D7D18E00FBA95D /* GameStatusTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B390E50B25D7D18E00FBA95D /* GameStatusTests.swift */; };
 		B390E51125D7D1A600FBA95D /* CGVectorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B390E51025D7D1A600FBA95D /* CGVectorTests.swift */; };
 		B390E51625D7D21700FBA95D /* CGVector+add.swift in Sources */ = {isa = PBXBuildFile; fileRef = B390E51525D7D21700FBA95D /* CGVector+add.swift */; };
-		B3D3E3D925E1062600775ACB /* OscillatingObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3D3E3D825E1062600775ACB /* OscillatingObject.swift */; };
+		B3D3E3D925E1062600775ACB /* OscillatableObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3D3E3D825E1062600775ACB /* OscillatableObject.swift */; };
 		B3D3E3DE25E1078800775ACB /* BucketView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3D3E3DD25E1078800775ACB /* BucketView.swift */; };
 		B3D3E3E325E10C8800775ACB /* Bucket.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3D3E3E225E10C8800775ACB /* Bucket.swift */; };
 		B3D3E3E825E13B8300775ACB /* CGVector+cosTheta.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3D3E3E725E13B8300775ACB /* CGVector+cosTheta.swift */; };
@@ -143,6 +144,7 @@
 		B387BBB425E4E7D600A0E0DE /* OscillatableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OscillatableView.swift; sourceTree = "<group>"; };
 		B387BBB925E4F1CE00A0E0DE /* PhysicsUtility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhysicsUtility.swift; sourceTree = "<group>"; };
 		B387BBC125E5041400A0E0DE /* BlockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockView.swift; sourceTree = "<group>"; };
+		B387BBC625E562D900A0E0DE /* GameBlock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameBlock.swift; sourceTree = "<group>"; };
 		B3903FDB25C021270003DF7E /* Peggle.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Peggle.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B3903FDE25C021270003DF7E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B3903FE025C021270003DF7E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -175,7 +177,7 @@
 		B390E50B25D7D18E00FBA95D /* GameStatusTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameStatusTests.swift; sourceTree = "<group>"; };
 		B390E51025D7D1A600FBA95D /* CGVectorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGVectorTests.swift; sourceTree = "<group>"; };
 		B390E51525D7D21700FBA95D /* CGVector+add.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGVector+add.swift"; sourceTree = "<group>"; };
-		B3D3E3D825E1062600775ACB /* OscillatingObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OscillatingObject.swift; sourceTree = "<group>"; };
+		B3D3E3D825E1062600775ACB /* OscillatableObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OscillatableObject.swift; sourceTree = "<group>"; };
 		B3D3E3DD25E1078800775ACB /* BucketView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BucketView.swift; sourceTree = "<group>"; };
 		B3D3E3E225E10C8800775ACB /* Bucket.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bucket.swift; sourceTree = "<group>"; };
 		B3D3E3E725E13B8300775ACB /* CGVector+cosTheta.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGVector+cosTheta.swift"; sourceTree = "<group>"; };
@@ -231,7 +233,7 @@
 				B387BBB925E4F1CE00A0E0DE /* PhysicsUtility.swift */,
 				B3381A7725D28987007E28A6 /* PhysicsObject.swift */,
 				B3381A7C25D28D01007E28A6 /* MovablePhysicsObject.swift */,
-				B3D3E3D825E1062600775ACB /* OscillatingObject.swift */,
+				B3D3E3D825E1062600775ACB /* OscillatableObject.swift */,
 				B3381A8825D3B8E7007E28A6 /* PhysicsWorld.swift */,
 				B3381A8125D28D0A007E28A6 /* Movable.swift */,
 				B3381A6825D24804007E28A6 /* Shape.swift */,
@@ -243,6 +245,7 @@
 			isa = PBXGroup;
 			children = (
 				B3381A9125D3E803007E28A6 /* GamePeg.swift */,
+				B387BBC625E562D900A0E0DE /* GameBlock.swift */,
 				B3381A9625D3EC8E007E28A6 /* Ball.swift */,
 				B3D3E3E225E10C8800775ACB /* Bucket.swift */,
 				B3381A9B25D3EF26007E28A6 /* GameEngine.swift */,
@@ -567,11 +570,12 @@
 				B390401525C156EA0003DF7E /* Peg.swift in Sources */,
 				B390E4A125D68F9600FBA95D /* PaletteButton.swift in Sources */,
 				B3381AA125D3EFA9007E28A6 /* GameEventHandlerDelegate.swift in Sources */,
+				B387BBC725E562D900A0E0DE /* GameBlock.swift in Sources */,
 				B36EAC1E25C2C5F000C89394 /* LevelChooserController.swift in Sources */,
 				B3381A7D25D28D01007E28A6 /* MovablePhysicsObject.swift in Sources */,
 				B387BB7A25E3924C00A0E0DE /* CGVector+rotate.swift in Sources */,
 				B3903FE325C021270003DF7E /* LevelDesignerController.swift in Sources */,
-				B3D3E3D925E1062600775ACB /* OscillatingObject.swift in Sources */,
+				B3D3E3D925E1062600775ACB /* OscillatableObject.swift in Sources */,
 				B3381A6125D247F0007E28A6 /* PhysicsShape.swift in Sources */,
 				B3D3E3E825E13B8300775ACB /* CGVector+cosTheta.swift in Sources */,
 				B3D3E3ED25E15C4E00775ACB /* CGPoint+distanceToLineBetween.swift in Sources */,

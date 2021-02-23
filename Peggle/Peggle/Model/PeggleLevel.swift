@@ -57,15 +57,29 @@ class PeggleLevel: Codable {
     /// Removes the object at the given position
     /// Constraints: the position must lie inside one of the object's area, otherwise nothing happens
     func removePeg(at position: CGPoint) {
-        guard let object = getObjectThatContains(position) else {
+        guard let object = getObject(at: position) else {
             return
         }
         remove(object)
     }
 
-    func getObjectThatContains(_ point: CGPoint) -> PeggleObject? {
-        let peg = pegs.first(where: { $0.contains(point) })
-        return peg == nil ? blocks.first(where: { $0.contains(point) }) : peg
+    func getObject(at point: CGPoint) -> PeggleObject? {
+        guard let peg = pegs.first(where: { $0.contains(point) }) else {
+            return blocks.first(where: { $0.contains(point) })
+        }
+        return peg
+    }
+    func getHandleOrObject(at point: CGPoint) -> PeggleObject? {
+        guard let object = getObject(at: point) else {
+            return getObjectWhoseHandleContains(point)
+        }
+        return object
+    }
+    func getObjectWhoseHandleContains(_ point: CGPoint) -> PeggleObject? {
+        guard let peg = pegs.first(where: { $0.handleContains(point) }) else {
+            return blocks.first(where: { $0.handleContains(point) })
+        }
+        return peg
     }
 
     func modify(object: PeggleObject, by modification: (PeggleObject) -> PeggleObject) -> PeggleObject? {
@@ -83,6 +97,12 @@ class PeggleLevel: Codable {
 
         add(newObject)
         return newObject
+    }
+    func changeHandleLengthOf(_ object: PeggleObject, isRightHandle: Bool, newLength: CGFloat) -> PeggleObject? {
+        modify(object: object, by: { $0.changeHandleLength(to: newLength, isRightHandle: isRightHandle) })
+    }
+    func flipHandleOf(_ object: PeggleObject) -> PeggleObject? {
+        modify(object: object, by: { $0.flipHandle() })
     }
     /// Moves the object to the `newPosition`
     /// - Returns the new object if the object is successfully moved, and nil otherwise

@@ -12,14 +12,15 @@ class GameBoardView: UIView {
     private var bucketView: BucketView?
     private var ballView: BallView?
     private var pegViews = [PegView]()
+    private var blockViews = [BlockView]()
 
     func addPegView(_ pegView: PegView) {
         pegViews.append(pegView)
         addSubview(pegView)
     }
-    func removePegFromBoard(_ pegView: PegView) {
-        pegViews.removeAll(where: { $0 === pegView })
-        pegView.removeFromSuperview()
+    func addBlockView(_ blockView: BlockView) {
+        blockViews.append(blockView)
+        addSubview(blockView)
     }
 
     func launchBall(at position: CGPoint) {
@@ -58,7 +59,10 @@ class GameBoardView: UIView {
     func resetBoard() {
         bucketView?.center.x = center.x
         removeBall()
-        pegViews.forEach({ removePegFromBoard($0) })
+        pegViews.forEach({ $0.removeFromSuperview() })
+        pegViews = []
+        blockViews.forEach({ $0.removeFromSuperview() })
+        blockViews = []
     }
 
     func bubbleEffect(for pegView: PegView) {

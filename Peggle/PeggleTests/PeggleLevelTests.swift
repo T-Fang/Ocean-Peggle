@@ -64,21 +64,21 @@ class PeggleLevelTests: XCTestCase {
     func testGetPegThatContains_noPegContainsThePoint_nil() {
         let level = PeggleLevel(boardSize: boardSize2)
         level.addPeg(at: bluePegCenter, shape: .circle, color: .blue)
-        XCTAssertNil(level.getObjectThatContains(CGPoint.zero))
-        XCTAssertNil(level.getObjectThatContains(pointOutsideBluePeg))
+        XCTAssertNil(level.getObject(CGPoint.zero))
+        XCTAssertNil(level.getObject(pointOutsideBluePeg))
     }
 
     func testGetPegThatContains_pointOnPegBoundary_success() throws {
         let level = PeggleLevel()
         level.addPeg(at: bluePegCenter, shape: .circle, color: .blue)
-        let peg = try XCTUnwrap(level.getObjectThatContains(boundaryPointOfBluePeg))
+        let peg = try XCTUnwrap(level.getObject(boundaryPointOfBluePeg))
         XCTAssertEqual(peg, bluePeg)
     }
 
     func testGetPegThatContains_pointInsidePeg_success() throws {
         let level = PeggleLevel(boardSize: boardSize1)
         level.addPeg(at: bluePegCenter, shape: .circle, color: .blue)
-        let peg = try XCTUnwrap(level.getObjectThatContains(bluePegCenter))
+        let peg = try XCTUnwrap(level.getObject(bluePegCenter))
         XCTAssertEqual(peg, bluePeg)
     }
 

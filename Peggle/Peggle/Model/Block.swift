@@ -8,6 +8,7 @@
 import CoreGraphics
 
 struct Block: PeggleObject {
+
     private(set) var physicsShape: PhysicsShape
 
     // Oscillatable Attributes
@@ -28,6 +29,10 @@ struct Block: PeggleObject {
 
     func changeShape(to physicsShape: PhysicsShape) -> Block {
         Block(physicsShape: physicsShape, oscillationInfo: oscillationInfo)
+    }
+
+    func changeInfo(to info: OscillationInfo) -> Block {
+        Block(physicsShape: physicsShape, oscillationInfo: info)
     }
 }
 

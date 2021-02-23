@@ -51,8 +51,9 @@ class Constants {
     static let minPeriod: CGFloat = 1
     static let defaultBallRadius: CGFloat = 15
 
-    static let defaultHandleRadius: CGFloat = 10
-    static let defaultHandleLength: CGFloat = 15
+    static let defaultHandleRadius: CGFloat = 15
+    static let handleTouchableRadius: CGFloat = 20
+    static let defaultHandleLength: CGFloat = 20
     static let defaultHandleWidth: CGFloat = 6
 
     static let defaultBallCount = 10

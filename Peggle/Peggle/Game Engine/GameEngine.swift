@@ -20,7 +20,14 @@ class GameEngine: PhysicsWorld<GamePeg> {
     private(set) var gameStatus: GameStatus
     private let peggleLevel: PeggleLevel
     private var master: Master
+    private var blocks = Set<GameBlock>()
 
+    var allObjects: [OscillatableObject] {
+        var arr = Array<OscillatableObject>()
+//        objects.forEach({ arr.append($0) })
+        blocks.forEach({ arr.append($0) })
+        return arr
+    }
     private var spookyCount = 0 {
         didSet {
             spookyCount > 0 ? bucket.close() : bucket.open()
@@ -141,7 +148,8 @@ class GameEngine: PhysicsWorld<GamePeg> {
     }
 
     private func checkCollisionWithObjectsAndMove(ball: Ball) {
-        guard objects.allSatisfy({ !ball.willCollide(with: $0) }) else {
+        guard objects.allSatisfy({ !ball.willCollide(with: $0) }),
+              objects.allSatisfy({ !ball.overlaps(with: $0) }) else {
             checkCollisionWithPeg(ball: ball)
             return
         }
@@ -154,6 +162,11 @@ class GameEngine: PhysicsWorld<GamePeg> {
         ball.move()
     }
     private func checkCollisionWithPeg(ball: Ball) {
+        // TODO
+//        while(!objects.filter({ ball.overlaps(with: $0) }).isEmpty) {
+//            let overlappingPegs = objects.filter({ ball.overlaps(with: $0) })
+//        }
+
         let pegsWillBeHit = objects.filter({ ball.willCollide(with: $0) })
         for gamePeg in pegsWillBeHit {
             ball.collide(with: gamePeg)
@@ -203,4 +216,5 @@ class GameEngine: PhysicsWorld<GamePeg> {
             delegate?.didHitBucket()
         }
     }
+
 }

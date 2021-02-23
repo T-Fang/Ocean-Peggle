@@ -49,6 +49,10 @@ struct Peg: PeggleObject {
     func changeShape(to physicsShape: PhysicsShape) -> Peg {
         Peg(shape: shape, color: color, physicsShape: physicsShape, oscillationInfo: oscillationInfo)
     }
+
+    func changeInfo(to info: OscillationInfo) -> Peg {
+        Peg(shape: shape, color: color, physicsShape: physicsShape, oscillationInfo: info)
+    }
 }
 
 // MARK: Hashable

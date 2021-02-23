@@ -11,6 +11,7 @@ class LevelDesignerController: UIViewController {
     var peggleLevel = PeggleLevel()
 
     private var pegViews: [Peg: PegView] = [:]
+    private var blockViews: [Block: BlockView] = [:]
     private var selectedPeggleObject: PeggleObject? {
         willSet {
             if let currentSelectedPeg = selectedPeggleObject as? Peg {
@@ -18,6 +19,12 @@ class LevelDesignerController: UIViewController {
             }
             if let newlySelectedPeg = newValue as? Peg {
                 pegViews[newlySelectedPeg]?.select()
+            }
+            if let currentSelectedBlock = selectedPeggleObject as? Block {
+                blockViews[currentSelectedBlock]?.unselect()
+            }
+            if let newlySelectedBlock = newValue as? Block {
+                blockViews[newlySelectedBlock]?.select()
             }
         }
     }
@@ -34,9 +41,6 @@ class LevelDesignerController: UIViewController {
     }
 
     private var isOscillating = false
-    @IBAction private func toggleOscillationMode() {
-        isOscillating.toggle()
-    }
 
     @IBOutlet private var gameBoardView: GameBoardView!
 
@@ -98,17 +102,123 @@ class LevelDesignerController: UIViewController {
         }
     }
 
+    var isObjectDetected: Bool?
+    var startLocation: CGPoint?
+    @IBAction private func handlePan(_ sender: UIPanGestureRecognizer) {
+        switch sender.state {
+        case .began:
+            isObjectDetected = detectObject(sender)
+            startLocation = sender.location(in: gameBoardView)
+        case .changed:
+            guard let isObject = isObjectDetected,
+                  let object = selectedPeggleObject,
+                  let start = startLocation else {
+                return
+            }
+            if isObject {
+                moveObject(sender)
+                return
+            }
+            let isStartOnTheRight = object.isPointOnTheRight(start)
+            let location = sender.location(in: gameBoardView)
+            let isOnTheRight = object.isPointOnTheRight(location)
+
+            guard isOnTheRight == isStartOnTheRight else {
+                flipHandle()
+                startLocation = location
+                return
+            }
+
+            let centerToLocation = CGVector.generateVector(from: object.center, to: location)
+            let component = abs(centerToLocation.componentOn(object.vectorTowardRight))
+            let newLength = component - object.vectorTowardRight.norm
+            moveHandle(isRightHandle: isOnTheRight, newLength: newLength)
+        case .ended:
+            isObjectDetected = nil
+            startLocation = nil
+        default:
+            return
+        }
+
+    }
+
+    private func detectObject(_ sender: UIPanGestureRecognizer) -> Bool? {
+        let tapPosition = sender.location(in: gameBoardView)
+
+        guard let object = peggleLevel.getObject(at: tapPosition) else {
+            guard let objectWithHandle = peggleLevel
+                    .getHandleOrObject(at: tapPosition) else {
+                selectedPeggleObject = nil
+                return nil
+            }
+            selectedPeggleObject = objectWithHandle
+            return false
+        }
+        selectedPeggleObject = object
+        return true
+    }
+    private func flipHandle() {
+        guard let selectedObject = selectedPeggleObject else {
+            return
+        }
+
+        guard let newObject = peggleLevel.flipHandleOf(selectedObject) else {
+            return
+        }
+
+        loadGameBoard()
+        selectedPeggleObject = newObject
+    }
+    private func moveHandle(isRightHandle: Bool, newLength: CGFloat) {
+        guard let selectedObject = selectedPeggleObject, newLength >= 0 else {
+            return
+        }
+
+        guard let newObject = peggleLevel.changeHandleLengthOf(
+                selectedObject, isRightHandle: isRightHandle, newLength: newLength) else {
+            return
+        }
+
+        loadGameBoard()
+        selectedPeggleObject = newObject
+    }
+    private func moveObject(_ sender: UIPanGestureRecognizer) {
+        guard let selectedObject = selectedPeggleObject else {
+            return
+        }
+
+        let newPosition = sender.location(in: gameBoardView)
+
+        guard let movedObject = peggleLevel.moveObject(selectedObject, to: newPosition) else {
+            return
+        }
+
+        loadGameBoard()
+        selectedPeggleObject = movedObject
+    }
+
     private func loadGameBoard() {
         gameBoardView.resetBoard()
+        loadPegs()
+        loadBlocks()
+        selectedPeggleObject = nil
+        displayPegCounts()
+    }
+    private func loadPegs() {
         pegViews = [:]
         peggleLevel.pegs.forEach { peg in
             let pegView = DisplayUtility.generatePegView(for: peg)
             gameBoardView.addPegView(pegView)
             pegViews[peg] = pegView
         }
-        selectedPeggleObject = nil
-
-        displayPegCounts()
+    }
+    private func loadBlocks() {
+        blockViews = [:]
+        peggleLevel.blocks.forEach { block in
+            let blockView = DisplayUtility.generateBlockView(for: block)
+            gameBoardView.addBlockView(blockView)
+            blockViews[block] = blockView
+        }
     }
 
     private func displayPegCounts() {
@@ -149,14 +259,14 @@ extension LevelDesignerController {
         case .erase:
             peggleLevel.removePeg(at: tapPosition)
         case .block:
-            if let existingObject = peggleLevel.getObjectThatContains(tapPosition) {
+            if let existingObject = peggleLevel.getHandleOrObject(at: tapPosition) {
                 selectedPeggleObject = existingObject
                 return
             }
             peggleLevel.addBlock(at: tapPosition, width: blockWidth, height: blockHeight,
                                  period: isOscillating ? period : nil)
         case .peg:
-            if let existingObject = peggleLevel.getObjectThatContains(tapPosition) {
+            if let existingObject = peggleLevel.getHandleOrObject(at: tapPosition) {
                 selectedPeggleObject = existingObject
                 return
             }
@@ -164,41 +274,12 @@ extension LevelDesignerController {
                   let color = selectedPaletteButton?.color else {
                 return
             }
-            // TODO
             peggleLevel.addPeg(at: tapPosition, shape: shape, color: color,
                                period: isOscillating ? period : nil)
         case nil:
             return
         }
         loadGameBoard()
-    }
-
-    @IBAction private func handlePan(_ sender: UIPanGestureRecognizer) {
-        let tapPosition = sender.location(in: gameBoardView)
-
-        switch sender.state {
-        case .began:
-            selectedPeggleObject = peggleLevel.getObjectThatContains(tapPosition)
-        case .changed:
-            handleDragChanged(sender)
-        default:
-            return
-        }
-
-    }
-    private func handleDragChanged(_ sender: UIPanGestureRecognizer) {
-        guard let selectedObject = selectedPeggleObject else {
-            return
-        }
-
-        let newPosition = sender.location(in: gameBoardView)
-
-        guard let movedObject = peggleLevel.moveObject(selectedObject, to: newPosition) else {
-            return
-        }
-
-        loadGameBoard()
-        selectedPeggleObject = movedObject
     }
 
     @IBAction private func handleLongPress(_ sender: UILongPressGestureRecognizer) {
@@ -241,8 +322,12 @@ extension LevelDesignerController {
     }
 
 }
-// MARK: Button Actions
+// MARK: Button/Switch Actions
 extension LevelDesignerController {
+    @IBAction private func toggleOscillationMode() {
+        isOscillating.toggle()
+    }
+
     @IBAction private func handleBluePegButtonTap(_ sender: UIButton) {
         selectedPaletteButton = bluePegButton
     }
