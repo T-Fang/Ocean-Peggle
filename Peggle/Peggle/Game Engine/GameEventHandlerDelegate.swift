@@ -8,7 +8,8 @@
 /// `GameEventHandlerDelegate` contains methods a controller can implement
 /// to respond to various events happened to the `GameEngine`
 protocol GameEventHandlerDelegate: AnyObject {
-    func willRemovePegs(gamePegs: [GamePeg])
+    func willRemovePeg(gamePeg: GamePeg)
+    func willRemoveBlock(gameBlock: GameBlock)
 
     func ballDidMove(ball: Ball)
     func didRemoveBall()

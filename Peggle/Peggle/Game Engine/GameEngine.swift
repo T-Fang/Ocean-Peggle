@@ -7,7 +7,7 @@
 
 import UIKit
 
-class GameEngine: PhysicsWorld<GamePeg> {
+class GameEngine: PhysicsWorld<PhysicsObject> {
 
     weak var delegate: GameEventHandlerDelegate? {
         didSet {
@@ -20,15 +20,14 @@ class GameEngine: PhysicsWorld<GamePeg> {
     private(set) var gameStatus: GameStatus
     private let peggleLevel: PeggleLevel
     private var master: Master
-    private(set) var blocks = Set<GameBlock>()
-
-    var allObjects: [OscillatableObject] {
-        var arr = [OscillatableObject]()
-        objects.forEach({ arr.append($0) })
-        blocks.forEach({ arr.append($0) })
-        return arr
+    var pegs: [GamePeg] {
+        objects.compactMap({ $0 as? GamePeg })
     }
-    private var spookyCount = 0 {
+    var blocks: [GameBlock] {
+        objects.compactMap({ $0 as? GameBlock })
+    }
+
+    private(set) var spookyCount = 0 {
         didSet {
             spookyCount > 0 ? bucket.close() : bucket.open()
             delegate?.spookyCountDidChange(spookyCount: spookyCount)
@@ -37,12 +36,26 @@ class GameEngine: PhysicsWorld<GamePeg> {
 
     // pegs that got hit by the current ball
     var pegsHitByBall: [GamePeg] {
-        objects.filter({ $0.hitCount > 0 })
+        pegs.filter({ $0.hitCount > 0 })
     }
-    var stuckPegs: [GamePeg] {
-        objects.filter({ $0.hitCount >= Constants.hitCountForStuckObject })
+    var stuckObjects: [PhysicsObject] {
+        objects.filter({ $0.isStuck })
     }
-
+    var overlappingObjects: [PhysicsObject] {
+        guard let ball = ball else {
+            return []
+        }
+        return objects.filter({ ball.overlaps(with: $0) })
+    }
+    var objectsWillBeHit: [PhysicsObject] {
+        guard let ball = ball else {
+            return []
+        }
+        return objects.filter({ ball.willCollide(with: $0) })
+    }
+    var canMoveFreely: Bool {
+        overlappingObjects.isEmpty && objectsWillBeHit.isEmpty
+    }
     var canFire: Bool {
         ball == nil && gameStatus.state == .onGoing
     }
@@ -54,32 +67,45 @@ class GameEngine: PhysicsWorld<GamePeg> {
         self.master = master
         super.init(frame: frame)
 
-        addGamePegs()
+        setUpGame()
 
         let displayLink = CADisplayLink(target: self, selector: #selector(update))
         displayLink.add(to: .current, forMode: .common)
 
     }
-    private func addGamePegs() {
-        peggleLevel.pegs
-            .forEach({ add(GamePeg(peg: $0.offsetBy(x: 0, y: Constants.defaultCannonHeight))) })
-    }
 
+    /// After all attributes are initialized, set up the game
+    private func setUpGame() {
+        add(bucket)
+        addGamePegs()
+        addGameBlocks()
+        addWalls()
+    }
+    private func addWalls() {
+        add(leftWall)
+        add(rightWall)
+        add(bottomWall)
+    }
+    private func addGamePegs() {
+        peggleLevel.pegs.forEach({ add(GamePeg(peg: $0.offsetBy(x: 0, y: Constants.cannonHeight))) })
+    }
+    private func addGameBlocks() {
+        peggleLevel.blocks.forEach({ add(GameBlock(block: $0.offsetBy(x: 0, y: Constants.cannonHeight))) })
+    }
     @objc private func update(displayLink: CADisplayLink) {
         guard gameStatus.state != .paused else {
             return
         }
 
-        moveBucket()
-//        allObjects.forEach({ $0.move() })
-
-        if let ball = ball {
-            moveBall(ball: ball)
-        }
+        moveObjects()
+        moveBall()
 
         delegate?.objectsDidMove()
     }
 
+    private func moveObjects() {
+        objects.compactMap({ $0 as? MovablePhysicsObject }).forEach({ $0.move() })
+    }
     func pause() {
         gameStatus.isPaused = true
     }
@@ -87,14 +113,13 @@ class GameEngine: PhysicsWorld<GamePeg> {
     func resume() {
         gameStatus.isPaused = false
     }
-
     override func reset() {
         super.reset()
         ball = nil
         bucket.reset()
         gameStatus.reset(with: peggleLevel)
 
-        addGamePegs()
+        setUpGame()
     }
 
     func launchBall(at launchPoint: CGPoint, angle: CGFloat) {
@@ -103,84 +128,99 @@ class GameEngine: PhysicsWorld<GamePeg> {
         ball?.updateVelocity(speed: Constants.initialBallSpeed, angle: angle)
         ball?.acceleration = Constants.initialAcceleration
     }
-    func moveBucket() {
-        bucket.move()
-        if hasCollidedWithSide(object: bucket) {
-            bucket.reflectVelocityAlongXAxis()
-        }
-    }
-    func moveBall(ball: Ball) {
-        checkCollisionWithObjectsAndMove(ball: ball)
 
-        checkExitFromBottom(ball: ball)
-        checkSideCollision(ball: ball)
-    }
-
-    private func checkExitFromBottom(ball: Ball) {
-        guard hasCollidedWithBottom(object: ball) else {
+    func moveBall() {
+        guard canMoveFreely else {
+            while !canMoveFreely {
+                if !stuckObjects.isEmpty {
+                    remove(stuckObjects)
+                }
+                resolveOverlaps()
+                resolveCollision()
+            }
             return
         }
-        removePegs(pegsHitByBall)
-
-        guard spookyCount == 0 else {
-            ball.center = CGPoint(x: ball.center.x, y: CGFloat(-Constants.defaultBallRadius))
-            spookyCount -= 1
-            return
-        }
-
-        removeBallAndHitPegs()
+        ball?.move()
     }
+
     private func removeBallAndHitPegs() {
-        removePegs(pegsHitByBall)
+        remove(pegsHitByBall)
         self.ball = nil
         delegate?.didRemoveBall()
     }
-    private func removePegs(_ pegsToBeRemoved: [GamePeg]) {
-        delegate?.willRemovePegs(gamePegs: pegsToBeRemoved)
-        gameStatus.updateStatusAfterRemoval(of: pegsToBeRemoved)
-        remove(pegsToBeRemoved)
+
+    override func remove(_ objectsToBeRemoved: [PhysicsObject]) {
+        let pegs = objectsToBeRemoved.compactMap({ $0 as? GamePeg })
+        let blocks = objectsToBeRemoved.compactMap({ $0 as? GameBlock })
+
+        pegs.forEach({ remove(peg: $0) })
+        blocks.forEach({ remove(block: $0) })
+        gameStatus.updateStatusAfterRemoval(of: pegs)
+    }
+    private func remove(block: GameBlock) {
+        delegate?.willRemoveBlock(gameBlock: block)
+        super.remove(block)
+    }
+    private func remove(peg: GamePeg) {
+        delegate?.willRemovePeg(gamePeg: peg)
+        super.remove(peg)
+
     }
 
-    private func checkSideCollision(ball: Ball) {
-        if hasCollidedWithSide(object: ball) {
-            ball.reflectVelocityAlongXAxis()
-        }
-    }
-
-    private func checkCollisionWithObjectsAndMove(ball: Ball) {
-        guard objects.allSatisfy({ !ball.willCollide(with: $0) }),
-              objects.allSatisfy({ !ball.overlaps(with: $0) }) else {
-            checkCollisionWithPeg(ball: ball)
-            return
-        }
-
-        guard !ball.willCollide(with: bucket) && !ball.overlaps(with: bucket) else {
-            checkCollisionWithBucket(ball: ball)
-            return
-        }
-
-        ball.move()
-    }
-    private func checkCollisionWithPeg(ball: Ball) {
-        while(objects.contains(where: { ball.overlaps(with: $0) }))
-                || objects.contains(where: { ball.willCollide(with: $0) }) {
-            if !stuckPegs.isEmpty {
-                removePegs(stuckPegs)
+    private func resolveOverlaps() {
+        print("called")
+        while let ball = self.ball,
+              let overlappingObject = overlappingObjects.first {
+            while ball.overlaps(with: overlappingObject) {
+                ball.undoMove()
             }
-            if let overlappingPegs = objects.first(where: { ball.overlaps(with: $0) }) {
-                while ball.overlaps(with: overlappingPegs) {
-                    ball.undoMove()
-                }
-                ball.collide(with: overlappingPegs)
-                hitPeg(overlappingPegs)
-                continue
+            if overlappingObject is Bucket {
+                checkCollisionWithBucket(ball: ball)
             }
-            if let pegToBeHit = objects.first(where: { ball.willCollide(with: $0) }) {
+            ball.collide(with: overlappingObject)
+            hit(overlappingObject)
+        }
+    }
+    private func resolveCollision() {
+
+        while let ball = self.ball,
+              let nearest = ball.nearestCollidingObject(among: objects) {
+            print("called")
+            if let pegToBeHit = nearest as? GamePeg {
                 ball.collide(with: pegToBeHit)
                 hitPeg(pegToBeHit)
+                continue
             }
+            if nearest is Bucket {
+                checkCollisionWithBucket(ball: ball)
+                continue
+            }
+            if let wall = nearest as? Wall, wall.type == .bottomWall {
+                remove(pegsHitByBall)
 
+                guard spookyCount == 0 else {
+                    ball.center = CGPoint(x: ball.center.x, y: CGFloat(-Constants.ballRadius))
+                    spookyCount -= 1
+                    return
+                }
+                removeBallAndHitPegs()
+                continue
+            }
+            if nearest is GameBlock { print("hi")}
+            ball.collide(with: nearest)
+            hit(nearest)
         }
+    }
+    private func hit(_ object: PhysicsObject) {
+        if let block = object as? GameBlock {
+            hitBlock(block)
+        }
+        if let peg = object as? GamePeg {
+            hitPeg(peg)
+        }
+    }
+    private func hitBlock(_ gameBlock: GameBlock) {
+        gameBlock.increaseHitCount()
     }
     private func hitPeg(_ gamePeg: GamePeg) {
         gamePeg.increaseHitCount()
@@ -193,7 +233,7 @@ class GameEngine: PhysicsWorld<GamePeg> {
     private func activatePowerUp(greenPeg: GamePeg) {
         switch master {
         case .Splork:
-            objects
+            pegs
                 .filter({ $0.hitCount == 0 })
                 .filter({ greenPeg.center.distanceTo($0.center) <= Constants.spaceBlastRadius })
                 .forEach({ hitPeg($0) })
@@ -208,15 +248,11 @@ class GameEngine: PhysicsWorld<GamePeg> {
         }
     }
     private func checkCollisionWithBucket(ball: Ball) {
-        if bucket.willEnterBucket(ball: ball) {
+        if bucket.willEnterBucket(ball: ball) || ball.overlaps(with: bucket) {
             gameStatus.increaseBallCount()
             delegate?.showMessage(Constants.extraBallMessage)
             removeBallAndHitPegs()
         } else {
-            guard !ball.overlaps(with: bucket) else {
-                ball.move()
-                return
-            }
             ball.collide(with: bucket)
             delegate?.didHitBucket()
         }

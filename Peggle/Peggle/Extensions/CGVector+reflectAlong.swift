@@ -10,7 +10,10 @@ import CoreGraphics
 extension CGVector {
 
     var normalized: CGVector {
-        CGVector(dx: self.dx / norm, dy: self.dy / norm)
+        guard norm > 0 else {
+            return self
+        }
+        return CGVector(dx: self.dx / norm, dy: self.dy / norm)
     }
 
     func componentOn(_ vector: CGVector) -> CGFloat {

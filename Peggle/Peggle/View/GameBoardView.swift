@@ -18,9 +18,25 @@ class GameBoardView: UIView {
         pegViews.append(pegView)
         addSubview(pegView)
     }
+    func addPegViews(_ pegViews: [PegView]) {
+        self.pegViews.append(contentsOf: pegViews)
+        pegViews.forEach({ addSubview($0) })
+    }
+    func addBlockViews(_ blcokViews: [BlockView]) {
+        self.blockViews.append(contentsOf: blcokViews)
+        blcokViews.forEach({ addSubview($0) })
+    }
     func addBlockView(_ blockView: BlockView) {
         blockViews.append(blockView)
         addSubview(blockView)
+    }
+    func addBallView(_ ballView: BallView) {
+        self.ballView = ballView
+        addSubview(ballView)
+    }
+    func addBucketView(_ bucketView: BucketView) {
+        self.bucketView = bucketView
+        addSubview(bucketView)
     }
 
     func launchBall(at position: CGPoint) {
@@ -31,17 +47,6 @@ class GameBoardView: UIView {
 
     func moveBall(to position: CGPoint) {
         ballView?.moveTo(position)
-    }
-
-    func removeBall() {
-        ballView?.removeFromSuperview()
-        ballView = nil
-    }
-
-    func addBucket() {
-        let bucketView = BucketView(boardFrame: frame)
-        addSubview(bucketView)
-        self.bucketView = bucketView
     }
 
     func moveBucket(to position: CGPoint) {
@@ -57,12 +62,32 @@ class GameBoardView: UIView {
     }
 
     func resetBoard() {
-        bucketView?.center.x = center.x
         removeBall()
+        removeBucket()
+        removePegViews()
+        removeBlockViews()
+    }
+
+    func removeBall() {
+        ballView?.removeFromSuperview()
+        ballView = nil
+    }
+    func removeBucket() {
+        bucketView?.removeFromSuperview()
+        bucketView = nil
+    }
+    func removePegViews() {
         pegViews.forEach({ $0.removeFromSuperview() })
         pegViews = []
+    }
+    func removeBlockViews() {
         blockViews.forEach({ $0.removeFromSuperview() })
         blockViews = []
+    }
+
+    func removeObjectEffect(objectView: FadableView) {
+        addSubview(objectView)
+        objectView.fade()
     }
 
     func bubbleEffect(for pegView: PegView) {

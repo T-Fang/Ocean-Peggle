@@ -8,6 +8,6 @@
 import CoreGraphics
 class Ball: MovablePhysicsObject {
     init(center: CGPoint) {
-        super.init(physicsShape: PhysicsShape(circleOfRadius: Constants.defaultBallRadius, center: center))
+        super.init(physicsShape: PhysicsShape(circleOfRadius: Constants.ballRadius, center: center))
     }
 }

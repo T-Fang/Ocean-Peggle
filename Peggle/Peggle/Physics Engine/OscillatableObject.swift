@@ -34,7 +34,7 @@ class OscillatableObject: MovablePhysicsObject {
         let initialDisplacement = CGVector
             .generateVector(from: movementCenter, to: physicsShape.center)
             .componentOn(initialDirection)
-        self.phase = asin(initialDisplacement / amplitude)
+        self.phase = amplitude > 0 ? asin(initialDisplacement / amplitude) : .zero
         super.init(physicsShape: physicsShape)
     }
 

@@ -46,14 +46,31 @@ class DisplayUtility {
         return bubble
     }
 
-    static func generatePegView(for peg: Peg) -> PegView {
+    static func getPegView(for peg: Peg) -> PegView {
         let pegView = PegView(shape: peg.shape, color: peg.color, unrotatedframe: peg.unrotatedFrame)
         setUpOscillatableView(for: peg, objectView: pegView)
+
+        pegView.transform = pegView.transform.rotated(by: peg.physicsShape.rotation)
         return pegView
     }
-    static func generateBlockView(for block: Block) -> BlockView {
+    static func getPegView(for gamePeg: GamePeg) -> PegView {
+        let pegView = PegView(shape: gamePeg.shape, color: gamePeg.color,
+                              unrotatedframe: gamePeg.physicsShape.unrotatedFrame,
+                              rotation: gamePeg.physicsShape.rotation)
+        if gamePeg.isHit {
+            pegView.select()
+        }
+        return pegView
+    }
+    static func getBlockView(for block: Block) -> BlockView {
         let blockView = BlockView(unrotatedframe: block.unrotatedFrame)
         setUpOscillatableView(for: block, objectView: blockView)
+        blockView.transform = blockView.transform.rotated(by: block.physicsShape.rotation)
+        return blockView
+    }
+    static func getBlockView(for gameBlock: GameBlock) -> BlockView {
+        let blockView = BlockView(unrotatedframe: gameBlock.physicsShape.unrotatedFrame,
+                                  rotation: gameBlock.physicsShape.rotation)
         return blockView
     }
 
@@ -78,7 +95,6 @@ class DisplayUtility {
         handleView.center = objectViewBoundsCenter.offsetBy(x: xOffset, y: 0)
         objectView.setUp(handleView: handleView, periodLabel: periodLabel)
 
-        objectView.transform = objectView.transform.rotated(by: object.physicsShape.rotation)
     }
 
     static func getPeriodLabel(frame: CGRect, period: CGFloat) -> UIView {
@@ -90,7 +106,7 @@ class DisplayUtility {
 
     static func getArrowBodyImageView(arrowLength: CGFloat, isGreen: Bool) -> UIImageView {
         let size = CGSize(width: arrowLength,
-                          height: Constants.defaultHandleWidth)
+                          height: Constants.handleWidth)
         let frame = CGRect(origin: .zero, size: size)
         let arrowBody = UIImageView(frame: frame)
         arrowBody.image = isGreen ? #imageLiteral(resourceName: "arrow-body-green") : #imageLiteral(resourceName: "arrow-body-red")
@@ -98,7 +114,7 @@ class DisplayUtility {
     }
 
     static func getArrowHeadImageView(arrowLength: CGFloat, isGreen: Bool, towardRight: Bool) -> UIImageView {
-        let radius = Constants.defaultHandleRadius
+        let radius = Constants.handleRadius
         let size = CGSize(width: radius * 2, height: radius * 2)
         let frame = CGRect(origin: .zero, size: size)
 
@@ -109,7 +125,7 @@ class DisplayUtility {
         return arrowHead
     }
     static func getArrowView(arrowLength: CGFloat, isGreen: Bool, towardRight: Bool) -> UIView {
-        let radius = Constants.defaultHandleRadius
+        let radius = Constants.handleRadius
         let size = CGSize(width: arrowLength + radius, height: radius * 2)
         let frame = CGRect(origin: .zero, size: size)
         let arrowView = UIView(frame: frame)
@@ -132,7 +148,7 @@ class DisplayUtility {
     }
     static func getHandleView(isGoingRightFirst: Bool, leftArrowLength: CGFloat,
                               rightArrowLength: CGFloat) -> UIView {
-        let radius = Constants.defaultHandleRadius
+        let radius = Constants.handleRadius
 
         let width = 2 * radius
             + leftArrowLength + rightArrowLength

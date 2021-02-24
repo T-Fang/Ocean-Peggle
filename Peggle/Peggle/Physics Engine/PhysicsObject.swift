@@ -11,6 +11,13 @@ import CoreGraphics
 /// Note that there can be multiple objects with same attributes in a 2D world.
 /// Therefore, it is set as a class without == implementation
 class PhysicsObject {
+    var hitCount = 0
+    var isHit: Bool {
+        hitCount > 0
+    }
+    var isStuck: Bool {
+        hitCount > Constants.hitCountForStuckObject
+    }
 
     var physicsShape: PhysicsShape
 
@@ -34,5 +41,9 @@ class PhysicsObject {
 
     func overlaps(with physicsBody: PhysicsObject) -> Bool {
         physicsShape.overlaps(with: physicsBody.physicsShape)
+    }
+
+    func increaseHitCount() {
+        hitCount += 1
     }
 }

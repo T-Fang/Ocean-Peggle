@@ -7,7 +7,7 @@
 
 import UIKit
 
-class PegView: UIView, OscillatableView, SelectableView {
+class PegView: UIView, OscillatableView, SelectableView, FadableView {
 
     private(set) var pegBody = UIImageView(image: #imageLiteral(resourceName: "peg-blue"))
     var handleView: UIView?
@@ -28,13 +28,6 @@ class PegView: UIView, OscillatableView, SelectableView {
         refreshView()
 
         transform = transform.rotated(by: rotation)
-    }
-
-    func fade() {
-        UIView.animate(withDuration: Constants.fadeAnimationDuration,
-                       delay: 0,
-                       options: UIView.AnimationOptions.curveEaseInOut,
-                       animations: { self.alpha = 0 })
     }
 
     func refreshView() {

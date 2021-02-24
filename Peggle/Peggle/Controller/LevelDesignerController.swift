@@ -207,7 +207,7 @@ class LevelDesignerController: UIViewController {
     private func loadPegs() {
         pegViews = [:]
         peggleLevel.pegs.forEach { peg in
-            let pegView = DisplayUtility.generatePegView(for: peg)
+            let pegView = DisplayUtility.getPegView(for: peg)
             gameBoardView.addPegView(pegView)
             pegViews[peg] = pegView
         }
@@ -215,7 +215,7 @@ class LevelDesignerController: UIViewController {
     private func loadBlocks() {
         blockViews = [:]
         peggleLevel.blocks.forEach { block in
-            let blockView = DisplayUtility.generateBlockView(for: block)
+            let blockView = DisplayUtility.getBlockView(for: block)
             gameBoardView.addBlockView(blockView)
             blockViews[block] = blockView
         }

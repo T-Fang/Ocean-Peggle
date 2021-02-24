@@ -7,7 +7,7 @@
 
 import UIKit
 
-class BlockView: UIView, OscillatableView, SelectableView {
+class BlockView: UIView, OscillatableView, SelectableView, FadableView {
 
     private(set) var blockBody = UIImageView(image: #imageLiteral(resourceName: "block"))
     var handleView: UIView?
@@ -23,13 +23,6 @@ class BlockView: UIView, OscillatableView, SelectableView {
         refreshView()
 
         transform = transform.rotated(by: rotation)
-    }
-
-    func fade() {
-        UIView.animate(withDuration: Constants.fadeAnimationDuration,
-                       delay: 0,
-                       options: UIView.AnimationOptions.curveEaseInOut,
-                       animations: { self.alpha = 0 })
     }
 
     func refreshView() {

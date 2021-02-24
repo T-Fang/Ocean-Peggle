@@ -16,9 +16,29 @@ import CoreGraphics
 /// hence object can be added anywhere. The `frame` is simply a rectangle saying which location is "valid"
 class PhysicsWorld<Object: PhysicsObject> {
 
-    private var frame: CGRect
+    private(set) var frame: CGRect
     private(set) var objects: [Object] = []
 
+    var leftWall: Wall {
+        Wall(frame: CGRect(x: frame.minX - Constants.wallThickness, y: frame.minY,
+                           width: Constants.wallThickness, height: frame.height),
+             type: .leftWall)
+    }
+    var rightWall: Wall {
+        Wall(frame: CGRect(x: frame.maxX, y: frame.minY,
+                           width: Constants.wallThickness, height: frame.height),
+             type: .rightWall)
+    }
+    var topWall: Wall {
+        Wall(frame: CGRect(x: frame.minX, y: frame.minY - Constants.wallThickness,
+                           width: frame.width, height: Constants.wallThickness),
+             type: .topWall)
+    }
+    var bottomWall: Wall {
+        Wall(frame: CGRect(x: frame.minX, y: frame.maxY,
+                           width: frame.width, height: Constants.wallThickness),
+             type: .bottomWall)
+    }
     init(frame: CGRect) {
         self.frame = frame
     }

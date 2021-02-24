@@ -14,7 +14,7 @@ class BallView: UIImageView {
     }
 
     init(center: CGPoint,
-         radius: CGFloat = Constants.defaultBallRadius) {
+         radius: CGFloat = Constants.ballRadius) {
         let frame = CGRect(x: center.x - radius, y: center.y - radius, width: radius * 2, height: radius * 2)
         super.init(frame: frame)
         self.image = #imageLiteral(resourceName: "ball")

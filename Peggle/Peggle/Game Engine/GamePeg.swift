@@ -5,12 +5,8 @@
 //  Created by TFang on 10/2/21.
 //
 
-import CoreGraphics
-
 class GamePeg: OscillatableObject {
-
     let peg: Peg
-    private(set) var hitCount = 0
 
     var shape: PegShape {
         peg.shape
@@ -27,9 +23,6 @@ class GamePeg: OscillatableObject {
                    amplitude: peg.amplitude, movementCenter: peg.movementCenter)
     }
 
-    func increaseHitCount() {
-        hitCount += 1
-    }
 }
 
 extension GamePeg: Hashable {

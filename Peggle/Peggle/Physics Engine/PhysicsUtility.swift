@@ -111,7 +111,7 @@ class PhysicsUtility {
             return false
         }
 
-        let tolerableError = CGFloat(0.000_000_000_001)
+        let tolerableError = CGFloat(0.000_000_001)
         return circle.center.distanceToLineBetween(p1, p2) <= circle.radius + tolerableError
     }
 

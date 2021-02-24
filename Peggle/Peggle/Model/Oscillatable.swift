@@ -46,7 +46,7 @@ extension Oscillatable {
         physicsShape.center.distanceTo(leftHandlePosition)
     }
     var amplitude: CGFloat {
-        leftArrowLength + rightArrowLength
+        (leftArrowLength + rightArrowLength) / 2
     }
     var rightArrowLength: CGFloat {
         physicsShape.center.distanceTo(rightHandlePosition)
@@ -80,7 +80,7 @@ extension Oscillatable {
         guard oscillationInfo != nil else {
             return physicsShape
         }
-        var width = 2 * Constants.defaultHandleRadius
+        var width = 2 * Constants.handleRadius
             + greenHandlePosition.distanceTo(redHandlePosition)
         width = max(width, physicsShape.unrotatedFrame.height)
         let height = physicsShape.unrotatedFrame.height

@@ -10,9 +10,9 @@ import UIKit
 class BucketView: UIImageView {
 
     init(boardFrame: CGRect) {
-        let size = CGSize(width: Constants.defaultBucketWidth, height: Constants.defaultBucketHeight)
-        let origin = CGPoint(x: boardFrame.midX - Constants.defaultBucketWidth / 2,
-                             y: boardFrame.maxY - Constants.defaultBucketHeight)
+        let size = CGSize(width: Constants.bucketWidth, height: Constants.bucketHeight)
+        let origin = CGPoint(x: boardFrame.midX - Constants.bucketWidth / 2,
+                             y: boardFrame.maxY - Constants.bucketHeight)
         super.init(frame: CGRect(origin: origin, size: size))
         open()
     }

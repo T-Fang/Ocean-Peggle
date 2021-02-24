@@ -21,6 +21,9 @@ extension CGVector {
     }
 
     func cosTheta(with other: CGVector) -> CGFloat {
-        dotProduct(with: other) / (norm * other.norm)
+        guard norm > 0 && other.norm > 0 else {
+            return .zero
+        }
+        return dotProduct(with: other) / (norm * other.norm)
     }
 }

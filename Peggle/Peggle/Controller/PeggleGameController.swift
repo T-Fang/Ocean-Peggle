@@ -8,8 +8,9 @@
 import UIKit
 
 class PeggleGameController: UIViewController {
-    // engine is guaranteed to be initialized after master selection
+    // engine and renderer is guaranteed to be initialized after master selection
     private var engine: GameEngine!
+    private var renderer: PeggleGameRenderer!
     // peggleLevel is guaranteed to be initialized in segue preperation
     var peggleLevel: PeggleLevel!
     private var pegToView = [GamePeg: PegView]()
@@ -49,23 +50,24 @@ class PeggleGameController: UIViewController {
 
     private func loadPegViews() {
         gameBoardView.resetBoard()
-        engine.objects.forEach { gamePeg in
-            let pegView = PegView(shape: gamePeg.shape, color: gamePeg.color, unrotatedframe: gamePeg.frame)
+        engine.pegs.forEach { gamePeg in
+            let pegView = DisplayUtility.getPegView(for: gamePeg)
             pegToView[gamePeg] = pegView
             gameBoardView.addPegView(pegView)
+        }
+        engine.blocks.forEach { gameBlock in
+            let blockView = DisplayUtility.getBlockView(for: gameBlock)
+            blockToView[gameBlock] = blockView
+            gameBoardView.addBlockView(blockView)
         }
     }
 }
 
 // MARK: GameEventHandlerDelegate
 extension PeggleGameController: GameEventHandlerDelegate {
+
     func objectsDidMove() {
-        if let ballCenter = engine.ball?.center {
-            gameBoardView.moveBall(to: ballCenter)
-        }
-        gameBoardView.moveBucket(to: engine.bucket.center)
-        engine.objects.forEach({ pegToView[$0]?.moveTo($0.center) })
-        engine.blocks.forEach({ blockToView[$0]?.moveTo($0.center) })
+        renderer.render(on: gameBoardView)
     }
 
     func didActivateSpookyBall() {
@@ -101,13 +103,13 @@ extension PeggleGameController: GameEventHandlerDelegate {
                        animations: { self.messageLabel.alpha = 0.0 })
     }
 
-    func willRemovePegs(gamePegs: [GamePeg]) {
-        gamePegs.forEach { gamePeg in
-            pegToView[gamePeg]?.fade()
-            pegToView[gamePeg] = nil
-        }
+    func willRemovePeg(gamePeg: GamePeg) {
+        gameBoardView.removeObjectEffect(objectView: DisplayUtility.getPegView(for: gamePeg))
     }
-
+    func willRemoveBlock(gameBlock: GameBlock) {
+        gameBoardView.removeObjectEffect(objectView: DisplayUtility
+                                            .getBlockView(for: gameBlock))
+    }
     func ballDidMove(ball: Ball) {
         gameBoardView.moveBall(to: ball.center)
     }
@@ -175,7 +177,9 @@ extension PeggleGameController {
             return
         }
         engine.reset()
-        setUpGameBoard()
+        renderer.render(on: gameBoardView)
+        cannonView.resetCannon()
+        gameEndView.hide()
     }
 }
 
@@ -211,12 +215,12 @@ extension PeggleGameController: UITableViewDelegate {
         reloadLevel()
 
         masterChooserTableView.isHidden = true
-        gameBoardView.addBucket()
         gameBoardView.isUserInteractionEnabled = true
     }
 
     private func setUpGameEngine(master: Master) {
         engine = GameEngine(frame: gameBoardView.frame, peggleLevel: peggleLevel, master: master)
         engine.delegate = self
+        renderer = PeggleGameRenderer(engine: engine)
     }
 }
