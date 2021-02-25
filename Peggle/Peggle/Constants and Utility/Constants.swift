@@ -31,6 +31,8 @@ class Constants {
     static let alphaForUnselectedPaletteButton: CGFloat = 0.3
     static let alphaForSelectedHandle: CGFloat = 1
     static let alphaForUnselectedHandle: CGFloat = 0.4
+    static let alphaForEnabledPeriodSlider: CGFloat = 1
+    static let alphaForDisabledPeriodSlider: CGFloat = 0.4
 
     // MARK: UIView Constants
     static let masterChooserTableCellHeight: CGFloat = 145
@@ -66,7 +68,7 @@ class Constants {
 
     // MARK: Game Engine Constants
     static let defaultBallCount = 10
-    static let hitCountForStuckObject = 15
+    static let hitCountForStuckObject = 20
     static let initialAcceleration = CGVector(dx: 0, dy: 0.2)
     static let initialBallSpeed: CGFloat = 20
     static let bucketSpeed = CGVector(dx: 3, dy: 0)
@@ -82,7 +84,7 @@ class Constants {
     static let messageLabelAnimationDuration = 2.0
 
     // MARK: Tolerable Error
-    static let errorForMovement: CGFloat = 0.000_000_001
+    static let errorForMovement: CGFloat = 0.001
+    static let maxNumberOfMovementAdjustment = 500
     static let errorForCollisionDetection: CGFloat = 0.000_001
-    static let errorForCollisionPointRetrieval: CGFloat = 0.001
 }

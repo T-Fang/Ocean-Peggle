@@ -47,13 +47,6 @@ class PhysicsWorld {
         objects.append(object)
     }
 
-    func addWalls() {
-        add(leftWall)
-        add(rightWall)
-        add(topWall)
-        add(bottomWall)
-    }
-
     func remove(_ object: PhysicsObject) {
         objects.removeAll(where: { $0 === object })
     }
@@ -82,10 +75,6 @@ class PhysicsWorld {
 
     func hasCollidedWithRightSide(object: PhysicsObject) -> Bool {
         object.frame.maxX >= frame.maxX
-    }
-
-    func hasCollidedWithSide(object: PhysicsObject) -> Bool {
-        hasCollidedWithLeftSide(object: object) || hasCollidedWithRightSide(object: object)
     }
 
 }

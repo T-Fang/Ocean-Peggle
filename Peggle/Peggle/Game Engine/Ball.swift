@@ -7,11 +7,10 @@
 
 import CoreGraphics
 class Ball: MovablePhysicsObject {
-    init(center: CGPoint) {
+    init(center: CGPoint, angle: CGFloat, speed: CGFloat = Constants.initialBallSpeed,
+         acceleration: CGVector = Constants.initialAcceleration) {
         super.init(physicsShape: PhysicsShape(circleOfRadius: Constants.ballRadius, center: center))
-    }
-
-    func moveToSpookyBallPosition() {
-        center = CGPoint(x: center.x, y: CGFloat(-Constants.ballRadius))
+        updateVelocity(speed: speed, angle: angle)
+        self.acceleration = acceleration
     }
 }

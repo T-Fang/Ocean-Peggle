@@ -62,6 +62,8 @@ class LevelDesignerController: UIViewController {
     @IBOutlet private var orangePegCountLabel: UILabel!
     @IBOutlet private var greenPegCountLabel: UILabel!
 
+    @IBOutlet private var periodSlider: UISlider!
+
     override var prefersStatusBarHidden: Bool {
         true
     }
@@ -326,6 +328,8 @@ extension LevelDesignerController {
 extension LevelDesignerController {
     @IBAction private func toggleOscillationMode() {
         isOscillating.toggle()
+        periodSlider.isEnabled.toggle()
+        periodSlider.isHighlighted.toggle()
     }
 
     @IBAction private func handleBluePegButtonTap(_ sender: UIButton) {

@@ -14,6 +14,9 @@ struct OscillationInfo {
 }
 
 extension OscillationInfo {
+    var amplitude: CGFloat {
+        (leftHandleLength + rightHandleLength) / 2
+    }
     func flipHandle() -> OscillationInfo {
         OscillationInfo(isGoingRightFirst: !isGoingRightFirst,
                         leftHandleLength: rightHandleLength,

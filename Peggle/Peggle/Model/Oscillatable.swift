@@ -46,7 +46,7 @@ extension Oscillatable {
         physicsShape.center.distanceTo(leftHandlePosition)
     }
     var amplitude: CGFloat {
-        (leftArrowLength + rightArrowLength) / 2
+        oscillationInfo?.amplitude ?? .zero
     }
     var rightArrowLength: CGFloat {
         physicsShape.center.distanceTo(rightHandlePosition)

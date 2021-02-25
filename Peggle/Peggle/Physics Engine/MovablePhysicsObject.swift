@@ -59,20 +59,6 @@ class MovablePhysicsObject: PhysicsObject, Movable {
         let time = distance / velocity.norm
         velocity = velocity.add(acceleration.scale(by: time))
     }
-    func undoMove() {
-        let previousPosition = center.offset(by: velocity.scale(by: -1))
-        physicsShape = physicsShape.moveTo(previousPosition)
-        velocity = velocity.add(acceleration.scale(by: -1))
-    }
-    func undoMove(distance: CGFloat) {
-        guard distance >= 0 else {
-            return
-        }
-        let previousPosition = center.offset(by: velocity.normalized.scale(by: -distance))
-        physicsShape = physicsShape.moveTo(previousPosition)
-        let time = distance / velocity.norm
-        velocity = velocity.add(acceleration.scale(by: -time))
-    }
     /// Checks whether this object will collide with the given object.
     /// Returns false if this object overlaps with the given object.
     func willCollide(with object: PhysicsObject) -> Bool {
@@ -112,6 +98,11 @@ class MovablePhysicsObject: PhysicsObject, Movable {
         velocity = velocity.reflectAlong(axis: CGVector(dx: 1, dy: 0))
     }
 
+    /// Reflects the velocity along y axis (i.e. negates the y compoenent of current velocity)
+    func reflectVelocityAlongYAxis() {
+        velocity = velocity.reflectAlong(axis: CGVector(dx: 0, dy: 1))
+    }
+
     /// Updates this object's attributes after colliding with the given object
     /// - Parameters:
     ///   - object: the object to cllide with
@@ -133,6 +124,19 @@ class MovablePhysicsObject: PhysicsObject, Movable {
             collide(withPolygon: object, cor: cor)
         }
 
+        var count = 0
+        while overlaps(with: object) || willCollide(with: object),
+              count <= Constants.maxNumberOfMovementAdjustment {
+            count += 1
+            move(distance: Constants.errorForMovement)
+        }
+
+        count = 0
+        while overlaps(with: object) || willCollide(with: object),
+              count <= Constants.maxNumberOfMovementAdjustment {
+            count += 1
+            move()
+        }
     }
 
     func collide(withPolygon object: PhysicsObject, cor: CGFloat) {
@@ -158,16 +162,6 @@ class MovablePhysicsObject: PhysicsObject, Movable {
         velocity = reflectedVelocity.scale(by: cor)
     }
 
-    func moveToCollisionPosition(with object: PhysicsObject) {
-        guard let distance = moveDistance(to: object) else {
-            return
-        }
-        move(distance: distance)
-
-        while overlaps(with: object) {
-            undoMove(distance: Constants.errorForMovement)
-        }
-    }
     private func collide(withCircle object: PhysicsObject, cor: CGFloat) {
         guard let distance = moveDistance(to: object) else {
             return
@@ -226,12 +220,16 @@ class MovablePhysicsObject: PhysicsObject, Movable {
         return info
     }
     private func getInfoOfCollisionWith(_ P: CGPoint) -> CollisionInfo {
+        var info = CollisionInfo()
+        guard !physicsShape.contains(P) else {
+            return info
+        }
+
         let centerToP = CGVector.generateVector(from: center, to: P)
         let a = velocity.dotProduct(with: velocity)
         let b = -2 * (centerToP.dotProduct(with: velocity))
         let c = centerToP.dotProduct(with: centerToP) - physicsShape.radius * physicsShape.radius
 
-        var info = CollisionInfo()
         guard let time = findNonNegtiveLeastRoot(a: a, b: b, c: c) else {
             return info
         }

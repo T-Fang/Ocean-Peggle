@@ -9,7 +9,7 @@ import CoreGraphics
 
 protocol Movable {
     func move()
-    func undoMove()
+    func move(distance: CGFloat)
     func willCollide(with object: PhysicsObject) -> Bool
     func collide(with object: PhysicsObject, cor: CGFloat)
     func nearestCollidingObject(among objects: [PhysicsObject]) -> PhysicsObject?
