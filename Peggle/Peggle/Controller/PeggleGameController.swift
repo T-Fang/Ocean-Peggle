@@ -13,8 +13,6 @@ class PeggleGameController: UIViewController {
     private var renderer: PeggleGameRenderer!
     // peggleLevel is guaranteed to be initialized in segue preperation
     var peggleLevel: PeggleLevel!
-    private var pegToView = [GamePeg: PegView]()
-    private var blockToView = [GameBlock: BlockView]()
 
     var gameState: State {
         engine.gameStatus.state
@@ -41,26 +39,6 @@ class PeggleGameController: UIViewController {
         masterChooserTableView.dataSource = self
         masterChooserTableView.delegate = self
     }
-
-    private func setUpGameBoard() {
-        loadPegViews()
-        cannonView.resetCannon()
-        gameEndView.hide()
-    }
-
-    private func loadPegViews() {
-        gameBoardView.resetBoard()
-        engine.pegs.forEach { gamePeg in
-            let pegView = DisplayUtility.getPegView(for: gamePeg)
-            pegToView[gamePeg] = pegView
-            gameBoardView.addPegView(pegView)
-        }
-        engine.blocks.forEach { gameBlock in
-            let blockView = DisplayUtility.getBlockView(for: gameBlock)
-            blockToView[gameBlock] = blockView
-            gameBoardView.addBlockView(blockView)
-        }
-    }
 }
 
 // MARK: GameEventHandlerDelegate
@@ -70,23 +48,8 @@ extension PeggleGameController: GameEventHandlerDelegate {
         renderer.render(on: gameBoardView)
     }
 
-    func didActivateSpookyBall() {
-        gameBoardView.activateSpookyBall()
-    }
-
-    func didActivateSpaceBlast(gamePeg: GamePeg) {
-        guard let pegView = pegToView[gamePeg] else {
-            return
-        }
-        gameBoardView.bubbleEffect(for: pegView)
-    }
-
-    func spookyCountDidChange(spookyCount: Int) {
-        guard spookyCount == 0 else {
-            gameBoardView.closeBucket()
-            return
-        }
-        gameBoardView.openBucket()
+    func didActivateSpaceBlast(at center: CGPoint) {
+        gameBoardView.bubbleEffect(at: center)
     }
 
     func didHitBucket() {
@@ -110,9 +73,6 @@ extension PeggleGameController: GameEventHandlerDelegate {
         gameBoardView.removeObjectEffect(objectView: DisplayUtility
                                             .getBlockView(for: gameBlock))
     }
-    func ballDidMove(ball: Ball) {
-        gameBoardView.moveBall(to: ball.center)
-    }
 
     func didRemoveBall() {
         gameBoardView.removeBall()
@@ -127,20 +87,12 @@ extension PeggleGameController: GameEventHandlerDelegate {
         }
     }
 
-    func didHitPeg(gamePeg: GamePeg) {
-        pegToView[gamePeg]?.select()
-    }
-
     func ballCountDidChange(ballCount: Int) {
         ballCountLabel.text = String(ballCount)
     }
 
     func orangePegCountDidChange(orangePegCount: Int) {
         orangePegCountLabel.text = String(orangePegCount)
-    }
-
-    func bucketDidMove(bucket: Bucket) {
-        gameBoardView.moveBucket(to: bucket.center)
     }
 }
 
@@ -165,7 +117,6 @@ extension PeggleGameController {
             return
         }
         engine.launchBall(at: cannonView.center, angle: cannonView.angle)
-        gameBoardView.launchBall(at: cannonView.center)
     }
 
 }

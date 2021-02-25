@@ -41,7 +41,6 @@
 		B36EAC3525C2D3CB00C89394 /* LevelLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36EAC3425C2D3CB00C89394 /* LevelLoader.swift */; };
 		B36EAC3D25C326B900C89394 /* HomeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36EAC3C25C326B900C89394 /* HomeController.swift */; };
 		B387BB6F25E2DDE400A0E0DE /* Oscillatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = B387BB6E25E2DDE400A0E0DE /* Oscillatable.swift */; };
-		B387BB7A25E3924C00A0E0DE /* CGVector+rotate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B387BB7925E3924C00A0E0DE /* CGVector+rotate.swift */; };
 		B387BB8525E3B05000A0E0DE /* CGPoint+midpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = B387BB8425E3B05000A0E0DE /* CGPoint+midpoint.swift */; };
 		B387BB9025E3D17400A0E0DE /* PeggleObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = B387BB8F25E3D17400A0E0DE /* PeggleObject.swift */; };
 		B387BB9A25E3D66900A0E0DE /* SelectableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B387BB9925E3D66900A0E0DE /* SelectableView.swift */; };
@@ -143,7 +142,6 @@
 		B36EAC3425C2D3CB00C89394 /* LevelLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelLoader.swift; sourceTree = "<group>"; };
 		B36EAC3C25C326B900C89394 /* HomeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeController.swift; sourceTree = "<group>"; };
 		B387BB6E25E2DDE400A0E0DE /* Oscillatable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Oscillatable.swift; sourceTree = "<group>"; };
-		B387BB7925E3924C00A0E0DE /* CGVector+rotate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGVector+rotate.swift"; sourceTree = "<group>"; };
 		B387BB8425E3B05000A0E0DE /* CGPoint+midpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGPoint+midpoint.swift"; sourceTree = "<group>"; };
 		B387BB8F25E3D17400A0E0DE /* PeggleObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeggleObject.swift; sourceTree = "<group>"; };
 		B387BB9925E3D66900A0E0DE /* SelectableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectableView.swift; sourceTree = "<group>"; };
@@ -414,7 +412,6 @@
 				B390E4BA25D6B52C00FBA95D /* CGPoint+offsetBy.swift */,
 				B3D3E3EC25E15C4E00775ACB /* CGPoint+distanceToLineBetween.swift */,
 				B390E51525D7D21700FBA95D /* CGVector+add.swift */,
-				B387BB7925E3924C00A0E0DE /* CGVector+rotate.swift */,
 				B3D3E3E725E13B8300775ACB /* CGVector+cosTheta.swift */,
 				B3381AC025D457F2007E28A6 /* CGVector+reflectAlong.swift */,
 				B390E4C925D6B66200FBA95D /* String+isAlphanumeric.swift */,
@@ -587,7 +584,6 @@
 				B387BBC725E562D900A0E0DE /* GameBlock.swift in Sources */,
 				B36EAC1E25C2C5F000C89394 /* LevelChooserController.swift in Sources */,
 				B3381A7D25D28D01007E28A6 /* MovablePhysicsObject.swift in Sources */,
-				B387BB7A25E3924C00A0E0DE /* CGVector+rotate.swift in Sources */,
 				B3903FE325C021270003DF7E /* LevelDesignerController.swift in Sources */,
 				B3D3E3D925E1062600775ACB /* OscillatableObject.swift in Sources */,
 				B3381A6125D247F0007E28A6 /* PhysicsShape.swift in Sources */,

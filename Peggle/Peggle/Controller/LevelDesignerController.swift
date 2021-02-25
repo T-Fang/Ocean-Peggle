@@ -257,7 +257,7 @@ extension LevelDesignerController {
 
         switch selectedPaletteButton?.type {
         case .erase:
-            peggleLevel.removePeg(at: tapPosition)
+            peggleLevel.removeObject(at: tapPosition)
         case .block:
             if let existingObject = peggleLevel.getHandleOrObject(at: tapPosition) {
                 selectedPeggleObject = existingObject
@@ -285,7 +285,7 @@ extension LevelDesignerController {
     @IBAction private func handleLongPress(_ sender: UILongPressGestureRecognizer) {
         let tapPosition = sender.location(in: gameBoardView)
 
-        peggleLevel.removePeg(at: tapPosition)
+        peggleLevel.removeObject(at: tapPosition)
         loadGameBoard()
     }
 

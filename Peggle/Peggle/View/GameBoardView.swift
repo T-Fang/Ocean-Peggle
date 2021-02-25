@@ -39,12 +39,6 @@ class GameBoardView: UIView {
         addSubview(bucketView)
     }
 
-    func launchBall(at position: CGPoint) {
-        let ballView = BallView(center: position)
-        addSubview(ballView)
-        self.ballView = ballView
-    }
-
     func moveBall(to position: CGPoint) {
         ballView?.moveTo(position)
     }
@@ -90,8 +84,8 @@ class GameBoardView: UIView {
         objectView.fade()
     }
 
-    func bubbleEffect(for pegView: PegView) {
-        let bubbleView = DisplayUtility.getBubbleImageView(at: pegView.center)
+    func bubbleEffect(at center: CGPoint) {
+        let bubbleView = DisplayUtility.getBubbleImageView(at: center)
         addSubview(bubbleView)
 
         UIView.animate(withDuration: Constants.bubbleAnimationDuration,
@@ -99,9 +93,5 @@ class GameBoardView: UIView {
                        options: UIView.AnimationOptions.curveEaseInOut,
                        animations: { bubbleView.alpha = 0 },
                        completion: { _ in bubbleView.removeFromSuperview() })
-    }
-
-    func activateSpookyBall() {
-        ballView?.putInPlasticBag()
     }
 }

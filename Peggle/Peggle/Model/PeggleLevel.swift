@@ -56,7 +56,7 @@ class PeggleLevel: Codable {
 
     /// Removes the object at the given position
     /// Constraints: the position must lie inside one of the object's area, otherwise nothing happens
-    func removePeg(at position: CGPoint) {
+    func removeObject(at position: CGPoint) {
         guard let object = getObject(at: position) else {
             return
         }
@@ -98,6 +98,7 @@ class PeggleLevel: Codable {
         add(newObject)
         return newObject
     }
+
     func changeHandleLengthOf(_ object: PeggleObject, isRightHandle: Bool, newLength: CGFloat) -> PeggleObject? {
         modify(object: object, by: { $0.changeHandleLength(to: newLength, isRightHandle: isRightHandle) })
     }

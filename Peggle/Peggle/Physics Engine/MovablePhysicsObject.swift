@@ -141,7 +141,7 @@ class MovablePhysicsObject: PhysicsObject, Movable {
             return
         }
         move(distance: distance)
-        
+
         guard let collidingSide = info.collidingSide else {
             guard let collidingPoint = info.collidingPoint else {
                 return

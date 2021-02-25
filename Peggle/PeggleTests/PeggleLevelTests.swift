@@ -85,22 +85,22 @@ class PeggleLevelTests: XCTestCase {
     func testRemovePeg_noPegContainsThePoint_nil() {
         let level = PeggleLevel(boardSize: boardSize2)
         level.addPeg(at: bluePegCenter, shape: .circle, color: .blue)
-        level.removePeg(at: CGPoint.zero)
-        level.removePeg(at: pointOutsideBluePeg)
+        level.removeObject(at: CGPoint.zero)
+        level.removeObject(at: pointOutsideBluePeg)
         XCTAssertEqual(level.pegs.count, 1)
     }
 
     func testRemovePeg_pointOnPegBoundary_success() {
         let level = PeggleLevel()
         level.addPeg(at: bluePegCenter, shape: .circle, color: .blue)
-        level.removePeg(at: boundaryPointOfBluePeg)
+        level.removeObject(at: boundaryPointOfBluePeg)
         XCTAssertTrue(level.pegs.isEmpty)
     }
 
     func testRemovePeg_pointInsidePeg_success() {
         let level = PeggleLevel(boardSize: boardSize1)
         level.addPeg(at: bluePegCenter, shape: .circle, color: .blue)
-        level.removePeg(at: bluePegCenter)
+        level.removeObject(at: bluePegCenter)
         XCTAssertTrue(level.pegs.isEmpty)
     }
 

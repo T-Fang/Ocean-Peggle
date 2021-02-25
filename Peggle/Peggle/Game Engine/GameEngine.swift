@@ -30,7 +30,6 @@ class GameEngine: PhysicsWorld {
     private(set) var spookyCount = 0 {
         didSet {
             spookyCount > 0 ? bucket.close() : bucket.open()
-            delegate?.spookyCountDidChange(spookyCount: spookyCount)
         }
     }
 
@@ -122,6 +121,7 @@ class GameEngine: PhysicsWorld {
         self.ball = Ball(center: launchPoint)
         ball?.updateVelocity(speed: Constants.initialBallSpeed, angle: angle)
         ball?.acceleration = Constants.initialAcceleration
+        delegate?.objectsDidMove()
     }
 
     func moveBall() {
@@ -190,7 +190,7 @@ class GameEngine: PhysicsWorld {
                 checkEndTurn()
                 continue
             }
-            
+
             ball.collide(with: nearest)
             hit(nearest)
         }
@@ -218,7 +218,6 @@ class GameEngine: PhysicsWorld {
     }
     private func hitPeg(_ gamePeg: GamePeg) {
         gamePeg.increaseHitCount()
-        delegate?.didHitPeg(gamePeg: gamePeg)
 
         if gamePeg.color == .green && gamePeg.hitCount == 1 {
             activatePowerUp(greenPeg: gamePeg)
@@ -232,12 +231,10 @@ class GameEngine: PhysicsWorld {
                 .filter({ greenPeg.center.distanceTo($0.center) <= Constants.spaceBlastRadius })
                 .forEach({ hitPeg($0) })
 
-            delegate?.didActivateSpaceBlast(gamePeg: greenPeg)
+            delegate?.didActivateSpaceBlast(at: greenPeg.center)
             delegate?.showMessage(Constants.spaceBlastActivatedMessage)
         case .Renfield:
             spookyCount += 1
-
-            delegate?.didActivateSpookyBall()
             delegate?.showMessage(Constants.spookyBallActivatedMessage)
         }
     }

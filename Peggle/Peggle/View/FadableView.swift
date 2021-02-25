@@ -16,6 +16,6 @@ extension FadableView {
                        delay: 0,
                        options: UIView.AnimationOptions.curveEaseInOut,
                        animations: { self.alpha = 0 },
-                       completion: {_ in self.removeFromSuperview() })
+                       completion: { _ in self.removeFromSuperview() })
     }
 }
