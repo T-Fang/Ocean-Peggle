@@ -111,8 +111,8 @@ class PhysicsUtility {
             return false
         }
 
-        let tolerableError = CGFloat(0.000_000_001)
-        return circle.center.distanceToLineBetween(p1, p2) <= circle.radius + tolerableError
+        return circle.center.distanceToLineBetween(p1, p2)
+            <= circle.radius + Constants.errorForCollisionDetection
     }
 
     // Adapted from:
@@ -128,7 +128,7 @@ class PhysicsUtility {
         // create a 2D matrix from our vectors and calculate the determinant
         let determinant = delta1x * delta2y - delta2x * delta1y
 
-        if abs(determinant) < 0.000_1 {
+        if abs(determinant) <= Constants.errorForCollisionDetection {
             // if the determinant is effectively zero then the lines are parallel/colinear
             return nil
         }

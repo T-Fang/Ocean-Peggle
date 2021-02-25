@@ -12,7 +12,7 @@ class Bucket: MovablePhysicsObject {
     private var initialCenter: CGPoint
     private var minX: CGFloat
     private var maxX: CGFloat
-    private var isOpen = true
+    private(set) var isOpen = true
 
     init(gameFrame: CGRect) {
         let size = CGSize(width: Constants.bucketWidth, height: Constants.bucketHeight)
@@ -48,11 +48,12 @@ class Bucket: MovablePhysicsObject {
     }
 
     func willEnterBucket(ball: Ball) -> Bool {
-        guard isOpen, ball.willCollide(with: self) else {
+        guard let distance = ball.moveDistance(to: self),
+              isOpen, ball.willCollide(with: self) else {
             return false
         }
         let ballCopy = ball.makeCopy()
-        ballCopy.moveToCollisionPosition(with: self)
+        ballCopy.move(distance: distance)
         return ballCopy.center.x > center.x - Constants.bucketWidth / 2
             && ballCopy.center.x < center.x + Constants.bucketWidth / 2
     }

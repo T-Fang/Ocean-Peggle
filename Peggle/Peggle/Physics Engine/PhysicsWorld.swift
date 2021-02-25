@@ -14,10 +14,10 @@ import CoreGraphics
 /// Note that collisions between objects should be detected using methods inside `PhysicsObject`.
 /// Additionally, a world itself is infinitely expandable,
 /// hence object can be added anywhere. The `frame` is simply a rectangle saying which location is "valid"
-class PhysicsWorld<Object: PhysicsObject> {
+class PhysicsWorld {
 
     private(set) var frame: CGRect
-    private(set) var objects: [Object] = []
+    private(set) var objects: [PhysicsObject] = []
 
     var leftWall: Wall {
         Wall(frame: CGRect(x: frame.minX - Constants.wallThickness, y: frame.minY,
@@ -43,15 +43,22 @@ class PhysicsWorld<Object: PhysicsObject> {
         self.frame = frame
     }
 
-    func add(_ object: Object) {
+    func add(_ object: PhysicsObject) {
         objects.append(object)
     }
 
-    func remove(_ object: Object) {
+    func addWalls() {
+        add(leftWall)
+        add(rightWall)
+        add(topWall)
+        add(bottomWall)
+    }
+
+    func remove(_ object: PhysicsObject) {
         objects.removeAll(where: { $0 === object })
     }
 
-    func remove(_ objectsToBeRemoved: [Object]) {
+    func remove(_ objectsToBeRemoved: [PhysicsObject]) {
         objectsToBeRemoved.forEach { object in
             objects.removeAll(where: { $0 === object })
         }

@@ -7,7 +7,7 @@
 
 import UIKit
 
-class GameEngine: PhysicsWorld<PhysicsObject> {
+class GameEngine: PhysicsWorld {
 
     weak var delegate: GameEventHandlerDelegate? {
         didSet {
@@ -80,11 +80,6 @@ class GameEngine: PhysicsWorld<PhysicsObject> {
         addGamePegs()
         addGameBlocks()
         addWalls()
-    }
-    private func addWalls() {
-        add(leftWall)
-        add(rightWall)
-        add(bottomWall)
     }
     private func addGamePegs() {
         peggleLevel.pegs.forEach({ add(GamePeg(peg: $0.offsetBy(x: 0, y: Constants.cannonHeight))) })
@@ -168,24 +163,20 @@ class GameEngine: PhysicsWorld<PhysicsObject> {
     }
 
     private func resolveOverlaps() {
-        print("called")
         while let ball = self.ball,
               let overlappingObject = overlappingObjects.first {
-            while ball.overlaps(with: overlappingObject) {
-                ball.undoMove()
-            }
             if overlappingObject is Bucket {
                 checkCollisionWithBucket(ball: ball)
+            } else {
+                ball.move()
+                hit(overlappingObject)
             }
-            ball.collide(with: overlappingObject)
-            hit(overlappingObject)
         }
     }
     private func resolveCollision() {
 
         while let ball = self.ball,
               let nearest = ball.nearestCollidingObject(among: objects) {
-            print("called")
             if let pegToBeHit = nearest as? GamePeg {
                 ball.collide(with: pegToBeHit)
                 hitPeg(pegToBeHit)
@@ -196,20 +187,23 @@ class GameEngine: PhysicsWorld<PhysicsObject> {
                 continue
             }
             if let wall = nearest as? Wall, wall.type == .bottomWall {
-                remove(pegsHitByBall)
-
-                guard spookyCount == 0 else {
-                    ball.center = CGPoint(x: ball.center.x, y: CGFloat(-Constants.ballRadius))
-                    spookyCount -= 1
-                    return
-                }
-                removeBallAndHitPegs()
+                checkEndTurn()
                 continue
             }
-            if nearest is GameBlock { print("hi")}
+            
             ball.collide(with: nearest)
             hit(nearest)
         }
+    }
+    private func checkEndTurn() {
+        remove(pegsHitByBall)
+
+        guard spookyCount == 0 else {
+            ball?.moveToSpookyBallPosition()
+            spookyCount -= 1
+            return
+        }
+        removeBallAndHitPegs()
     }
     private func hit(_ object: PhysicsObject) {
         if let block = object as? GameBlock {
@@ -248,7 +242,11 @@ class GameEngine: PhysicsWorld<PhysicsObject> {
         }
     }
     private func checkCollisionWithBucket(ball: Ball) {
-        if bucket.willEnterBucket(ball: ball) || ball.overlaps(with: bucket) {
+        guard !ball.overlaps(with: bucket) else {
+            ball.move()
+            return
+        }
+        if bucket.willEnterBucket(ball: ball) {
             gameStatus.increaseBallCount()
             delegate?.showMessage(Constants.extraBallMessage)
             removeBallAndHitPegs()

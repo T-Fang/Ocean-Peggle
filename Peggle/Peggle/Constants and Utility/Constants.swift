@@ -80,4 +80,9 @@ class Constants {
     static let fadeAnimationDuration = 1.0
     static let bubbleAnimationDuration = 1.5
     static let messageLabelAnimationDuration = 2.0
+
+    // MARK: Tolerable Error
+    static let errorForMovement: CGFloat = 0.000_000_001
+    static let errorForCollisionDetection: CGFloat = 0.000_001
+    static let errorForCollisionPointRetrieval: CGFloat = 0.001
 }

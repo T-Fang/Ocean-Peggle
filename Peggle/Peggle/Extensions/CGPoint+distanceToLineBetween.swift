@@ -25,9 +25,6 @@ extension CGPoint {
         let selfToP2 = distanceTo(p2)
         let p1ToP2 = p1.distanceTo(p2)
 
-        let tolerableError = CGFloat(0.000_000_000_001)
-
-        return selfToP1 + selfToP2 >= p1ToP2 - tolerableError
-            && selfToP1 + selfToP2 <= p1ToP2 + tolerableError
+        return abs(selfToP1 + selfToP2 - p1ToP2) <= Constants.errorForCollisionDetection
     }
 }

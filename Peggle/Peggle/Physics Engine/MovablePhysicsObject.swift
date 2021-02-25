@@ -50,19 +50,35 @@ class MovablePhysicsObject: PhysicsObject, Movable {
         velocity = velocity.add(acceleration)
     }
 
+    func move(distance: CGFloat) {
+        guard distance >= 0 else {
+            return
+        }
+        let newPosition = center.offset(by: velocity.normalized.scale(by: distance))
+        physicsShape = physicsShape.moveTo(newPosition)
+        let time = distance / velocity.norm
+        velocity = velocity.add(acceleration.scale(by: time))
+    }
     func undoMove() {
         let previousPosition = center.offset(by: velocity.scale(by: -1))
         physicsShape = physicsShape.moveTo(previousPosition)
         velocity = velocity.add(acceleration.scale(by: -1))
     }
-
+    func undoMove(distance: CGFloat) {
+        guard distance >= 0 else {
+            return
+        }
+        let previousPosition = center.offset(by: velocity.normalized.scale(by: -distance))
+        physicsShape = physicsShape.moveTo(previousPosition)
+        let time = distance / velocity.norm
+        velocity = velocity.add(acceleration.scale(by: -time))
+    }
     /// Checks whether this object will collide with the given object.
     /// Returns false if this object overlaps with the given object.
     func willCollide(with object: PhysicsObject) -> Bool {
         guard let distance = moveDistance(to: object), !overlaps(with: object) else {
             return false
         }
-        if object is GameBlock { print(distance)}
         return distance >= 0 && distance <= velocity.norm
     }
 
@@ -109,7 +125,7 @@ class MovablePhysicsObject: PhysicsObject, Movable {
         guard willCollide(with: object) else {
             return
         }
-        moveToCollisionPosition(with: object)
+
         switch object.physicsShape.shape {
         case .circle:
             collide(withCircle: object, cor: cor)
@@ -117,14 +133,17 @@ class MovablePhysicsObject: PhysicsObject, Movable {
             collide(withPolygon: object, cor: cor)
         }
 
-        while overlaps(with: object) {
-            move(distance: 0.000_001)
-        }
     }
 
     func collide(withPolygon object: PhysicsObject, cor: CGFloat) {
-        guard let collidingSide = getCollidingSide(ofPolygon: object) else {
-            guard let collidingPoint = getCollidingPoint(ofPolygon: object) else {
+        let info = getInfoOfCollision(withPolygon: object)
+        guard let distance = info.moveDistance else {
+            return
+        }
+        move(distance: distance)
+        
+        guard let collidingSide = info.collidingSide else {
+            guard let collidingPoint = info.collidingPoint else {
                 return
             }
 
@@ -138,50 +157,22 @@ class MovablePhysicsObject: PhysicsObject, Movable {
         let reflectedVelocity = velocity.reflectAlong(axis: axis)
         velocity = reflectedVelocity.scale(by: cor)
     }
-    private func getCollidingSide(ofPolygon: PhysicsObject) -> (CGPoint, CGPoint)? {
-        let vertices = ofPolygon.physicsShape.vertices
-
-        for i in vertices.indices {
-            let point1 = vertices[i]
-            let point2 = vertices[(i + 1) % vertices.count]
-            if PhysicsUtility.intersectsWithLineBetween(point1, point2,
-                                                        circle: physicsShape) {
-                return (point1, point2)
-            }
-        }
-
-        return nil
-    }
-    private func getCollidingPoint(ofPolygon: PhysicsObject) -> CGPoint? {
-        let vertices = ofPolygon.physicsShape.vertices
-        guard let distance = moveDistance(to: ofPolygon) else {
-            return nil
-        }
-        for i in vertices.indices {
-            guard let distanceToI = moveDistanceToPoint(vertices[i]) else {
-                continue
-            }
-            if distance == distanceToI {
-                return vertices[i]
-            }
-        }
-
-        return nil
-    }
 
     func moveToCollisionPosition(with object: PhysicsObject) {
         guard let distance = moveDistance(to: object) else {
             return
         }
-
         move(distance: distance)
-    }
-    private func move(distance: CGFloat) {
-        let newPosition = center.offset(by: velocity.normalized.scale(by: distance))
-        physicsShape = physicsShape.moveTo(newPosition)
-        velocity = velocity.add(acceleration)
+
+        while overlaps(with: object) {
+            undoMove(distance: Constants.errorForMovement)
+        }
     }
     private func collide(withCircle object: PhysicsObject, cor: CGFloat) {
+        guard let distance = moveDistance(to: object) else {
+            return
+        }
+        move(distance: distance)
         let axis = CGVector(dx: object.center.x - center.x,
                             dy: object.center.y - center.y)
         let reflectedVelocity = velocity.reflectAlong(axis: axis)
@@ -198,7 +189,7 @@ class MovablePhysicsObject: PhysicsObject, Movable {
         case .circle:
             return moveDistance(toCircle: object)
         default:
-            return moveDistance(toPolygon: object)
+            return getInfoOfCollision(withPolygon: object).moveDistance
         }
     }
     private func moveDistance(toCircle: PhysicsObject) -> CGFloat? {
@@ -218,39 +209,66 @@ class MovablePhysicsObject: PhysicsObject, Movable {
 
         return findNonNegtiveLeastRoot(a: 1, b: b, c: c)
     }
-    private func moveDistance(toPolygon: PhysicsObject) -> CGFloat? {
-        guard physicsShape.shape == .circle && toPolygon.physicsShape.shape != .circle
-                && !overlaps(with: toPolygon) else {
-            return nil
+    private func getInfoOfCollision(withPolygon: PhysicsObject) -> CollisionInfo {
+        var info = CollisionInfo()
+        guard physicsShape.shape == .circle && withPolygon.physicsShape.shape != .circle
+                && !overlaps(with: withPolygon) else {
+            return info
         }
-        var minMoveDistance: CGFloat?
 
-        let vertices = toPolygon.physicsShape.vertices
+        let vertices = withPolygon.physicsShape.vertices
         for i in vertices.indices {
             let point1 = vertices[i]
             let point2 = vertices[(i + 1) % vertices.count]
-            guard let distance = moveDistanceToLineBetween(point1, point2) else {
-                continue
-            }
-            guard let currentMin = minMoveDistance else {
-                minMoveDistance = distance
-                continue
-            }
-            minMoveDistance = min(currentMin, distance)
+
+            info.update(with: getInfoOfCollisionWithLineBetween(point1, point2))
         }
-        if toPolygon is GameBlock { print(minMoveDistance) }
-        return minMoveDistance
+        return info
     }
-    private func moveDistanceToPoint(_ P: CGPoint) -> CGFloat? {
+    private func getInfoOfCollisionWith(_ P: CGPoint) -> CollisionInfo {
         let centerToP = CGVector.generateVector(from: center, to: P)
         let a = velocity.dotProduct(with: velocity)
         let b = -2 * (centerToP.dotProduct(with: velocity))
         let c = centerToP.dotProduct(with: centerToP) - physicsShape.radius * physicsShape.radius
 
+        var info = CollisionInfo()
         guard let time = findNonNegtiveLeastRoot(a: a, b: b, c: c) else {
-            return nil
+            return info
         }
-        return time * velocity.norm
+
+        info.updateCollidingPoint(point: P)
+        info.updateMinMoveDistance(time * velocity.norm)
+        return info
+    }
+    private func getInfoOfCollisionWithLineBetween(_ p1: CGPoint, _ p2: CGPoint) -> CollisionInfo {
+        var info = CollisionInfo()
+        guard physicsShape.shape == .circle && !PhysicsUtility
+                .intersectsWithLineBetween(p1, p2, circle: self.physicsShape) else {
+            return info
+        }
+
+        info.update(with: getInfoOfCollisionWith(p1))
+        info.update(with: getInfoOfCollisionWith(p2))
+
+        let projectedPointP = center.projectedPointOnLineBetween(p1, p2)
+        let centerToP = CGVector.generateVector(from: center, to: projectedPointP)
+        let componentOnCenterToP = velocity.componentOn(centerToP)
+
+        guard componentOnCenterToP > 0 && centerToP.norm >= physicsShape.radius else {
+            return info
+        }
+
+        let distance = velocity.norm
+            * (centerToP.norm - physicsShape.radius) / componentOnCenterToP
+        let shapeAtCollidingPosition = physicsShape
+            .moveTo(center.offset(by: velocity.normalized.scale(by: distance)))
+        guard PhysicsUtility
+                .intersectsWithLineBetween(p1, p2, circle: shapeAtCollidingPosition) else {
+            return info
+        }
+
+        info.update(distance: distance, side: (p1, p2))
+        return info
     }
     private func findNonNegtiveLeastRoot(a: CGFloat, b: CGFloat, c: CGFloat) -> CGFloat? {
         let delta = b * b - 4 * a * c
@@ -264,43 +282,4 @@ class MovablePhysicsObject: PhysicsObject, Movable {
         }
         return leastRoot
     }
-    private func moveDistanceToLineBetween(_ p1: CGPoint, _ p2: CGPoint) -> CGFloat? {
-//        print("called")
-        guard physicsShape.shape == .circle && !PhysicsUtility
-                .intersectsWithLineBetween(p1, p2, circle: self.physicsShape) else {
-            return nil
-        }
-
-        var minMoveDistance = moveDistanceToPoint(p1)
-
-        if let distance2 = moveDistanceToPoint(p2) {
-            if let currentMin = minMoveDistance {
-                minMoveDistance = min(currentMin, distance2)
-            }
-            minMoveDistance = distance2
-        }
-
-        let projectedPointP = center.projectedPointOnLineBetween(p1, p2)
-        let centerToP = CGVector.generateVector(from: center, to: projectedPointP)
-        let componentOnCenterToP = velocity.componentOn(centerToP)
-
-        guard componentOnCenterToP > 0 && centerToP.norm >= physicsShape.radius else {
-            return minMoveDistance
-        }
-
-        let distance = velocity.norm
-            * (centerToP.norm - physicsShape.radius) / componentOnCenterToP
-        let shapeAtCollidingPosition = physicsShape
-            .moveTo(center.offset(by: velocity.normalized.scale(by: distance)))
-        guard PhysicsUtility
-                .intersectsWithLineBetween(p1, p2, circle: shapeAtCollidingPosition) else {
-            return minMoveDistance
-        }
-
-        guard let currentMin = minMoveDistance else {
-            return distance
-        }
-        return min(distance, currentMin)
-    }
-
 }

@@ -33,6 +33,7 @@
 		B3381ADD25D58097007E28A6 /* GameEndView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3381ADC25D58097007E28A6 /* GameEndView.swift */; };
 		B346327525E6B25700C7DEAC /* PeggleGameRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B346327425E6B25700C7DEAC /* PeggleGameRenderer.swift */; };
 		B346327A25E6B59C00C7DEAC /* FadableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B346327925E6B59C00C7DEAC /* FadableView.swift */; };
+		B346328225E6E79600C7DEAC /* CollisionInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = B346328125E6E79600C7DEAC /* CollisionInfo.swift */; };
 		B36EAC1425C2C21700C89394 /* Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36EAC1325C2C21700C89394 /* Alert.swift */; };
 		B36EAC1925C2C28500C89394 /* StorageUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36EAC1825C2C28500C89394 /* StorageUtility.swift */; };
 		B36EAC1E25C2C5F000C89394 /* LevelChooserController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36EAC1D25C2C5F000C89394 /* LevelChooserController.swift */; };
@@ -134,6 +135,7 @@
 		B3381ADC25D58097007E28A6 /* GameEndView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameEndView.swift; sourceTree = "<group>"; };
 		B346327425E6B25700C7DEAC /* PeggleGameRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeggleGameRenderer.swift; sourceTree = "<group>"; };
 		B346327925E6B59C00C7DEAC /* FadableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FadableView.swift; sourceTree = "<group>"; };
+		B346328125E6E79600C7DEAC /* CollisionInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollisionInfo.swift; sourceTree = "<group>"; };
 		B36EAC1325C2C21700C89394 /* Alert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alert.swift; sourceTree = "<group>"; };
 		B36EAC1825C2C28500C89394 /* StorageUtility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageUtility.swift; sourceTree = "<group>"; };
 		B36EAC1D25C2C5F000C89394 /* LevelChooserController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelChooserController.swift; sourceTree = "<group>"; };
@@ -236,6 +238,7 @@
 			isa = PBXGroup;
 			children = (
 				B3381A6025D247F0007E28A6 /* PhysicsShape.swift */,
+				B346328125E6E79600C7DEAC /* CollisionInfo.swift */,
 				B387BBB925E4F1CE00A0E0DE /* PhysicsUtility.swift */,
 				B3381A7725D28987007E28A6 /* PhysicsObject.swift */,
 				B3381A7C25D28D01007E28A6 /* MovablePhysicsObject.swift */,
@@ -621,6 +624,7 @@
 				B3381AAC25D41587007E28A6 /* GameStatus.swift in Sources */,
 				B3F79A6B25C55BEB002F83C5 /* GameBoardView.swift in Sources */,
 				B3381A6925D24804007E28A6 /* Shape.swift in Sources */,
+				B346328225E6E79600C7DEAC /* CollisionInfo.swift in Sources */,
 				B387BB8525E3B05000A0E0DE /* CGPoint+midpoint.swift in Sources */,
 				B387BB6F25E2DDE400A0E0DE /* Oscillatable.swift in Sources */,
 				B3D3E40025E2B00700775ACB /* Block.swift in Sources */,

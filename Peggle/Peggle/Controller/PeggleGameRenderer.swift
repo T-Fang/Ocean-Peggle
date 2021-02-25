@@ -35,6 +35,7 @@ class PeggleGameRenderer {
     var bucketView: BucketView {
         let bucketView = BucketView(boardFrame: engine.frame)
         bucketView.moveTo(engine.bucket.center)
+        engine.bucket.isOpen ? bucketView.open() : bucketView.close()
         return bucketView
     }
     var pegViews: [PegView] {
