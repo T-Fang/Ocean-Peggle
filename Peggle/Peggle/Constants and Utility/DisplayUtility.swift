@@ -53,17 +53,27 @@ class DisplayUtility {
         }
     }
 
-    static func getBubbleImageView(at center: CGPoint) -> UIImageView {
-        let radius = Constants.spaceBlastRadius
+    private static func getSquareFrame(at center: CGPoint, radius: CGFloat) -> CGRect {
         let origin = center.offsetBy(x: -radius, y: -radius)
         let size = CGSize(width: radius * 2, height: radius * 2)
         let frame = CGRect(origin: origin, size: size)
+        return frame
+    }
+    static func getBubbleImageView(at center: CGPoint) -> UIImageView {
 
-        let bubble = UIImageView(frame: frame)
+        let bubble = UIImageView(frame: getSquareFrame(at: center,
+                                                       radius: Constants.spaceBlastRadius))
         bubble.image = #imageLiteral(resourceName: "soap-bubbles")
         return bubble
     }
 
+    static func getFloatingBubbles() -> UIImageView {
+        let floatingBubbles = UIImageView(frame: getSquareFrame(at: .zero, radius: Constants.floatingBubblesRadius))
+
+        floatingBubbles.image = #imageLiteral(resourceName: "float-bubble-icon")
+        floatingBubbles.alpha = Constants.alphaForfloatingBubbles
+        return floatingBubbles
+    }
     static func getPegView(for peg: Peg) -> PegView {
         let pegView = PegView(shape: peg.shape, color: peg.color, unrotatedframe: peg.unrotatedFrame)
         setUpOscillatableView(for: peg, objectView: pegView)

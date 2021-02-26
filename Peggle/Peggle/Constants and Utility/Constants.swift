@@ -28,6 +28,7 @@ class Constants {
     static let extraBallMessage = "+1 Ball!"
     static let spookyBallActivatedMessage = "Spooky Ball Activated!"
     static let spaceBlastActivatedMessage = "Space Blast Activated!"
+    static let blowBubbleActivatedMessage = "Blow Bubble Activated!"
 
     // MARK: Preloaded Level
     static let preloadedLevelNames = ["Preloaded-DNA", "Preloaded-ChainReaction", "Preloaded-Tree"]
@@ -74,13 +75,17 @@ class Constants {
 
     // MARK: Power Up Constants
     static let spaceBlastRadius: CGFloat = 100
+    static let floatingBubblesRadius: CGFloat = 60
+    static let alphaForfloatingBubbles: CGFloat = 0.6
 
     // MARK: Game Engine Constants
     static let defaultBallCount = 10
-    static let hitCountForStuckObject = 20
-    static let initialAcceleration = CGVector(dx: 0, dy: 0.2)
+    static let hitCountForStuckObject = 15
+    static let gravitationalAcceleration = CGVector(dx: 0, dy: 0.2)
+    static let floatingAcceleration = CGVector(dx: 0, dy: -0.2)
     static let initialBallSpeed: CGFloat = 20
     static let bucketSpeed = CGVector(dx: 3, dy: 0)
+    static let floatingBubbleReduceRate = 0.7
 
     // MARK: Physics Engine Constants
     // cor stands for coefficient of restitution
@@ -96,4 +101,9 @@ class Constants {
     static let errorForMovement: CGFloat = 0.001
     static let maxNumberOfMovementAdjustment = 500
     static let errorForCollisionDetection: CGFloat = 0.000_001
+
+    // MARK: Peg Score
+    static let otherPegsScore = 10
+    static let orangePegScore = 100
+
 }

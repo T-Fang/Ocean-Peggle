@@ -26,6 +26,10 @@ class PeggleGameController: UIViewController {
     @IBOutlet private var messageLabel: UILabel!
     @IBOutlet private var ballCountLabel: UILabel!
     @IBOutlet private var orangePegCountLabel: UILabel!
+    @IBOutlet private var floatBubblePercentLabel: UILabel!
+
+    @IBOutlet private var scoreLabel: UILabel!
+    @IBOutlet private var timeLeftLabel: UILabel!
 
     override var prefersStatusBarHidden: Bool {
         true
@@ -40,15 +44,25 @@ class PeggleGameController: UIViewController {
         masterChooserTableView.delegate = self
     }
 
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.destination is HomeController {
-            AudioPlayer.stop()
-        }
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        engine.stopDisplayLink()
     }
 }
 
 // MARK: GameEventHandlerDelegate
 extension PeggleGameController: GameEventHandlerDelegate {
+    func floatBubbleDidRunOut() {
+        engine.unfloatBall()
+    }
+
+    func floatBubbleDidChange(percentage: Double) {
+        floatBubblePercentLabel.text = String(format: "%.1f%", percentage)
+    }
+
+    func scoreDidChange(score: Int) {
+        scoreLabel.text = String(score)
+    }
 
     func objectsDidMove() {
         renderer.render(on: gameBoardView)
@@ -91,9 +105,16 @@ extension PeggleGameController: GameEventHandlerDelegate {
                                             .getBlockView(for: gameBlock))
     }
 
+    func timeDidChange(time: Float) {
+        timeLeftLabel.text = String(format: "%.2fs", time)
+        checkEndGame()
+    }
+
     func didRemoveBall() {
         gameBoardView.removeBall()
-
+        checkEndGame()
+    }
+    private func checkEndGame() {
         switch gameState {
         case .win:
             AudioPlayer.playYouWin()
@@ -117,7 +138,23 @@ extension PeggleGameController: GameEventHandlerDelegate {
 
 // MARK: Gestures
 extension PeggleGameController {
+
+    @IBAction private func floatBall(_ sender: UILongPressGestureRecognizer) {
+        sender.minimumPressDuration = 0.1
+        switch sender.state {
+        case .began:
+            engine.floatBall()
+        case .ended:
+            engine.unfloatBall()
+        default:
+            return
+        }
+    }
+
     @IBAction private func rotateCannon(_ sender: UIPanGestureRecognizer) {
+        guard engine != nil, gameState != .paused else {
+            return
+        }
 
         let dy = sender.location(in: gameBoardView).y - cannonView.center.y
         let dx = sender.location(in: gameBoardView).x - cannonView.center.x
@@ -144,6 +181,12 @@ extension PeggleGameController {
 
 // MARK: Button Actions
 extension PeggleGameController {
+
+    @IBAction private func playPause() {
+        engine.playPause()
+        AudioPlayer.playPauseInGameBgm()
+    }
+
     @IBAction private func reloadLevel() {
         guard engine != nil else {
             return

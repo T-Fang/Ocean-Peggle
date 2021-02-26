@@ -24,11 +24,22 @@ class AudioPlayer {
         playMusic(fileName: "in-game-bgm", loop: -1)
     }
 
+    static func playPauseInGameBgm() {
+        guard let musicPlayer = musicPlayer else {
+            return
+        }
+        if musicPlayer.isPlaying {
+            musicPlayer.pause()
+        } else {
+            musicPlayer.play()
+        }
+    }
+
     static func playHitPeg() {
         playSoundOnce(fileName: "hit-peg")
     }
     static func playHitBlock() {
-        playSoundOnce(fileName: "hit-block")
+        playSoundOnce(fileName: "hit-block", volume: 0.15)
     }
     static func playHitBucket() {
         playSoundOnce(fileName: "hit-bucket")
@@ -41,7 +52,7 @@ class AudioPlayer {
         playSoundOnce(fileName: "spooky-ball")
     }
     static func playMessageSound() {
-        playSoundOnce(fileName: "message")
+        playSoundOnce(fileName: "message", volume: 0.05)
     }
 
     static func playYouWin() {
@@ -98,7 +109,8 @@ class AudioPlayer {
         }
     }
 
-    static func playSoundOnce(fileName: String, fileExtension: String = "mp3") {
+    static func playSoundOnce(fileName: String, fileExtension: String = "mp3",
+                              volume: Float = 0.1) {
         if let bundle = Bundle.main.path(forResource: fileName, ofType: fileExtension) {
             let url = URL(fileURLWithPath: bundle)
             guard let player = try? AVAudioPlayer(contentsOf: url) else {
@@ -106,7 +118,7 @@ class AudioPlayer {
             }
 
             soundPlayers.append(player)
-            player.volume = 0.05
+            player.volume = volume
             player.numberOfLoops = 0
             player.prepareToPlay()
             player.play()

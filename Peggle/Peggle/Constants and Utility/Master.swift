@@ -10,6 +10,7 @@ import UIKit
 enum Master: String {
     case Splork
     case Renfield
+    case Mike
 
     var name: String {
         switch self {
@@ -17,6 +18,8 @@ enum Master: String {
             return "Splork"
         case .Renfield:
             return "Renfield"
+        case .Mike:
+            return "Mike"
         }
     }
     var power: String {
@@ -25,6 +28,8 @@ enum Master: String {
             return "Power: Space Blast"
         case .Renfield:
             return "Power: Spooky Ball"
+        case .Mike:
+            return "Power: Blow Bubble"
         }
     }
     var description: String {
@@ -33,6 +38,8 @@ enum Master: String {
             return "Uses super advanced alien technology to light up all nearby pegs!"
         case .Renfield:
             return "Makes the ball spookily reappear at the top after its exit from the bottom."
+        case .Mike:
+            return "Generate some bubbles that will lift the ball up"
         }
     }
 
@@ -42,8 +49,10 @@ enum Master: String {
             return #imageLiteral(resourceName: "octopus")
         case .Renfield:
             return #imageLiteral(resourceName: "pumpkin")
+        case .Mike:
+            return #imageLiteral(resourceName: "fish")
         }
     }
 
-    static let allMasters = [Master.Splork, .Renfield]
+    static let allMasters = [Master.Splork, .Renfield, .Mike]
 }

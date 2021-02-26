@@ -71,7 +71,7 @@ class GameStatusTests: XCTestCase {
         let status3 = GameStatus(peggleLevel: level3)
 
         status3.updateStatusAfterRemoval(of: [orangeGamePeg])
-        status3.reduceBallCount()
+        status3.launchBall()
         status1.updateStatusAfterRemoval(of: [blueGamePeg])
         status1.increaseBallCount()
         XCTAssertEqual(status3.orangePegCount, 0)

@@ -18,4 +18,8 @@ class HomeController: UIViewController {
         AudioPlayer.playBackgroundMusic()
     }
 
+    @IBAction private func backToHomeMenu(_ segue: UIStoryboardSegue) {
+        AudioPlayer.stop()
+        AudioPlayer.playBackgroundMusic()
+    }
 }

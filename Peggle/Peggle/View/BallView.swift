@@ -28,4 +28,9 @@ class BallView: UIImageView {
         image = #imageLiteral(resourceName: "ball-with-plastic")
     }
 
+    func float() {
+        let floatBubbleView = DisplayUtility.getFloatingBubbles()
+        floatBubbleView.center = CGPoint(x: bounds.midX, y: bounds.midY)
+        addSubview(floatBubbleView)
+    }
 }

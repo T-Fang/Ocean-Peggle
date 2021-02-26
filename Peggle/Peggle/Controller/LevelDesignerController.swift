@@ -4,7 +4,6 @@
 //
 //  Created by TFang on 26/1/21.
 //
-
 import UIKit
 
 class LevelDesignerController: UIViewController {
@@ -96,6 +95,16 @@ class LevelDesignerController: UIViewController {
             }
         }
         return true
+    }
+
+    @IBAction private func loadLevel(_ segue: UIStoryboardSegue) {
+        if let chooser = segue.source as? LevelChooserController {
+            guard let selectedLevel = chooser.currentSelectedLevel else {
+                return
+            }
+            self.peggleLevel = selectedLevel
+            loadGameBoard()
+        }
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -332,7 +341,6 @@ extension LevelDesignerController {
         loadGameBoard()
         selectedPeggleObject = rotatedObject
     }
-
 }
 // MARK: Button/Switch Actions
 extension LevelDesignerController {
@@ -379,7 +387,6 @@ extension LevelDesignerController {
         peggleLevel.resetPegBoard()
         loadGameBoard()
     }
-
 }
 
 // MARK: UIGestureRecognizerDelegate

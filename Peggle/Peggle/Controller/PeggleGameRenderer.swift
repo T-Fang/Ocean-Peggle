@@ -29,6 +29,9 @@ class PeggleGameRenderer {
         if engine.spookyCount > 0 {
             ballView.putInPlasticBag()
         }
+        if ball.isFloating {
+            ballView.float()
+        }
 
         return ballView
     }

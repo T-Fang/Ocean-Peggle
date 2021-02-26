@@ -8,6 +8,7 @@
 import UIKit
 
 class GameEngine: PhysicsWorld {
+    private weak var displayLink: CADisplayLink?
 
     weak var delegate: GameEventHandlerDelegate? {
         didSet {
@@ -27,9 +28,13 @@ class GameEngine: PhysicsWorld {
         objects.compactMap({ $0 as? GameBlock })
     }
 
-    private(set) var spookyCount = 0 {
-        didSet {
-            spookyCount > 0 ? bucket.close() : bucket.open()
+    private(set) var spookyCount: Int {
+        get {
+            gameStatus.spookyCount
+        }
+        set {
+            newValue > 0 ? bucket.close() : bucket.open()
+            gameStatus.spookyCount = newValue
         }
     }
 
@@ -71,6 +76,22 @@ class GameEngine: PhysicsWorld {
         let displayLink = CADisplayLink(target: self, selector: #selector(update))
         displayLink.add(to: .current, forMode: .common)
 
+        self.displayLink = displayLink
+    }
+
+    @objc private func update(displayLink: CADisplayLink) {
+        guard gameStatus.state == .onGoing else {
+            return
+        }
+        gameStatus.reduceTime()
+
+        moveObjects()
+        moveBall()
+
+        checkCollisionWithWalls()
+        checkExitFromBottom()
+
+        delegate?.objectsDidMove()
     }
 
     /// After all attributes are initialized, set up the game
@@ -90,19 +111,6 @@ class GameEngine: PhysicsWorld {
     }
     private func addGameBlocks() {
         peggleLevel.blocks.forEach({ add(GameBlock(block: $0.offsetBy(x: 0, y: Constants.cannonHeight))) })
-    }
-    @objc private func update(displayLink: CADisplayLink) {
-        guard gameStatus.state != .paused else {
-            return
-        }
-
-        moveObjects()
-        moveBall()
-
-        checkCollisionWithWalls()
-        checkExitFromBottom()
-
-        delegate?.objectsDidMove()
     }
 
     private func checkCollisionWithWalls() {
@@ -149,13 +157,7 @@ class GameEngine: PhysicsWorld {
     private func moveObjects() {
         objects.compactMap({ $0 as? MovablePhysicsObject }).forEach({ $0.move() })
     }
-    func pause() {
-        gameStatus.isPaused = true
-    }
 
-    func resume() {
-        gameStatus.isPaused = false
-    }
     override func reset() {
         super.reset()
         ball = nil
@@ -165,33 +167,11 @@ class GameEngine: PhysicsWorld {
         setUpGame()
     }
 
-    func launchBall(at launchPoint: CGPoint, angle: CGFloat) {
-        gameStatus.reduceBallCount()
-        self.ball = Ball(center: launchPoint, angle: angle)
-
-        delegate?.objectsDidMove()
-    }
-
-    func moveBall() {
-        guard canMoveFreely else {
-            var count = 0
-            while !canMoveFreely, count <= Constants.maxNumberOfMovementAdjustment {
-                count += 1
-
-                if !stuckObjects.isEmpty {
-                    remove(stuckObjects)
-                }
-                resolveOverlaps()
-                resolveCollision()
-            }
-            return
-        }
-        ball?.move()
-    }
-
     private func removeBallAndHitPegs() {
         remove(pegsHitByBall)
         self.ball = nil
+        gameStatus.removeBall()
+
         delegate?.didRemoveBall()
     }
 
@@ -280,6 +260,9 @@ class GameEngine: PhysicsWorld {
             spookyCount += 1
             delegate?.didActivateSpookyBall()
             delegate?.showMessage(Constants.spookyBallActivatedMessage)
+        case .Mike:
+            gameStatus.refillFloatBubble()
+            delegate?.showMessage(Constants.blowBubbleActivatedMessage)
         }
     }
     private func checkCollisionWithBucket(ball: Ball) {
@@ -297,4 +280,57 @@ class GameEngine: PhysicsWorld {
         }
     }
 
+}
+
+extension GameEngine {
+    func launchBall(at launchPoint: CGPoint, angle: CGFloat) {
+        gameStatus.launchBall()
+        self.ball = Ball(center: launchPoint, angle: angle)
+
+        delegate?.objectsDidMove()
+    }
+
+    func moveBall() {
+        guard canMoveFreely else {
+            var count = 0
+            while !canMoveFreely, count <= Constants.maxNumberOfMovementAdjustment {
+                count += 1
+
+                if !stuckObjects.isEmpty {
+                    remove(stuckObjects)
+                }
+                resolveOverlaps()
+                resolveCollision()
+            }
+            return
+        }
+        ball?.move()
+    }
+
+    func playPause() {
+        gameStatus.isPaused.toggle()
+    }
+
+    func floatBall() {
+        guard gameStatus.floatBubblePercentage > 0 else {
+            unfloatBall()
+            return
+        }
+        guard let ball = self.ball else {
+            return
+        }
+        ball.float()
+        gameStatus.isBallFloating = true
+    }
+
+    func unfloatBall() {
+        ball?.unfloat()
+        gameStatus.isBallFloating = false
+    }
+}
+
+extension GameEngine {
+    func stopDisplayLink() {
+        displayLink?.invalidate()
+    }
 }
