@@ -22,14 +22,14 @@ class PhysicsWorldTests: XCTestCase {
         physicsShape: PhysicsShape(circleOfRadius: 20, center: CGPoint(x: 100, y: 100)))
 
     func testConstruct() {
-        let world1 = PhysicsWorld<PhysicsObject>(frame: emptyFrame)
+        let world1 = PhysicsWorld(frame: emptyFrame)
         XCTAssertTrue(world1.objects.isEmpty)
-        let world2 = PhysicsWorld<MovablePhysicsObject>(frame: frame1)
+        let world2 = PhysicsWorld(frame: frame1)
         XCTAssertTrue(world2.objects.isEmpty)
     }
 
     func testAdd() {
-        let world = PhysicsWorld<PhysicsObject>(frame: frame1)
+        let world = PhysicsWorld(frame: frame1)
         world.add(object1)
         XCTAssertEqual(world.objects.count, 1)
         world.add(sameObject1)
@@ -41,7 +41,7 @@ class PhysicsWorldTests: XCTestCase {
     }
 
     func testRemove() {
-        let world = PhysicsWorld<PhysicsObject>(frame: frame2)
+        let world = PhysicsWorld(frame: frame2)
         world.remove(object1)
         XCTAssertEqual(world.objects.count, 0)
         world.add(object1)
@@ -58,7 +58,7 @@ class PhysicsWorldTests: XCTestCase {
     }
 
     func testReset() {
-        let world = PhysicsWorld<MovablePhysicsObject>(frame: frame1)
+        let world = PhysicsWorld(frame: frame1)
         XCTAssertTrue(world.objects.isEmpty)
         world.add(movableObject1)
         world.reset()
@@ -66,8 +66,8 @@ class PhysicsWorldTests: XCTestCase {
     }
 
     func testHasCollidedWithTop() {
-        let world1 = PhysicsWorld<PhysicsObject>(frame: frame1)
-        let world2 = PhysicsWorld<PhysicsObject>(frame: frame2)
+        let world1 = PhysicsWorld(frame: frame1)
+        let world2 = PhysicsWorld(frame: frame2)
         world1.add(object4)
         world1.add(object5)
         world2.add(object4)
@@ -79,8 +79,8 @@ class PhysicsWorldTests: XCTestCase {
     }
 
     func testHasCollidedWithLeftSide() {
-        let world1 = PhysicsWorld<PhysicsObject>(frame: frame1)
-        let world2 = PhysicsWorld<PhysicsObject>(frame: frame2)
+        let world1 = PhysicsWorld(frame: frame1)
+        let world2 = PhysicsWorld(frame: frame2)
         world1.add(object4)
         world1.add(object5)
         world2.add(object4)
@@ -92,8 +92,8 @@ class PhysicsWorldTests: XCTestCase {
     }
 
     func testHasCollidedWithRightSide() {
-        let world1 = PhysicsWorld<PhysicsObject>(frame: frame1)
-        let world2 = PhysicsWorld<PhysicsObject>(frame: frame2)
+        let world1 = PhysicsWorld(frame: frame1)
+        let world2 = PhysicsWorld(frame: frame2)
         world1.add(object1)
         world1.add(object3)
         world2.add(object1)
@@ -105,8 +105,8 @@ class PhysicsWorldTests: XCTestCase {
     }
 
     func testHasCollidedWithBottom() {
-        let world1 = PhysicsWorld<PhysicsObject>(frame: frame1)
-        let world2 = PhysicsWorld<PhysicsObject>(frame: frame2)
+        let world1 = PhysicsWorld(frame: frame1)
+        let world2 = PhysicsWorld(frame: frame2)
         world1.add(object1)
         world1.add(object3)
         world2.add(object1)

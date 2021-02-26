@@ -46,7 +46,7 @@ class PeggleLevel: Codable {
     /// Adds a peg with the given shape and color at the given position
     /// Constraints: the new peg is valid on the game board, otherwise nothing happens
     func addPeg(at position: CGPoint, shape: PegShape, color: PegColor,
-                period: CGFloat?) {
+                period: CGFloat? = nil) {
         var newPeg: Peg
         switch shape {
         case .circle:
@@ -230,7 +230,6 @@ extension PeggleLevel {
         guard boardSize.width != Constants.screenWidth else {
             return self
         }
-        
         let scale = Constants.screenWidth / boardSize.width
         let newLevel = PeggleLevel()
         for peg in pegs {

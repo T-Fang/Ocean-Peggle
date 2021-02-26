@@ -61,28 +61,28 @@ class PeggleLevelTests: XCTestCase {
         XCTAssertEqual(level.pegs.count, 1)
     }
 
-    func testGetPegThatContains_noPegContainsThePoint_nil() {
+    func testGetObject_noPegContainsThePoint_nil() {
         let level = PeggleLevel(boardSize: boardSize2)
         level.addPeg(at: bluePegCenter, shape: .circle, color: .blue)
-        XCTAssertNil(level.getObject(CGPoint.zero))
-        XCTAssertNil(level.getObject(pointOutsideBluePeg))
+        XCTAssertNil(level.getObject(at: CGPoint.zero))
+        XCTAssertNil(level.getObject(at: pointOutsideBluePeg))
     }
 
-    func testGetPegThatContains_pointOnPegBoundary_success() throws {
+    func testGetObject_pointOnPegBoundary_success() throws {
         let level = PeggleLevel()
         level.addPeg(at: bluePegCenter, shape: .circle, color: .blue)
-        let peg = try XCTUnwrap(level.getObject(boundaryPointOfBluePeg))
-        XCTAssertEqual(peg, bluePeg)
+        let peg = try XCTUnwrap(level.getObject(at: boundaryPointOfBluePeg))
+        XCTAssertEqual(peg as? Peg, bluePeg)
     }
 
-    func testGetPegThatContains_pointInsidePeg_success() throws {
+    func testGetObject_pointInsidePeg_success() throws {
         let level = PeggleLevel(boardSize: boardSize1)
         level.addPeg(at: bluePegCenter, shape: .circle, color: .blue)
-        let peg = try XCTUnwrap(level.getObject(bluePegCenter))
-        XCTAssertEqual(peg, bluePeg)
+        let peg = try XCTUnwrap(level.getObject(at: bluePegCenter))
+        XCTAssertEqual(peg as? Peg, bluePeg)
     }
 
-    func testRemovePeg_noPegContainsThePoint_nil() {
+    func testRemoveObject_noPegContainsThePoint_nil() {
         let level = PeggleLevel(boardSize: boardSize2)
         level.addPeg(at: bluePegCenter, shape: .circle, color: .blue)
         level.removeObject(at: CGPoint.zero)
@@ -90,14 +90,14 @@ class PeggleLevelTests: XCTestCase {
         XCTAssertEqual(level.pegs.count, 1)
     }
 
-    func testRemovePeg_pointOnPegBoundary_success() {
+    func testRemoveObject_pointOnPegBoundary_success() {
         let level = PeggleLevel()
         level.addPeg(at: bluePegCenter, shape: .circle, color: .blue)
         level.removeObject(at: boundaryPointOfBluePeg)
         XCTAssertTrue(level.pegs.isEmpty)
     }
 
-    func testRemovePeg_pointInsidePeg_success() {
+    func testRemoveObject_pointInsidePeg_success() {
         let level = PeggleLevel(boardSize: boardSize1)
         level.addPeg(at: bluePegCenter, shape: .circle, color: .blue)
         level.removeObject(at: bluePegCenter)
@@ -107,57 +107,61 @@ class PeggleLevelTests: XCTestCase {
     func testMovePeg_validNewPositionNoOverlappingWithOriginalPeg_success() throws {
         let level = PeggleLevel(boardSize: boardSize2)
         level.addPeg(at: bluePegCenter, shape: .circle, color: .blue)
-        let peg = try XCTUnwrap(level.moveObject(from: bluePegCenter, to: pointOutsideBluePeg))
-        XCTAssertEqual(peg.center, pointOutsideBluePeg)
+        let peg = try XCTUnwrap(level.getObject(at: bluePegCenter))
+        let newPeg = try XCTUnwrap(level.moveObject(peg, to: pointOutsideBluePeg))
+        XCTAssertEqual(newPeg.center, pointOutsideBluePeg)
     }
     func testMovePeg_validNewPositionButOverlapsWithOriginalPeg_success() throws {
         let level = PeggleLevel()
         level.addPeg(at: bluePegCenter, shape: .circle, color: .blue)
-        let peg = try XCTUnwrap((level.moveObject(from: bluePegCenter, to: pointInBluePeg)))
-        XCTAssertEqual(peg.center, pointInBluePeg)
+        let peg = try XCTUnwrap(level.getObject(at: bluePegCenter))
+        let newPeg = try XCTUnwrap((level.moveObject(peg, to: pointInBluePeg)))
+        XCTAssertEqual(newPeg.center, pointInBluePeg)
     }
-    func testMovePeg_newPegOutOfBoardBoundary_returnNil() {
+    func testMovePeg_newPegOutOfBoardBoundary_returnNil() throws {
         let level = PeggleLevel(boardSize: boardSize1)
         level.addPeg(at: bluePegCenter, shape: .circle, color: .blue)
-        XCTAssertNil(level.moveObject(from: bluePegCenter, to: invalidCenter))
-        let peg = level.pegs.first
-        XCTAssertEqual(peg?.center, bluePegCenter)
+        let peg = try XCTUnwrap(level.getObject(at: bluePegCenter))
+        XCTAssertNil(level.moveObject(peg, to: invalidCenter))
+        let pegInLevel = level.pegs.first
+        XCTAssertEqual(pegInLevel?.center, bluePegCenter)
     }
-    func testMovePeg_newPegOverlapsWithExistingPegs_returnNil() {
+    func testMovePeg_newPegOverlapsWithExistingPegs_returnNil() throws {
         let level = PeggleLevel(boardSize: boardSize2)
         level.addPeg(at: bluePegCenter, shape: .circle, color: .blue)
         level.addPeg(at: pointOutsideBluePeg, shape: .circle, color: .orange)
-        XCTAssertNil(level.moveObject(from: pointOutsideBluePeg, to: pointInBluePeg))
+        let peg = try XCTUnwrap(level.getObject(at: bluePegCenter))
+        XCTAssertNil(level.moveObject(peg, to: pointOutsideBluePeg))
     }
 
     func testResizePeg_negativeScale_pegRemainUnchanged() throws {
         let level = PeggleLevel(boardSize: boardSize2)
         level.addPeg(at: bluePegCenter, shape: .circle, color: .blue)
-        let peg = try XCTUnwrap(level.resizeObject(peg: bluePeg, by: -1))
-        XCTAssertEqual(peg, bluePeg)
+        let peg = try XCTUnwrap(level.resizeObject(bluePeg, by: -1))
+        XCTAssertEqual(peg as? Peg, bluePeg)
     }
     func testResizePeg_invalidSize_returnNil() {
         let level = PeggleLevel()
         level.addPeg(at: orangePegCenter, shape: .circle, color: .orange)
-        XCTAssertNil(level.resizeObject(peg: orangePeg, by: 4))
-        XCTAssertNil(level.resizeObject(peg: orangePeg, by: 0.01))
+        XCTAssertNil(level.resizeObject(orangePeg, by: 4))
+        XCTAssertNil(level.resizeObject(orangePeg, by: 0.01))
     }
     func testResizePeg_outOfGameBoard_returnNil() {
         let level = PeggleLevel(boardSize: boardSize1)
         level.addPeg(at: bluePegCenter, shape: .circle, color: .blue)
-        XCTAssertNil(level.resizeObject(peg: bluePeg, by: 1.2))
+        XCTAssertNil(level.resizeObject(bluePeg, by: 1.2))
     }
     func testResizePeg_newPegOverlapsWithExistingPegs_returnNil() {
         let level = PeggleLevel(boardSize: boardSize2)
         let peg = Peg(circlePegOfCenter: pointOutsideBluePeg, color: .blue)
         level.addPeg(at: pointOutsideBluePeg, shape: .circle, color: .blue)
         level.addPeg(at: pointOutsideBluePeg2, shape: .circle, color: .orange)
-        XCTAssertNil(level.resizeObject(peg: peg, by: 2))
+        XCTAssertNil(level.resizeObject(peg, by: 2))
     }
     func testResizePeg_validSize_success() throws {
         let level = PeggleLevel()
         level.addPeg(at: orangePegCenter, shape: .circle, color: .orange)
-        let peg = try XCTUnwrap(level.resizeObject(peg: orangePeg, by: 0.8))
+        let peg = try XCTUnwrap(level.resizeObject(orangePeg, by: 0.8))
         XCTAssertEqual(peg.physicsShape.radius, 16)
     }
 
@@ -197,7 +201,7 @@ class PeggleLevelTests: XCTestCase {
 
     func testGetOragnePegCount_emptyLevel_zero() {
         let level = PeggleLevel()
-        XCTAssertEqual(level.oragnePegCount(), 0)
+        XCTAssertEqual(level.oragnePegCount, 0)
     }
 
     func testGetOragnePegCount_containsOrangePeg_success() {
@@ -205,18 +209,18 @@ class PeggleLevelTests: XCTestCase {
         level.addPeg(at: bluePegCenter, shape: .circle, color: .blue)
         level.addPeg(at: pointOutsideBluePeg, shape: .circle, color: .blue)
         level.addPeg(at: pointOutsideBluePeg2, shape: .circle, color: .orange)
-        XCTAssertEqual(level.oragnePegCount(), 1)
+        XCTAssertEqual(level.oragnePegCount, 1)
     }
 
     func testHasOrangePeg_emptyLevel_false() {
         let level = PeggleLevel(boardSize: boardSize1)
-        XCTAssertFalse(level.hasOrangePeg())
+        XCTAssertFalse(level.hasOrangePeg)
     }
     func testHasOrangePeg_containsOrangePeg_true() {
         let level = PeggleLevel(boardSize: boardSize2)
         level.addPeg(at: bluePegCenter, shape: .circle, color: .blue)
         level.addPeg(at: pointOutsideBluePeg, shape: .circle, color: .blue)
         level.addPeg(at: pointOutsideBluePeg2, shape: .circle, color: .orange)
-        XCTAssertTrue(level.hasOrangePeg())
+        XCTAssertTrue(level.hasOrangePeg)
     }
 }

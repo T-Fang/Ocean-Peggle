@@ -13,11 +13,11 @@ class LevelLoaderTests: XCTestCase {
     let loader = LevelLoader()
     let level1 = PeggleLevel()
     let level2 = PeggleLevel(boardSize: CGSize(width: 200, height: 200))
-    let level3 = PeggleLevel(boardSize: CGSize(width: 300, height: 400))
+    let level3 = PeggleLevel(boardSize: CGSize(width: 800, height: 800))
     let level1Name = "level1"
     let level2Name = "level2"
     let level3Name = "level3"
-    let pegCenter1 = CGPoint(x: 20, y: 20)
+    let pegCenter1 = CGPoint(x: 2, y: 20)
     let pegCenter2 = CGPoint(x: 100, y: 100)
     var levels = [PeggleLevel]()
 
@@ -62,6 +62,7 @@ class LevelLoaderTests: XCTestCase {
         XCTAssertNotNil(loader.getLevel(at: 0))
         let level = try XCTUnwrap(loader.getLevel(at: 2))
         XCTAssertEqual(level.levelName, level3Name)
+
         XCTAssertEqual(level.pegs.count, 2)
     }
 

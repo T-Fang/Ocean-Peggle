@@ -84,14 +84,9 @@ class MovablePhysicsObjectTests: XCTestCase {
         let object2 = MovablePhysicsObject(physicsShape: shape2)
         XCTAssertFalse(object1.willCollide(with: object2))
     }
-    func testWillCollide_willTouchOnTheBorder_true() {
-        let object1 = MovablePhysicsObject(velocity: velocity1, acceleration: acceleration1, physicsShape: shape1)
-        let object2 = MovablePhysicsObject(physicsShape: shape3)
-        XCTAssertTrue(object1.willCollide(with: object2))
-    }
-    func testWillCollide_overlaps_true() {
+    func testWillCollide_overlaps_false() {
         let object1 = MovablePhysicsObject(velocity: velocity1, acceleration: acceleration1, physicsShape: shape2)
-        XCTAssertTrue(object1.willCollide(with: object1))
+        XCTAssertFalse(object1.willCollide(with: object1))
     }
 
     func testCollide_collideWithOverlappingObject_remainUnchanged() {

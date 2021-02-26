@@ -52,9 +52,9 @@ class Constants {
     static let bucketWidth: CGFloat = 200
 
     // MARK: Peg Constants
-    static let defaultCirclePegRadius: CGFloat = 25
+    static let defaultCirclePegRadius: CGFloat = 20
     static let maxCirclePegRadius: CGFloat = 40
-    static let minCirclePegRadius: CGFloat = 20
+    static let minCirclePegRadius: CGFloat = 15
     static let defaultTriangleSideLength: CGFloat = 50
     static let maxTriangleSideLength: CGFloat = 80
     static let minTriangleSideLength: CGFloat = 40
