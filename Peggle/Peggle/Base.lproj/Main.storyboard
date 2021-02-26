@@ -577,7 +577,7 @@
                                 </connections>
                             </button>
                             <stackView contentMode="scaleToFill" alignment="center" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="nWm-no-cG5" userLabel="Count and Bubble Stack View">
-                                <rect key="frame" x="85" y="899" width="620.5" height="40"/>
+                                <rect key="frame" x="85" y="899" width="593.5" height="40"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="7XB-fv-Osu" userLabel="Balls Left Stack View">
                                         <rect key="frame" x="0.0" y="0.0" width="241" height="40"/>
@@ -634,7 +634,7 @@
                                         </subviews>
                                     </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="doU-31-FJU" userLabel="Bubble Stack View">
-                                        <rect key="frame" x="518" y="0.0" width="102.5" height="40"/>
+                                        <rect key="frame" x="518" y="0.0" width="75.5" height="40"/>
                                         <subviews>
                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="float-bubble-icon" translatesAutoresizingMaskIntoConstraints="NO" id="U9s-9V-UC0">
                                                 <rect key="frame" x="0.0" y="0.0" width="40" height="40"/>
@@ -643,8 +643,8 @@
                                                     <constraint firstAttribute="height" constant="40" id="ULo-3U-5Cr"/>
                                                 </constraints>
                                             </imageView>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="100" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Y8R-IX-49k">
-                                                <rect key="frame" x="60" y="0.0" width="42.5" height="40"/>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Y8R-IX-49k">
+                                                <rect key="frame" x="60" y="0.0" width="15.5" height="40"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="40" id="tDC-Xs-O7s"/>
                                                 </constraints>
@@ -869,7 +869,7 @@
                                                 <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="60" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8xM-f9-nSu">
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8xM-f9-nSu">
                                                 <rect key="frame" x="99" y="0.0" width="120" height="40"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="120" id="Orl-9M-2Mh"/>

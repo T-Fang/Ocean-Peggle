@@ -60,9 +60,9 @@ class Constants {
     static let minTriangleSideLength: CGFloat = 40
 
     // MARK: Block Constants
-    static let maxBlockHeight: CGFloat = 100
+    static let maxBlockHeight: CGFloat = 200
     static let minBlockHeight: CGFloat = 30
-    static let maxBlockWidth: CGFloat = 100
+    static let maxBlockWidth: CGFloat = 200
     static let minBlockWidth: CGFloat = 30
 
     // MARK: Oscillation Constants

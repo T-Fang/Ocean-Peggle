@@ -46,7 +46,7 @@ class PeggleGameController: UIViewController {
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        engine.stopDisplayLink()
+        engine?.stopDisplayLink()
     }
 }
 
@@ -183,7 +183,10 @@ extension PeggleGameController {
 extension PeggleGameController {
 
     @IBAction private func playPause() {
-        engine.playPause()
+        guard engine != nil else {
+            return
+        }
+        engine?.playPause()
         AudioPlayer.playPauseInGameBgm()
     }
 

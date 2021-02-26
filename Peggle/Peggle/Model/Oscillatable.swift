@@ -121,4 +121,10 @@ extension Oscillatable {
             : info.changeLeftHandleLength(to: length)
         return changeInfo(to: newInfo)
     }
+    func resizeHandle(by scale: CGFloat) -> Self {
+        guard let newInfo = oscillationInfo?.resize(by: scale) else {
+            return self
+        }
+        return changeInfo(to: newInfo)
+    }
 }

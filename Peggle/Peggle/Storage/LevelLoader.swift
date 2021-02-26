@@ -38,7 +38,6 @@ class LevelLoader {
 
     private func loadLevel(from url: URL) -> PeggleLevel? {
         let gameLevelFromJsonData = try? JSONDecoder().decode(PeggleLevel.self, from: Data(contentsOf: url))
-
-        return gameLevelFromJsonData
+        return gameLevelFromJsonData?.scaleToFitScreen()
     }
 }

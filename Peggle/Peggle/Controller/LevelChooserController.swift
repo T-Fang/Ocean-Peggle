@@ -87,6 +87,7 @@ extension LevelChooserController: UITableViewDataSource {
 extension LevelChooserController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         currentSelectedLevel = levelLoader.getLevel(at: indexPath.row)
+        
         if isLoading {
             performSegue(withIdentifier: Identifiers.chooserToDesigner.rawValue, sender: self)
         } else {

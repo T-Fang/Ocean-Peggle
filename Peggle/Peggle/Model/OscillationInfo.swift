@@ -36,6 +36,16 @@ extension OscillationInfo {
                         rightHandleLength: length,
                         period: period)
     }
+
+    func resize(by scale: CGFloat) -> OscillationInfo {
+        guard scale > 0 else {
+            return self
+        }
+        return OscillationInfo(isGoingRightFirst: isGoingRightFirst,
+                               leftHandleLength: leftHandleLength * scale,
+                               rightHandleLength: rightHandleLength * scale,
+                               period: period)
+    }
 }
 // MARK: Hashable
 extension OscillationInfo: Hashable {

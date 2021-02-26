@@ -149,6 +149,9 @@ class PeggleLevel: Codable {
     }
 
     private func add(_ object: PeggleObject) {
+        guard isObjectValidOnBoard(object: object) else {
+            return
+        }
         if let peg = object as? Peg {
             pegs.insert(peg)
         }
@@ -216,5 +219,32 @@ class PeggleLevel: Codable {
         let height = block.physicsShape.height
         return width >= Constants.minBlockWidth && width <= Constants.maxBlockWidth
             && height >= Constants.minBlockHeight && height <= Constants.maxBlockHeight
+    }
+}
+
+extension PeggleLevel {
+    // Note that this works fine for preloaded levels.
+    // However, if a user saved level contains an object that is
+    // very large or very small, it may not appear on another device.
+    func scaleToFitScreen() -> PeggleLevel {
+        guard boardSize.width != Constants.screenWidth else {
+            return self
+        }
+        
+        let scale = Constants.screenWidth / boardSize.width
+        let newLevel = PeggleLevel()
+        for peg in pegs {
+            let newPeg = peg.resizeShapeAndHandle(by: scale)
+            let newCenter = CGPoint(x: peg.center.x * scale, y: peg.center.y * scale)
+            newLevel.add(newPeg.moveTo(newCenter))
+        }
+        for block in blocks {
+            let newBlock = block.resizeShapeAndHandle(by: scale)
+            let newCenter = CGPoint(x: block.center.x * scale, y: block.center.y * scale)
+            newLevel.add(newBlock.moveTo(newCenter))
+        }
+
+        newLevel.levelName = levelName
+        return newLevel
     }
 }
