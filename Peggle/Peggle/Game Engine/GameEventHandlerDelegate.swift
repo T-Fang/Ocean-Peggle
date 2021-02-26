@@ -15,15 +15,17 @@ protocol GameEventHandlerDelegate: AnyObject {
 
     func didRemoveBall()
 
+    func didHitPeg()
+    func didHitBlock()
     func didHitBucket()
 
     func ballCountDidChange(ballCount: Int)
-
     func orangePegCountDidChange(orangePegCount: Int)
 
     func objectsDidMove()
 
     func didActivateSpaceBlast(at point: CGPoint)
+    func didActivateSpookyBall()
 
     func showMessage(_ message: String)
 }

@@ -10,6 +10,9 @@
 2. <a href='https://pngtree.com/freepng/cute-halloween-decorative-pumpkin-lights_4050935.html'>pumpkin png from pngtree.com</a>
 3. <a href='https://pngtree.com/freepng/soap-bubbles-vector-bow-reflection-soap-bubbles-aqua-wash-isolated-illustration_5204647.html'>soap bubbles png from pngtree.com</a>
 4. <a href='https://pngtree.com/freepng/plastic-bag_5405009.html'>plastic bag png from pngtree.com</a>
+5. Sound effects from [https://www.zapsplat.com](https://www.zapsplat.com/)
+6. Game Music by Morgan Matthews morganamatthews@yahoo.com
+7. Float Bubbles png from http://clipart-library.com
 
 ## Dev Guide
 ### Design

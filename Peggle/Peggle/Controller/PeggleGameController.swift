@@ -39,6 +39,12 @@ class PeggleGameController: UIViewController {
         masterChooserTableView.dataSource = self
         masterChooserTableView.delegate = self
     }
+
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.destination is HomeController {
+            AudioPlayer.stop()
+        }
+    }
 }
 
 // MARK: GameEventHandlerDelegate
@@ -51,12 +57,23 @@ extension PeggleGameController: GameEventHandlerDelegate {
     func didActivateSpaceBlast(at center: CGPoint) {
         gameBoardView.bubbleEffect(at: center)
     }
+    func didActivateSpookyBall() {
+        AudioPlayer.playSpookyBall()
+    }
 
+    func didHitPeg() {
+        AudioPlayer.playHitPeg()
+    }
+
+    func didHitBlock() {
+        AudioPlayer.playHitBlock()
+    }
     func didHitBucket() {
-        // TODO: Add hit bucket sound
+        AudioPlayer.playHitBucket()
     }
 
     func showMessage(_ message: String) {
+        AudioPlayer.playMessageSound()
         self.messageLabel.alpha = 1.0
         self.messageLabel.text = message
 
@@ -79,8 +96,10 @@ extension PeggleGameController: GameEventHandlerDelegate {
 
         switch gameState {
         case .win:
+            AudioPlayer.playYouWin()
             gameEndView.showYouWin()
         case .lose:
+            AudioPlayer.playGameOver()
             gameEndView.showGameOver()
         default:
             return
@@ -116,6 +135,8 @@ extension PeggleGameController {
         guard engine.canFire else {
             return
         }
+
+        AudioPlayer.playFireCannon()
         engine.launchBall(at: cannonView.center, angle: cannonView.angle)
     }
 
@@ -131,6 +152,8 @@ extension PeggleGameController {
         renderer.render(on: gameBoardView)
         cannonView.resetCannon()
         gameEndView.hide()
+
+        AudioPlayer.playInGameBgm()
     }
 }
 

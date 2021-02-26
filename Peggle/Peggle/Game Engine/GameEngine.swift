@@ -256,9 +256,11 @@ class GameEngine: PhysicsWorld {
     }
     private func hitBlock(_ gameBlock: GameBlock) {
         gameBlock.increaseHitCount()
+        delegate?.didHitBlock()
     }
     private func hitPeg(_ gamePeg: GamePeg) {
         gamePeg.increaseHitCount()
+        delegate?.didHitPeg()
 
         if gamePeg.color == .green && gamePeg.hitCount == 1 {
             activatePowerUp(greenPeg: gamePeg)
@@ -276,6 +278,7 @@ class GameEngine: PhysicsWorld {
             delegate?.showMessage(Constants.spaceBlastActivatedMessage)
         case .Renfield:
             spookyCount += 1
+            delegate?.didActivateSpookyBall()
             delegate?.showMessage(Constants.spookyBallActivatedMessage)
         }
     }
