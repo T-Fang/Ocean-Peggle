@@ -20,11 +20,16 @@ class Constants {
     static let invalidLevelName = "Level name should be alphanumeric and should not be blank!"
     static let failedToSaveLevel = "Failed to save level!"
     static let deleteLevelMessage = "Are you sure you want to permanently delete this level?"
+    static let sameNameAsPreloadedLevelMessage = "Level name cannot be the same as one the names of the preloaded levels!"
+    static let cannotDeletePreloadedLevelMessage = "Preloaded levels cannot be deleted!"
 
     // MARK: Message shown in a Peggle game
     static let extraBallMessage = "+1 Ball!"
     static let spookyBallActivatedMessage = "Spooky Ball Activated!"
     static let spaceBlastActivatedMessage = "Space Blast Activated!"
+
+    // MARK: Preloaded Level
+    static let preloadedLevelNames = ["Preloaded-DNA", "Preloaded-ChainReaction", "Preloaded-Tree"]
 
     // MARK: Alpha Constants
     static let alphaForSelectedPaletteButton: CGFloat = 1

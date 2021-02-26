@@ -72,6 +72,9 @@ extension LevelChooserController: UITableViewDataSource {
         }
 
         if editingStyle == .delete {
+            guard !Constants.preloadedLevelNames.contains(levelName) else {
+                Alert.presentCannotDeletePreloadedLevel(controller: self)
+            }
             LevelSaver.deleteLevel(levelName: levelName)
             tableView.deleteRows(at: [indexPath], with: .fade)
         }

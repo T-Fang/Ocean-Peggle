@@ -12,10 +12,22 @@ class Alert {
         presentAlert(controller: controller, title: Constants.errorTitle, message: Constants.noOrangePegMessage)
     }
 
+    static func presentCannotDeletePreloadedLevel(controller: LevelChooserController) {
+        presentAlert(controller: controller, title: Constants.errorTitle,
+                     message: Constants.cannotDeletePreloadedLevelMessage)
+    }
+    
     static func presentSaveLevelAlert(controller: LevelDesignerController, message: String) {
         let saveAlert = getAlertController(title: "Save", message: message)
 
-        saveAlert.addTextField { $0.text = controller.peggleLevel.levelName ?? "Untitled" }
+        let levelName = controller.peggleLevel.levelName ?? "Untitled"
+        guard !Constants.preloadedLevelNames.contains(levelName) else {
+            presentAlert(controller: controller, title: Constants.errorTitle,
+                         message: Constants.sameNameAsPreloadedLevelMessage)
+            return
+        }
+
+        saveAlert.addTextField { $0.text = levelName }
         saveAlert.addAction(UIAlertAction(title: "Save", style: .default) { _ in
             guard let userInput = saveAlert.textFields?.first?.text else {
                 print("Unable to get textfiled text!")

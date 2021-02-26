@@ -43,4 +43,17 @@ class StorageUtility {
         return directoryContents.filter { $0.pathExtension == pathExtension }
     }
 
+    static func preloadLevels() {
+        Constants.preloadedLevelNames.forEach { loadData($0) }
+    }
+
+    static func loadData(_ fileName: String) {
+        guard let url = Bundle.main.url(forResource: fileName, withExtension: "json") else {
+            return
+        }
+
+        guard (try? FileManager.default.copyItem(at: url, to: getFileUrl(of: fileName))) != nil else {
+            return
+        }
+    }
 }

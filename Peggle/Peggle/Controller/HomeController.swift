@@ -14,6 +14,7 @@ class HomeController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        StorageUtility.preloadLevels()
         AudioPlayer.playBackgroundMusic()
     }
 
