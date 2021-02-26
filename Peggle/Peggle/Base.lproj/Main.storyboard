@@ -4,6 +4,7 @@
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="Stack View standard spacing" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -110,11 +111,11 @@
                                     <action selector="handleEraseButtonTap:" destination="zYm-l8-5rZ" eventType="touchUpInside" id="LLX-f7-TUS"/>
                                 </connections>
                             </button>
-                            <stackView opaque="NO" contentMode="scaleToFill" spacing="30" translatesAutoresizingMaskIntoConstraints="NO" id="M5I-8i-oDI" userLabel="Peg Numbers Stack View">
-                                <rect key="frame" x="222" y="10" width="390" height="40"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="M5I-8i-oDI" userLabel="Peg Numbers Stack View">
+                                <rect key="frame" x="123" y="10" width="588" height="40"/>
                                 <subviews>
-                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="vzP-dG-T4S" userLabel="Blue Peg Numbers Stack View">
-                                        <rect key="frame" x="0.0" y="0.0" width="110" height="40"/>
+                                    <stackView opaque="NO" contentMode="scaleToFill" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="vzP-dG-T4S" userLabel="Blue Peg Numbers Stack View">
+                                        <rect key="frame" x="0.0" y="0.0" width="98" height="40"/>
                                         <subviews>
                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="peg-blue" translatesAutoresizingMaskIntoConstraints="NO" id="0LK-XJ-fTt">
                                                 <rect key="frame" x="0.0" y="0.0" width="40" height="40"/>
@@ -124,7 +125,7 @@
                                                 </constraints>
                                             </imageView>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="G2a-JG-qIY">
-                                                <rect key="frame" x="60" y="0.0" width="50" height="40"/>
+                                                <rect key="frame" x="48" y="0.0" width="50" height="40"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="40" id="5JO-gU-9vN"/>
                                                     <constraint firstAttribute="width" constant="50" id="hwa-CJ-X2R"/>
@@ -135,8 +136,8 @@
                                             </label>
                                         </subviews>
                                     </stackView>
-                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="IPT-nj-XZu" userLabel="Orange Peg Numbers Stack View">
-                                        <rect key="frame" x="140" y="0.0" width="110" height="40"/>
+                                    <stackView opaque="NO" contentMode="scaleToFill" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="IPT-nj-XZu" userLabel="Orange Peg Numbers Stack View">
+                                        <rect key="frame" x="98" y="0.0" width="98" height="40"/>
                                         <subviews>
                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="peg-orange" translatesAutoresizingMaskIntoConstraints="NO" id="fU5-bJ-XId">
                                                 <rect key="frame" x="0.0" y="0.0" width="40" height="40"/>
@@ -146,7 +147,7 @@
                                                 </constraints>
                                             </imageView>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gsD-tD-qRP">
-                                                <rect key="frame" x="60" y="0.0" width="50" height="40"/>
+                                                <rect key="frame" x="48" y="0.0" width="50" height="40"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="50" id="HDo-Ul-HcG"/>
                                                     <constraint firstAttribute="height" constant="40" id="abq-22-XF5"/>
@@ -157,8 +158,8 @@
                                             </label>
                                         </subviews>
                                     </stackView>
-                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="Pgd-Nv-M5a" userLabel="Green Peg Numbers Stack View">
-                                        <rect key="frame" x="280" y="0.0" width="110" height="40"/>
+                                    <stackView opaque="NO" contentMode="scaleToFill" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="Pgd-Nv-M5a" userLabel="Green Peg Numbers Stack View">
+                                        <rect key="frame" x="196" y="0.0" width="98" height="40"/>
                                         <subviews>
                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="peg-green" translatesAutoresizingMaskIntoConstraints="NO" id="HkF-I0-t2f">
                                                 <rect key="frame" x="0.0" y="0.0" width="40" height="40"/>
@@ -168,10 +169,76 @@
                                                 </constraints>
                                             </imageView>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MOb-NC-AEK">
-                                                <rect key="frame" x="60" y="0.0" width="50" height="40"/>
+                                                <rect key="frame" x="48" y="0.0" width="50" height="40"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="50" id="069-vd-NM2"/>
                                                     <constraint firstAttribute="height" constant="40" id="szG-z9-0sN"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" type="system" pointSize="25"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                    </stackView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="68d-Bv-Ue5" userLabel="Blue Triangle Peg Numbers Stack View">
+                                        <rect key="frame" x="294" y="0.0" width="98" height="40"/>
+                                        <subviews>
+                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="peg-blue-triangle" translatesAutoresizingMaskIntoConstraints="NO" id="GiE-we-f8d">
+                                                <rect key="frame" x="0.0" y="0.0" width="40" height="40"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="40" id="A45-ft-EuP"/>
+                                                    <constraint firstAttribute="width" constant="40" id="eub-7N-MjL"/>
+                                                </constraints>
+                                            </imageView>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JNM-sr-pYe">
+                                                <rect key="frame" x="48" y="0.0" width="50" height="40"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="40" id="QUW-25-ySl"/>
+                                                    <constraint firstAttribute="width" constant="50" id="gLE-Hy-l1e"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" type="system" pointSize="25"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                    </stackView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="LPB-2L-Aki" userLabel="Orange Triangle Peg Numbers Stack View">
+                                        <rect key="frame" x="392" y="0.0" width="98" height="40"/>
+                                        <subviews>
+                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="peg-orange-triangle" translatesAutoresizingMaskIntoConstraints="NO" id="2c8-82-fxZ">
+                                                <rect key="frame" x="0.0" y="0.0" width="40" height="40"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="40" id="AIc-VK-qC5"/>
+                                                    <constraint firstAttribute="width" constant="40" id="z07-40-Fi1"/>
+                                                </constraints>
+                                            </imageView>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zMl-x0-swf">
+                                                <rect key="frame" x="48" y="0.0" width="50" height="40"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="50" id="GcM-aE-i9d"/>
+                                                    <constraint firstAttribute="height" constant="40" id="JLp-GI-v51"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" type="system" pointSize="25"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                    </stackView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="cfc-s0-On4" userLabel="Green Triangle Peg Numbers Stack View">
+                                        <rect key="frame" x="490" y="0.0" width="98" height="40"/>
+                                        <subviews>
+                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="peg-green-triangle" translatesAutoresizingMaskIntoConstraints="NO" id="nlp-r4-ELM">
+                                                <rect key="frame" x="0.0" y="0.0" width="40" height="40"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="40" id="7aD-uu-PBq"/>
+                                                    <constraint firstAttribute="width" constant="40" id="V2N-rB-fXE"/>
+                                                </constraints>
+                                            </imageView>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dP8-fa-wIn">
+                                                <rect key="frame" x="48" y="0.0" width="50" height="40"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="40" id="lrq-iV-5Dt"/>
+                                                    <constraint firstAttribute="width" constant="50" id="ufu-35-OIi"/>
                                                 </constraints>
                                                 <fontDescription key="fontDescription" type="system" pointSize="25"/>
                                                 <nil key="textColor"/>
@@ -212,22 +279,22 @@
                                 </connections>
                             </button>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="11" translatesAutoresizingMaskIntoConstraints="NO" id="Djs-XS-yQ3" userLabel="Sliders">
-                                <rect key="frame" x="459.5" y="1005.5" width="453.5" height="116"/>
+                                <rect key="frame" x="459.5" y="1005.5" width="669.5" height="116"/>
                                 <subviews>
                                     <slider opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="249" verticalCompressionResistancePriority="749" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="3Zp-Zh-pWv">
-                                        <rect key="frame" x="-2" y="0.0" width="457.5" height="35"/>
+                                        <rect key="frame" x="-2" y="0.0" width="673.5" height="35"/>
                                         <connections>
                                             <action selector="changeBlockWidth:" destination="zYm-l8-5rZ" eventType="valueChanged" id="LnK-Qd-1e1"/>
                                         </connections>
                                     </slider>
                                     <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="NYA-0Z-1SC" userLabel="Height Slider">
-                                        <rect key="frame" x="-2" y="45" width="457.5" height="31"/>
+                                        <rect key="frame" x="-2" y="45" width="673.5" height="31"/>
                                         <connections>
                                             <action selector="changeBlockHeight:" destination="zYm-l8-5rZ" eventType="valueChanged" id="mGw-0c-6Fc"/>
                                         </connections>
                                     </slider>
                                     <slider opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="pIO-up-2I0" userLabel="Period Slider">
-                                        <rect key="frame" x="-2" y="86" width="457.5" height="31"/>
+                                        <rect key="frame" x="-2" y="86" width="673.5" height="31"/>
                                         <connections>
                                             <action selector="changePeriod:" destination="zYm-l8-5rZ" eventType="valueChanged" id="M7Q-zK-Fh2"/>
                                         </connections>
@@ -269,6 +336,29 @@
                                     <action selector="toggleOscillationMode" destination="zYm-l8-5rZ" eventType="valueChanged" id="0QN-xA-9ff"/>
                                 </connections>
                             </switch>
+                            <stackView opaque="NO" contentMode="scaleToFill" spacing="25" translatesAutoresizingMaskIntoConstraints="NO" id="Xbc-5Q-L6b" userLabel="Shape Switch Stack View">
+                                <rect key="frame" x="35" y="1090.5" width="221.5" height="31"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="CIrcle" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ee2-4c-q8r" userLabel="Circle">
+                                        <rect key="frame" x="0.0" y="0.0" width="51.5" height="31"/>
+                                        <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="20"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="hiP-E2-ELY" userLabel="Shape Switch">
+                                        <rect key="frame" x="76.5" y="0.0" width="51" height="31"/>
+                                        <connections>
+                                            <action selector="toggleShape" destination="zYm-l8-5rZ" eventType="valueChanged" id="dws-uc-1ip"/>
+                                        </connections>
+                                    </switch>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Triangle" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Bms-jB-x9m">
+                                        <rect key="frame" x="150.5" y="0.0" width="71" height="31"/>
+                                        <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="20"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                            </stackView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="w1S-3K-n3c"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -283,6 +373,7 @@
                             <constraint firstItem="4Tc-7A-2Yr" firstAttribute="centerX" secondItem="xn9-YJ-rgV" secondAttribute="centerX" id="HYz-nb-VdQ"/>
                             <constraint firstItem="p17-nm-uM7" firstAttribute="leading" secondItem="w1S-3K-n3c" secondAttribute="leading" constant="20" id="IVA-Dp-cNV"/>
                             <constraint firstItem="ZFP-St-Naq" firstAttribute="trailing" secondItem="01Z-v9-qeb" secondAttribute="trailing" id="JdC-d1-t3Z"/>
+                            <constraint firstItem="Xbc-5Q-L6b" firstAttribute="centerY" secondItem="xn9-YJ-rgV" secondAttribute="centerY" id="Nrx-a5-6VP"/>
                             <constraint firstItem="Scw-Fz-d9w" firstAttribute="top" secondItem="rnz-TD-913" secondAttribute="top" id="PoD-Jk-0mj"/>
                             <constraint firstItem="Djs-XS-yQ3" firstAttribute="leading" secondItem="Scw-Fz-d9w" secondAttribute="trailing" constant="10" id="SkS-ml-2Ke"/>
                             <constraint firstItem="Djs-XS-yQ3" firstAttribute="top" secondItem="Scw-Fz-d9w" secondAttribute="top" id="XwS-SP-tDz"/>
@@ -303,6 +394,7 @@
                             <constraint firstItem="w1S-3K-n3c" firstAttribute="bottom" secondItem="ZFP-St-Naq" secondAttribute="bottom" constant="10" id="tEn-wh-OtE"/>
                             <constraint firstItem="rnz-TD-913" firstAttribute="leading" secondItem="p17-nm-uM7" secondAttribute="trailing" constant="30" id="tHL-j1-hTh"/>
                             <constraint firstItem="p17-nm-uM7" firstAttribute="top" secondItem="01Z-v9-qeb" secondAttribute="top" id="tQJ-HT-CfA"/>
+                            <constraint firstItem="Xbc-5Q-L6b" firstAttribute="centerX" secondItem="SU8-yR-QW1" secondAttribute="centerX" id="uUX-8s-D73"/>
                             <constraint firstItem="4Tc-7A-2Yr" firstAttribute="centerY" secondItem="ZFP-St-Naq" secondAttribute="centerY" id="xqI-h6-Swn"/>
                             <constraint firstItem="SU8-yR-QW1" firstAttribute="top" secondItem="p17-nm-uM7" secondAttribute="bottom" constant="45" id="yBf-iP-pts"/>
                             <constraint firstItem="0yw-ld-Hhw" firstAttribute="top" secondItem="eSW-gC-kqw" secondAttribute="top" id="yix-fS-7aw"/>
@@ -312,15 +404,18 @@
                     <navigationItem key="navigationItem" id="Nvg-T9-v7Z"/>
                     <connections>
                         <outlet property="blockButton" destination="rnz-TD-913" id="lch-sp-ozw"/>
+                        <outlet property="blueCirclePegCountLabel" destination="G2a-JG-qIY" id="tYu-zB-gXg"/>
                         <outlet property="bluePegButton" destination="lf0-Dy-wRk" id="w76-Ax-Mip"/>
-                        <outlet property="bluePegCountLabel" destination="G2a-JG-qIY" id="tYu-zB-gXg"/>
+                        <outlet property="blueTrianglePegCountLabel" destination="JNM-sr-pYe" id="ZXF-oW-7jX"/>
                         <outlet property="eraseButton" destination="01Z-v9-qeb" id="lQ6-XH-Kfi"/>
                         <outlet property="gameBoardView" destination="eSW-gC-kqw" id="57i-JO-ZdM"/>
+                        <outlet property="greenCirclePegCountLabel" destination="MOb-NC-AEK" id="oQF-Eo-azG"/>
                         <outlet property="greenPegButton" destination="yh1-bX-yDE" id="3sS-Sf-Br6"/>
-                        <outlet property="greenPegCountLabel" destination="MOb-NC-AEK" id="oQF-Eo-azG"/>
+                        <outlet property="greenTrianglePegCountLabel" destination="dP8-fa-wIn" id="M2m-2y-C3r"/>
                         <outlet property="loadButton" destination="7NE-Vt-WIH" id="Owa-2n-YUb"/>
+                        <outlet property="orangeCirclePegCountLabel" destination="gsD-tD-qRP" id="awO-j4-I7B"/>
                         <outlet property="orangePegButton" destination="YRV-H6-kvy" id="LMr-lU-MJY"/>
-                        <outlet property="orangePegCountLabel" destination="gsD-tD-qRP" id="awO-j4-I7B"/>
+                        <outlet property="orangeTrianglePegCountLabel" destination="zMl-x0-swf" id="xDH-Xr-dhm"/>
                         <outlet property="periodSlider" destination="pIO-up-2I0" id="TNG-Bg-lCw"/>
                         <outlet property="resetButton" destination="mrW-A8-h3i" id="9kP-n6-QHX"/>
                         <outlet property="saveButton" destination="3QI-3r-GKe" id="Yx6-42-Uj8"/>
@@ -863,8 +958,11 @@
         <image name="house" catalog="system" width="128" height="106"/>
         <image name="octopus" width="1146" height="1146"/>
         <image name="peg-blue" width="128" height="128"/>
+        <image name="peg-blue-triangle" width="128" height="112.5"/>
         <image name="peg-green" width="128" height="128"/>
+        <image name="peg-green-triangle" width="128" height="112.5"/>
         <image name="peg-orange" width="128" height="128"/>
+        <image name="peg-orange-triangle" width="128" height="112.5"/>
         <systemColor name="labelColor">
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

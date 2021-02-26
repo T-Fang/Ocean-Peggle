@@ -82,7 +82,7 @@ extension Oscillatable {
         }
         var width = 2 * Constants.handleRadius
             + greenHandlePosition.distanceTo(redHandlePosition)
-        width = max(width, physicsShape.unrotatedFrame.height)
+        width = max(width, physicsShape.unrotatedFrame.width)
         let height = physicsShape.unrotatedFrame.height
         let size = CGSize(width: width, height: height)
 

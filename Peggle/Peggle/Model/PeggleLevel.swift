@@ -47,7 +47,13 @@ class PeggleLevel: Codable {
     /// Constraints: the new peg is valid on the game board, otherwise nothing happens
     func addPeg(at position: CGPoint, shape: PegShape, color: PegColor,
                 period: CGFloat?) {
-        let newPeg = Peg(circlePegOfCenter: position, color: color, period: period)
+        var newPeg: Peg
+        switch shape {
+        case .circle:
+            newPeg = Peg(circlePegOfCenter: position, color: color, period: period)
+        default:
+            newPeg = Peg(trianglePegOfCenter: position, color: color, period: period)
+        }
 
         if isObjectValidOnBoard(object: newPeg) {
             pegs.insert(newPeg)
@@ -198,6 +204,9 @@ class PeggleLevel: Codable {
         case .circle:
             return physicsShape.radius >= Constants.minCirclePegRadius
                 && physicsShape.radius <= Constants.maxCirclePegRadius
+        case .triangle:
+            return physicsShape.width >= Constants.minTriangleSideLength
+                && physicsShape.width <= Constants.maxTriangleSideLength
         case .rectangle:
             return false
         }

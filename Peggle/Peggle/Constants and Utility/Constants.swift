@@ -20,7 +20,8 @@ class Constants {
     static let invalidLevelName = "Level name should be alphanumeric and should not be blank!"
     static let failedToSaveLevel = "Failed to save level!"
     static let deleteLevelMessage = "Are you sure you want to permanently delete this level?"
-    static let sameNameAsPreloadedLevelMessage = "Level name cannot be the same as one the names of the preloaded levels!"
+    static let sameNameAsPreloadedLevelMessage =
+        "Level name cannot be the same as one the names of the preloaded levels!"
     static let cannotDeletePreloadedLevelMessage = "Preloaded levels cannot be deleted!"
 
     // MARK: Message shown in a Peggle game
@@ -50,9 +51,12 @@ class Constants {
     static let bucketWidth: CGFloat = 200
 
     // MARK: Peg Constants
-    static let defaultCirclePegRadius: CGFloat = 20
+    static let defaultCirclePegRadius: CGFloat = 25
     static let maxCirclePegRadius: CGFloat = 40
     static let minCirclePegRadius: CGFloat = 20
+    static let defaultTriangleSideLength: CGFloat = 50
+    static let maxTriangleSideLength: CGFloat = 80
+    static let minTriangleSideLength: CGFloat = 40
 
     // MARK: Block Constants
     static let maxBlockHeight: CGFloat = 100

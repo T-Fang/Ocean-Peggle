@@ -8,6 +8,7 @@
 enum Shape: String {
     case circle
     case rectangle
+    case triangle
 }
 
 // MARK: Hashable

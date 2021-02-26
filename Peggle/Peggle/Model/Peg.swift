@@ -40,10 +40,27 @@ struct Peg: PeggleObject {
         }
     }
 
+    init(trianglePegOfLength: CGFloat, center: CGPoint, color: PegColor,
+         period: CGFloat? = nil) {
+        self.shape = .triangle
+        self.color = color
+        self.physicsShape = PhysicsShape(triangleOfLength: trianglePegOfLength, center: center)
+
+        if let period = period {
+            self.oscillationInfo = OscillationInfo(period: period)
+        }
+    }
+
     init(circlePegOfCenter: CGPoint, color: PegColor,
          period: CGFloat? = nil) {
         self.init(circlePegOfRadius: Constants.defaultCirclePegRadius,
                   center: circlePegOfCenter, color: color, period: period)
+    }
+
+    init(trianglePegOfCenter: CGPoint, color: PegColor,
+         period: CGFloat? = nil) {
+        self.init(trianglePegOfLength: Constants.defaultTriangleSideLength,
+                  center: trianglePegOfCenter, color: color, period: period)
     }
 
     func changeShape(to physicsShape: PhysicsShape) -> Peg {

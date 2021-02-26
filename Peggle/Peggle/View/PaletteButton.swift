@@ -32,6 +32,18 @@ class PaletteButton: UIButton, SelectableView {
         self.type = .peg
     }
 
+    func toggleShape() {
+        guard let shape = shape else {
+            return
+        }
+        switch shape {
+        case .circle:
+            self.shape = .triangle
+        case .triangle:
+            self.shape = .circle
+        }
+    }
+
     func refreshView() {
         switch type {
         case .block:

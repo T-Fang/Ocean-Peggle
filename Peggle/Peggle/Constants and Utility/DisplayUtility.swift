@@ -18,6 +18,15 @@ class DisplayUtility {
             case .green:
                 return #imageLiteral(resourceName: "peg-green")
             }
+        case .triangle:
+            switch color {
+            case .blue:
+                return #imageLiteral(resourceName: "peg-blue-triangle")
+            case .orange:
+                return #imageLiteral(resourceName: "peg-orange-triangle")
+            case .green:
+                return #imageLiteral(resourceName: "peg-green-triangle")
+            }
         }
     }
 
@@ -31,6 +40,15 @@ class DisplayUtility {
                 return #imageLiteral(resourceName: "peg-orange-glow")
             case .green:
                 return #imageLiteral(resourceName: "peg-green-glow")
+            }
+        case .triangle:
+            switch color {
+            case .blue:
+                return #imageLiteral(resourceName: "peg-blue-glow-triangle")
+            case .orange:
+                return #imageLiteral(resourceName: "peg-orange-glow-triangle")
+            case .green:
+                return #imageLiteral(resourceName: "peg-green-glow-triangle")
             }
         }
     }

@@ -20,6 +20,17 @@ class PhysicsUtility {
         return [topLeft, topRight, bottomRight, bottomLeft]
     }
 
+    static func getVerticesOf(triangleOfLength sideLength: CGFloat,
+                              center: CGPoint) -> [CGPoint] {
+        let halfLength = sideLength / 2
+        let centerToBottomMiddle = halfLength * sqrt(3) / 2
+        let centerToTop = centerToBottomMiddle
+        let topVertex = CGPoint(x: center.x, y: center.y - centerToTop)
+        let leftVertex = CGPoint(x: center.x - halfLength, y: center.y + centerToBottomMiddle)
+        let rightVertex = CGPoint(x: center.x + halfLength, y: center.y + centerToBottomMiddle)
+        return [topVertex, rightVertex, leftVertex]
+    }
+
     static func contains(_ P: CGPoint, circle: PhysicsShape) -> Bool {
         guard circle.shape == .circle else {
             return false
@@ -46,6 +57,28 @@ class PhysicsUtility {
             && AB.dotProduct(with: AP) <= AB.dotProduct(with: AB)
             && 0 <= BC.dotProduct(with: BP)
             && BC.dotProduct(with: BP) <= BC.dotProduct(with: BC)
+    }
+
+    // Adapted from https://stackoverflow.com/questions/2049582/how-to-determine-if-a-point-is-in-a-2d-triangle
+    static func contains(_ P: CGPoint, triangle: PhysicsShape) -> Bool {
+        let vertices = triangle.vertices
+
+        let v1 = vertices[0]
+        let v2 = vertices[1]
+        let v3 = vertices[2]
+
+        let d1 = sign(p1: P, p2: v1, p3: v2)
+        let d2 = sign(p1: P, p2: v2, p3: v3)
+        let d3 = sign(p1: P, p2: v3, p3: v1)
+
+        let has_neg = (d1 < 0) || (d2 < 0) || (d3 < 0)
+        let has_pos = (d1 > 0) || (d2 > 0) || (d3 > 0)
+
+        return !(has_neg && has_pos)
+
+    }
+    private static func sign (p1: CGPoint, p2: CGPoint, p3: CGPoint) -> CGFloat {
+        (p1.x - p3.x) * (p2.y - p3.y) - (p2.x - p3.x) * (p1.y - p3.y)
     }
 
     static func hasOverlapBetween(circle1: PhysicsShape, circle2: PhysicsShape) -> Bool {

@@ -16,7 +16,7 @@ class Alert {
         presentAlert(controller: controller, title: Constants.errorTitle,
                      message: Constants.cannotDeletePreloadedLevelMessage)
     }
-    
+
     static func presentSaveLevelAlert(controller: LevelDesignerController, message: String) {
         let saveAlert = getAlertController(title: "Save", message: message)
 

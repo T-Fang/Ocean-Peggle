@@ -52,7 +52,9 @@ struct PhysicsShape {
         return unrotatedLeftMidPoint.rotate(around: center, by: rotation)
         case .rectangle:
             return unrotatedLeftMidPoint.rotate(around: center, by: rotation)
-            // TODO add triangle's
+        case .triangle:
+            return unrotatedLeftMidPoint.offsetBy(x: width / 4, y: 0)
+                .rotate(around: center, by: rotation)
         }
     }
 
@@ -63,7 +65,9 @@ struct PhysicsShape {
         return unrotatedRightMidPoint.rotate(around: center, by: rotation)
         case .rectangle:
             return unrotatedRightMidPoint.rotate(around: center, by: rotation)
-            // TODO add triangle's
+        case .triangle:
+            return unrotatedRightMidPoint.offsetBy(x: -width / 4, y: 0)
+                .rotate(around: center, by: rotation)
         }
     }
 
@@ -77,6 +81,8 @@ struct PhysicsShape {
             return .zero
         case .rectangle:
             return vertices[0].distanceTo(vertices[1])
+        case .triangle:
+            return vertices[0].distanceTo(vertices[1])
         }
     }
 
@@ -86,6 +92,8 @@ struct PhysicsShape {
             return .zero
         case .rectangle:
             return vertices[1].distanceTo(vertices[2])
+        case .triangle:
+            return width * sqrt(3) / 2
         }
     }
 
@@ -113,7 +121,16 @@ struct PhysicsShape {
         self.radius = .zero
         let unrotatedVertices = PhysicsUtility.getVerticesOf(rectOfSize: rectOfSize, center: center)
         self.vertices = unrotatedVertices.map({ $0.rotate(around: center, by: rotation) })
-
+    }
+    /// Constructs a triangle `PhysicsShape`.
+    init(triangleOfLength: CGFloat, center: CGPoint, rotation: CGFloat = .zero) {
+        self.shape = .triangle
+        self.center = center
+        self.rotation = rotation
+        self.radius = .zero
+        let unrotatedVertices = PhysicsUtility
+            .getVerticesOf(triangleOfLength: triangleOfLength, center: center)
+        self.vertices = unrotatedVertices.map({ $0.rotate(around: center, by: rotation) })
     }
 
     /// Resizes this `PhysicsShape`. if the scale is negative, the shape is unchanged.
@@ -128,6 +145,8 @@ struct PhysicsShape {
             return PhysicsShape(rectOfSize: CGSize(width: width * scale,
                                                    height: height * scale),
                                 center: center, rotation: rotation)
+        case .triangle:
+            return PhysicsShape(triangleOfLength: width * scale, center: center, rotation: rotation)
         }
     }
     func overlaps(with physicsShape: PhysicsShape) -> Bool {
@@ -141,7 +160,7 @@ struct PhysicsShape {
                 return PhysicsUtility.hasOverlapBetween(circle: self,
                                                         polygon: physicsShape)
             }
-        case .rectangle:
+        default:
             switch physicsShape.shape {
             case .circle:
                 return PhysicsUtility.hasOverlapBetween(circle: physicsShape,
@@ -159,6 +178,8 @@ struct PhysicsShape {
             return PhysicsUtility.contains(point, circle: self)
         case .rectangle:
             return PhysicsUtility.contains(point, rect: self)
+        case .triangle:
+            return PhysicsUtility.contains(point, triangle: self)
         }
     }
 
@@ -169,6 +190,8 @@ struct PhysicsShape {
         case .rectangle:
             return PhysicsShape(rectOfSize: CGSize(width: width, height: height),
                                 center: position, rotation: rotation)
+        case .triangle:
+            return PhysicsShape(triangleOfLength: width, center: position, rotation: rotation)
         }
     }
     func rotate(by angle: CGFloat) -> PhysicsShape {
@@ -179,7 +202,8 @@ struct PhysicsShape {
         case .rectangle:
             return PhysicsShape(rectOfSize: CGSize(width: width, height: height),
                                 center: center, rotation: rotation + angle)
-
+        case .triangle:
+            return PhysicsShape(triangleOfLength: width, center: center, rotation: rotation + angle)
         }
     }
 

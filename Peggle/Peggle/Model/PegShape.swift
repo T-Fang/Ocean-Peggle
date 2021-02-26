@@ -7,6 +7,7 @@
 
 enum PegShape: String, CaseIterable {
     case circle
+    case triangle
 }
 
 // MARK: Hashable

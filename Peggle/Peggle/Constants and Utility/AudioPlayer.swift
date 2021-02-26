@@ -25,7 +25,6 @@ class AudioPlayer {
     }
 
     static func playHitPeg() {
-        print("found")
         playSoundOnce(fileName: "hit-peg")
     }
     static func playHitBlock() {

@@ -58,9 +58,13 @@ class LevelDesignerController: UIViewController {
     @IBOutlet private var saveButton: UIButton!
     @IBOutlet private var resetButton: UIButton!
 
-    @IBOutlet private var bluePegCountLabel: UILabel!
-    @IBOutlet private var orangePegCountLabel: UILabel!
-    @IBOutlet private var greenPegCountLabel: UILabel!
+    @IBOutlet private var blueCirclePegCountLabel: UILabel!
+    @IBOutlet private var orangeCirclePegCountLabel: UILabel!
+    @IBOutlet private var greenCirclePegCountLabel: UILabel!
+
+    @IBOutlet private var blueTrianglePegCountLabel: UILabel!
+    @IBOutlet private var orangeTrianglePegCountLabel: UILabel!
+    @IBOutlet private var greenTrianglePegCountLabel: UILabel!
 
     @IBOutlet private var periodSlider: UISlider!
 
@@ -226,13 +230,19 @@ class LevelDesignerController: UIViewController {
     private func displayPegCounts() {
         guard let blueCirclePegCount = peggleLevel.getPegCounts()[.circle]?[.blue],
               let orangeCirclePegCount = peggleLevel.getPegCounts()[.circle]?[.orange],
-              let greenCirclePegCount = peggleLevel.getPegCounts()[.circle]?[.green] else {
+              let greenCirclePegCount = peggleLevel.getPegCounts()[.circle]?[.green],
+              let blueTrianglePegCount = peggleLevel.getPegCounts()[.triangle]?[.blue],
+              let orangeTrianglePegCount = peggleLevel.getPegCounts()[.triangle]?[.orange],
+              let greenTrianglePegCount = peggleLevel.getPegCounts()[.triangle]?[.green] else {
             return
         }
 
-        bluePegCountLabel.text = String(blueCirclePegCount)
-        orangePegCountLabel.text = String(orangeCirclePegCount)
-        greenPegCountLabel.text = String(greenCirclePegCount)
+        blueCirclePegCountLabel.text = String(blueCirclePegCount)
+        orangeCirclePegCountLabel.text = String(orangeCirclePegCount)
+        greenCirclePegCountLabel.text = String(greenCirclePegCount)
+        blueTrianglePegCountLabel.text = String(blueTrianglePegCount)
+        orangeTrianglePegCountLabel.text = String(orangeTrianglePegCount)
+        greenTrianglePegCountLabel.text = String(greenTrianglePegCount)
     }
 
 }
@@ -326,6 +336,13 @@ extension LevelDesignerController {
 }
 // MARK: Button/Switch Actions
 extension LevelDesignerController {
+
+    @IBAction private func toggleShape() {
+        bluePegButton.toggleShape()
+        orangePegButton.toggleShape()
+        greenPegButton.toggleShape()
+    }
+
     @IBAction private func toggleOscillationMode() {
         isOscillating.toggle()
         periodSlider.isEnabled.toggle()
