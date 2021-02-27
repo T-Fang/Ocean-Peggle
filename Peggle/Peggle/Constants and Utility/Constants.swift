@@ -54,16 +54,16 @@ class Constants {
     // MARK: Peg Constants
     static let defaultCirclePegRadius: CGFloat = 20
     static let maxCirclePegRadius: CGFloat = 40
-    static let minCirclePegRadius: CGFloat = 15
+    static let minCirclePegRadius: CGFloat = 18
     static let defaultTriangleSideLength: CGFloat = 50
     static let maxTriangleSideLength: CGFloat = 80
     static let minTriangleSideLength: CGFloat = 40
 
     // MARK: Block Constants
-    static let maxBlockHeight: CGFloat = 200
-    static let minBlockHeight: CGFloat = 30
-    static let maxBlockWidth: CGFloat = 200
-    static let minBlockWidth: CGFloat = 30
+    static let maxBlockHeight: CGFloat = 150
+    static let minBlockHeight: CGFloat = 40
+    static let maxBlockWidth: CGFloat = 150
+    static let minBlockWidth: CGFloat = 40
 
     // MARK: Oscillation Constants
     static let handleRadius: CGFloat = 15

@@ -29,7 +29,7 @@ enum Master: String {
         case .Renfield:
             return "Power: Spooky Ball"
         case .Mike:
-            return "Power: Blow Bubble"
+            return "Power: Blow Bubbles"
         }
     }
     var description: String {
@@ -39,7 +39,7 @@ enum Master: String {
         case .Renfield:
             return "Makes the ball spookily reappear at the top after its exit from the bottom."
         case .Mike:
-            return "Generate some bubbles that will lift the ball up"
+            return "Generates some bubbles that will lift the ball up!"
         }
     }
 

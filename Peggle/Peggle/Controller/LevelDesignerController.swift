@@ -255,24 +255,36 @@ class LevelDesignerController: UIViewController {
     }
 
 }
-// MARK: Gestures
+// MARK: Switches
 extension LevelDesignerController {
-
+    @IBAction private func toggleShape() {
+        bluePegButton.toggleShape()
+        orangePegButton.toggleShape()
+        greenPegButton.toggleShape()
+    }
+    @IBAction private func toggleOscillationMode() {
+        isOscillating.toggle()
+        periodSlider.isEnabled.toggle()
+        periodSlider.isHighlighted.toggle()
+    }
+}
+// MARK: Sliders
+extension LevelDesignerController {
     @IBAction private func changeBlockWidth(_ sender: UISlider) {
         blockWidth = CGFloat(sender.value)
             * (Constants.maxBlockWidth - Constants.minBlockWidth) + Constants.minBlockWidth
     }
-
     @IBAction private func changeBlockHeight(_ sender: UISlider) {
         blockHeight = CGFloat(sender.value)
             * (Constants.maxBlockHeight - Constants.minBlockHeight) + Constants.minBlockHeight
     }
-
     @IBAction private func changePeriod(_ sender: UISlider) {
         period = CGFloat(sender.value)
             * (Constants.maxPeriod - Constants.minPeriod) + Constants.minPeriod
     }
-
+}
+// MARK: Gestures
+extension LevelDesignerController {
     @IBAction private func handleSingleTap(_ sender: UITapGestureRecognizer) {
         let tapPosition = sender.location(in: gameBoardView)
 
@@ -342,21 +354,8 @@ extension LevelDesignerController {
         selectedPeggleObject = rotatedObject
     }
 }
-// MARK: Button/Switch Actions
+// MARK: Button Actions
 extension LevelDesignerController {
-
-    @IBAction private func toggleShape() {
-        bluePegButton.toggleShape()
-        orangePegButton.toggleShape()
-        greenPegButton.toggleShape()
-    }
-
-    @IBAction private func toggleOscillationMode() {
-        isOscillating.toggle()
-        periodSlider.isEnabled.toggle()
-        periodSlider.isHighlighted.toggle()
-    }
-
     @IBAction private func handleBluePegButtonTap(_ sender: UIButton) {
         selectedPaletteButton = bluePegButton
     }

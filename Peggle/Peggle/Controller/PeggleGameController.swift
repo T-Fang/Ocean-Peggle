@@ -57,7 +57,7 @@ extension PeggleGameController: GameEventHandlerDelegate {
     }
 
     func floatBubbleDidChange(percentage: Double) {
-        floatBubblePercentLabel.text = String(format: "%.1f%", percentage)
+        floatBubblePercentLabel.text = String(format: "%.1f%%", percentage)
     }
 
     func scoreDidChange(score: Int) {

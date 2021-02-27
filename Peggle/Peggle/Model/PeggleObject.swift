@@ -21,7 +21,7 @@ extension PeggleObject {
     }
 
     func overlaps(with object: PeggleObject) -> Bool {
-        areaShape.overlaps(with: object.areaShape)
+        physicsShape.overlaps(with: object.physicsShape)
     }
 
     func contains(_ point: CGPoint) -> Bool {
