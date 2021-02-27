@@ -571,6 +571,7 @@ tests on basic functions and attributes are done in code. More complex features 
   - Peg Removal
     - After the ball exits from the bottom, all glowing (hit) pegs will fade away.
     - if the game may reach a situation in which the ball is stuck, the peg(s) causing it will be removed prematurely
+    - if an oscillating peg was hit, when the ball exits from the bottom, the fading animation will stay at one position instead of following the oscillation path
   - Block
     - when the ball touches a block, it should also bounce away. But the block should not light up or change its position/movement
   - Sound effects

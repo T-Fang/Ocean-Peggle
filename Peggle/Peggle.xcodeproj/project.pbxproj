@@ -93,6 +93,9 @@
 		B3E4BA6A25E90A530079A6EF /* game-over.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = B3E4BA5F25E90A530079A6EF /* game-over.mp3 */; };
 		B3E4BA6B25E90A530079A6EF /* bgm.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = B3E4BA6025E90A530079A6EF /* bgm.mp3 */; };
 		B3E4BA6C25E90A530079A6EF /* fire-cannon.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = B3E4BA6125E90A530079A6EF /* fire-cannon.mp3 */; };
+		B3E4BA7925EAC97C0079A6EF /* PreloadedChainReaction.json in Resources */ = {isa = PBXBuildFile; fileRef = B3E4BA7625EAC97C0079A6EF /* PreloadedChainReaction.json */; };
+		B3E4BA7A25EAC97C0079A6EF /* PreloadedDNA.json in Resources */ = {isa = PBXBuildFile; fileRef = B3E4BA7725EAC97C0079A6EF /* PreloadedDNA.json */; };
+		B3E4BA7B25EAC97C0079A6EF /* PreloadedTree.json in Resources */ = {isa = PBXBuildFile; fileRef = B3E4BA7825EAC97C0079A6EF /* PreloadedTree.json */; };
 		B3E63A4525E63E4600A9C2E0 /* Wall.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3E63A4425E63E4600A9C2E0 /* Wall.swift */; };
 		B3F79A6625C474AD002F83C5 /* LevelSaver.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3F79A6525C474AD002F83C5 /* LevelSaver.swift */; };
 		B3F79A6B25C55BEB002F83C5 /* GameBoardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3F79A6A25C55BEB002F83C5 /* GameBoardView.swift */; };
@@ -212,6 +215,9 @@
 		B3E4BA5F25E90A530079A6EF /* game-over.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "game-over.mp3"; sourceTree = "<group>"; };
 		B3E4BA6025E90A530079A6EF /* bgm.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = bgm.mp3; sourceTree = "<group>"; };
 		B3E4BA6125E90A530079A6EF /* fire-cannon.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "fire-cannon.mp3"; sourceTree = "<group>"; };
+		B3E4BA7625EAC97C0079A6EF /* PreloadedChainReaction.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = PreloadedChainReaction.json; sourceTree = "<group>"; };
+		B3E4BA7725EAC97C0079A6EF /* PreloadedDNA.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = PreloadedDNA.json; sourceTree = "<group>"; };
+		B3E4BA7825EAC97C0079A6EF /* PreloadedTree.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = PreloadedTree.json; sourceTree = "<group>"; };
 		B3E63A4425E63E4600A9C2E0 /* Wall.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Wall.swift; sourceTree = "<group>"; };
 		B3F79A6525C474AD002F83C5 /* LevelSaver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelSaver.swift; sourceTree = "<group>"; };
 		B3F79A6A25C55BEB002F83C5 /* GameBoardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameBoardView.swift; sourceTree = "<group>"; };
@@ -454,6 +460,9 @@
 				B3E4BA5A25E90A530079A6EF /* message.mp3 */,
 				B3E4BA5B25E90A530079A6EF /* hit-block.mp3 */,
 				B3E4BA5C25E90A530079A6EF /* spooky-ball.mp3 */,
+				B3E4BA7625EAC97C0079A6EF /* PreloadedChainReaction.json */,
+				B3E4BA7725EAC97C0079A6EF /* PreloadedDNA.json */,
+				B3E4BA7825EAC97C0079A6EF /* PreloadedTree.json */,
 				B3E4BA5D25E90A530079A6EF /* you-win.mp3 */,
 				B3E4BA5E25E90A530079A6EF /* in-game-bgm.mp3 */,
 				B3E4BA5F25E90A530079A6EF /* game-over.mp3 */,
@@ -569,6 +578,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B3E4BA7B25EAC97C0079A6EF /* PreloadedTree.json in Resources */,
 				B3E4BA6625E90A530079A6EF /* hit-block.mp3 in Resources */,
 				B3E4BA6825E90A530079A6EF /* you-win.mp3 in Resources */,
 				B3E4BA6225E90A530079A6EF /* hit-bucket.mp3 in Resources */,
@@ -579,7 +589,9 @@
 				B3E4BA6425E90A530079A6EF /* bubble-up.mp3 in Resources */,
 				B3E4BA6525E90A530079A6EF /* message.mp3 in Resources */,
 				B3E4BA6925E90A530079A6EF /* in-game-bgm.mp3 in Resources */,
+				B3E4BA7925EAC97C0079A6EF /* PreloadedChainReaction.json in Resources */,
 				B3E4BA6725E90A530079A6EF /* spooky-ball.mp3 in Resources */,
+				B3E4BA7A25EAC97C0079A6EF /* PreloadedDNA.json in Resources */,
 				B3903FE625C021270003DF7E /* Main.storyboard in Resources */,
 				B3E4BA6A25E90A530079A6EF /* game-over.mp3 in Resources */,
 				B3E4BA6325E90A530079A6EF /* hit-peg.mp3 in Resources */,

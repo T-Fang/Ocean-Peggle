@@ -31,7 +31,7 @@ class Constants {
     static let blowBubbleActivatedMessage = "Blow Bubble Activated!"
 
     // MARK: Preloaded Level
-    static let preloadedLevelNames = ["Preloaded-DNA", "Preloaded-ChainReaction", "Preloaded-Tree"]
+    static let preloadedLevelNames = ["PreloadedDNA", "PreloadedChainReaction", "PreloadedTree"]
 
     // MARK: Alpha Constants
     static let alphaForSelectedPaletteButton: CGFloat = 1
