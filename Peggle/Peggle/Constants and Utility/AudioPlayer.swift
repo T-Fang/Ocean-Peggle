@@ -36,7 +36,7 @@ class AudioPlayer {
     }
 
     static func playHitPeg() {
-        playSoundOnce(fileName: "hit-peg")
+        playSoundOnce(fileName: "hit-peg", volume: 0.05)
     }
     static func playHitBlock() {
         playSoundOnce(fileName: "hit-block", volume: 0.15)
