@@ -195,13 +195,12 @@ class GameEngine: PhysicsWorld {
 
     private func resolveOverlaps() {
         var count = 0
-        while let ball = self.ball,
-              let overlappingObject = overlappingObjects.first,
+        overlappingObjects.forEach({ hit($0) })
+        while let ball = self.ball, !overlappingObjects.isEmpty,
               count <= Constants.maxNumberOfMovementAdjustment {
             count += 1
 
             ball.move()
-            hit(overlappingObject)
         }
     }
     private func resolveCollision() {
@@ -210,7 +209,7 @@ class GameEngine: PhysicsWorld {
               let nearest = ball.nearestCollidingObject(among: objects),
               count <= Constants.maxNumberOfMovementAdjustment {
             count += 1
-
+            
             if let pegToBeHit = nearest as? GamePeg {
                 ball.collide(with: pegToBeHit)
                 hitPeg(pegToBeHit)

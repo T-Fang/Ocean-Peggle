@@ -128,6 +128,7 @@ class MovablePhysicsObject: PhysicsObject, Movable {
         while overlaps(with: object) || willCollide(with: object),
               count <= Constants.maxNumberOfMovementAdjustment {
             count += 1
+            
             move(distance: Constants.errorForMovement)
         }
 
@@ -135,6 +136,7 @@ class MovablePhysicsObject: PhysicsObject, Movable {
         while overlaps(with: object) || willCollide(with: object),
               count <= Constants.maxNumberOfMovementAdjustment {
             count += 1
+
             move()
         }
     }

@@ -99,7 +99,7 @@ class Constants {
 
     // MARK: Tolerable Error
     static let errorForMovement: CGFloat = 0.001
-    static let maxNumberOfMovementAdjustment = 500
+    static let maxNumberOfMovementAdjustment = 20
     static let errorForCollisionDetection: CGFloat = 0.000_001
 
     // MARK: Peg Score
