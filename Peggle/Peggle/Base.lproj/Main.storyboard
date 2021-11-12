@@ -279,22 +279,22 @@
                                 </connections>
                             </button>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="11" translatesAutoresizingMaskIntoConstraints="NO" id="Djs-XS-yQ3" userLabel="Sliders">
-                                <rect key="frame" x="459.5" y="855.5" width="701.5" height="116"/>
+                                <rect key="frame" x="459.5" y="855.5" width="713.5" height="116"/>
                                 <subviews>
                                     <slider opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="249" verticalCompressionResistancePriority="749" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="3Zp-Zh-pWv">
-                                        <rect key="frame" x="-2" y="0.0" width="705.5" height="35"/>
+                                        <rect key="frame" x="-2" y="0.0" width="717.5" height="35"/>
                                         <connections>
                                             <action selector="changeBlockWidth:" destination="zYm-l8-5rZ" eventType="valueChanged" id="LnK-Qd-1e1"/>
                                         </connections>
                                     </slider>
                                     <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="NYA-0Z-1SC" userLabel="Height Slider">
-                                        <rect key="frame" x="-2" y="45" width="705.5" height="31"/>
+                                        <rect key="frame" x="-2" y="45" width="717.5" height="31"/>
                                         <connections>
                                             <action selector="changeBlockHeight:" destination="zYm-l8-5rZ" eventType="valueChanged" id="mGw-0c-6Fc"/>
                                         </connections>
                                     </slider>
                                     <slider opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="pIO-up-2I0" userLabel="Period Slider">
-                                        <rect key="frame" x="-2" y="86" width="705.5" height="31"/>
+                                        <rect key="frame" x="-2" y="86" width="717.5" height="31"/>
                                         <connections>
                                             <action selector="changePeriod:" destination="zYm-l8-5rZ" eventType="valueChanged" id="M7Q-zK-Fh2"/>
                                         </connections>
@@ -1031,7 +1031,7 @@
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="DRk-1i-sBd"/>
-        <segue reference="1oE-zh-qwQ"/>
+        <segue reference="aDs-k6-lsb"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="arrow.counterclockwise" catalog="system" width="115" height="128"/>

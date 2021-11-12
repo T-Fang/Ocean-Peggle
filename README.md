@@ -1,8 +1,8 @@
-# CS3217 Problem Set 4
+# Ocean Peggle
 
-**Name:** Tian Fang
+**Author:** Tian Fang
 
-**Matric No:** A0194568L
+This is a Peggle game implemented in swift using UIKit.
 
 ## Credits
 
@@ -16,7 +16,155 @@
 8. Game Music by Morgan Matthews morganamatthews@yahoo.com
 9. Background music from https://www.audiolibrary.com.co
 
-## Dev Guide
+
+
+## Rules of the Game
+
+Please write the rules of your game here. This section should include the
+following sub-sections. You can keep the heading format here, and you can add
+more headings to explain the rules of your game in a structured manner.
+Alternatively, you can rewrite this section in your own style. You may also
+write this section in a new file entirely, if you wish.
+
+### Home Menu
+
+The user can:
+
+- Choose and play a Peggle Game by clicking on the `Play` button
+- Design a Peggle Game on their own and play/save the level by clicking on the `Level Design` button (levels that are already saved can be loaded in the `Level Designer` for further changes)
+- go back to `Home Menu` by clicking the home icon on screens that are not `Home Menu`
+
+### Level Chooser
+
+- There will be three preloaded levels (that cannot be deleted or overwritten)
+- The user can tap and play the level they want
+- The user can swipe to delete a level
+
+### Level Designer
+
+The user can:
+
+* single tap at an empty place to add a peg/block
+  * pegs/blocks should not overlap with other pegs/blocks, and they should not be placed outside of the game board (specified by the background image)
+  * the rounded corner of blocks are just there for aesthetic reason, the "real" shape of the block is a rectangle
+* use the `Width` slider to change the width of the block
+* use the `Height` slider to change the height of the block
+* use the `Period` slider to change the period of the oscillation period of the next peg/block
+* click the `Oscillate` switch to change whether the next peg/block will oscillate
+  - an oscillating object will perform a simple harmonic motion whose period is specified by the user
+    - the object will start from the position in the `Level Designer`
+    - The initial direction of motion follows the green line
+    - the center of each handle specifies the furthermost position that any point in the peg/block can go (this prevents oscillating object from being cut off by the edge of the screen)
+      * Example: for a horizontally moving oscillating block, its left side and right side (not its center) will reach the two positions specified by the two handles
+    - oscillating object will not collide with each other. They will simply pass through
+    - The length of both arrows can be adjusted by dragging the handles
+    - The colors may be flipped by dragging a handle across to the opposite side.
+* single tap a peg/block to select the peg/block
+  * the period label and two handles will show up if the object will oscillate
+* long press to delete a peg/block
+* pan to drag a peg/block around
+* pinch to resize a peg/block proportionally
+* rotation to rotate a peg/block
+* use `START` button to start play the level designed in the `Level Designer`
+* use `SAVE` button to the current level. The level name should be alphanumerical and should not be blank or the same of one of the preloaded level names
+* use `LOAD` button to load an already saved level
+* use `RESET` button to clear the screen
+
+### Peggle Game
+
+### Fire Cannon
+
+The user can fire the cannon by single tap on the game area (area with background image). The ball count will decrease by 1, and if the ball enters the bucket, the ball count will increase by 1. Note that the user cannot fire another ball if there is already one on the screen.
+
+### Cannon Direction
+
+The user can move the cannon by panning on the screen - the cannon will always point to the position of the user's finger.
+
+- the cannon will never point upward. Therefore, the "highest angle" the cannon can have is pointing towards left or right
+- panning outside the game board will do nothing (unless the initial position of panning is inside the game board)
+
+### Win and Lose Conditions
+
+* Win conditions
+  * Time has not run out
+  * Ball has exited from the bottom (Therefore, if all orange pegs are hit, but the ball has not exited due to Spooky Ball, and the time has run out, it is still considered `Lose` )
+  * There are no more orange pegs on the screen
+* Lose conditions
+  * There are still orange pegs left
+  * Ball count is 0 when the ball exits from the bottom OR the time has run out
+
+### Game Masters
+
+- Splork Sporkan - Power: Space Blast
+  - Uses super advanced alien technology to light up all nearby pegs!
+- Renfield Pumpkin - Power: Spooky Ball
+  - Makes the ball spookily reappear at the top after its exit from the bottom.
+  - Note for Spooky Ball, the hit pegs will be cleared every time the ball reaches the bottom
+- Mike Fisher - Power: Blow Bubbles
+  - Generates some bubbles that will lift the ball up!
+
+## Level Designer Additional Features
+
+A peg/block has to be selected (glowing) before it can be rotated/resized. To select a peg/block, simply click on the peg/block
+
+### Peg/Block Rotation
+
+The user can use two fingers (rotate gesture) to rotate the peg/block
+
+* rotate two fingers clockwise (resp. anti-clockwise) to rotate the peg/block clockwise (resp. anti-clockwise)
+
+### Peg/Block Resizing
+
+The user can use two fingers (pinch gesture) to resize the peg/block
+
+- move two fingers closer (resp. further) to make the peg/block smaller (resp. bigger)
+
+**Note that a peg/block can be rotated and resized at the same time**
+
+## Bells and Whistles
+
+- Ocean theme: the image, music and sound effects are selected to match the theme
+- Home button for non-`Home Menu` screens
+- music and sound effects
+
+  * background music
+  * sound effects for firing cannon/hit block or peg/ending of game, etc.
+- Level Designer
+
+  - number of pegs of different kinds will be displayed at the top
+  - new peg shape - triangle
+    - shape can be changed using the switch underneath peg buttons
+  - when an oscillating object is clicked, its period will show up.
+- Peggle Game
+
+  - Game Master
+    * Game masters are selected at the beginning of a Peggle Game
+    * Game master determines which power up will be triggered when a green peg is hit (see Game Master in the Rules of the Game section)
+  - Power ups
+    * Added bubble effect for Space Blast
+    * Added the ball will be hold in a plastic bag when the ball becomes "Spooky" (it is very hard for plastics to degrade :) )
+    * Added an additional power up: **Blow Bubbles**
+      * there is a bubble icon underneath the game board, after which is the percentage of "Float Bubbles"
+      * when the user select "Mike" as the Game master and hit a green peg. The "Float Bubbles" will be refilled an the percentage will become 100
+      * when the percentage is greater than 0, the user can long press the screen to make the ball "float". If the "Float Bubbles" runs out, the ball will stop "floating". When the user stops long pressing, the ball will also stop "floating"
+      * when the ball is "floating", the floating bubble effect will appear near the ball
+  - Ball Count and Orange Peg Count Label
+  - Replay the level by clicking the button on top of the home button
+  - A timer that results in a game over when it ends
+    - there is a Time Left Label to tell the user how much time left
+    - Pause/Resume the game by clicking the button in front of the Time Left Label
+  - Game End View
+    - a small window will pop up when the game ends (either win or lose)
+    - the user can choose to replay the level (`Replay` button) or return to the `Home Menu` (`Exit` button)
+  - Score System
+    - the score is calculated when the ball enters the bucket or touches the bottom (for Spooky Ball, the hit pegs will also be cleared every time the ball reaches the bottom)
+    - the score is calculated by multiply the sum of the points of each individual peg with the number of pegs hit (base score from the orginal Peggle Game)
+  - Message Label
+    * to inform the user when a power up is triggered, a extra ball has been given, etc.
+
+
+
+## Developer Guide
 
 ### Design
 
@@ -207,154 +355,7 @@ The `PeggleGameController` controls the Peggle game screen. Its main job is to s
   - Tap on the game board - `fireCannon` will be called and it will first ask `GameEngine` whether the user can fire a ball (e.g. cannot fire a ball if the previous ball is still bouncing around). If the ball is ready to be launched, it will call the engine to launch the ball and tell the view to add a `BallView` to the `GameBoardView` accordingly
   - Long Pressing on the game board - if the selected Master is "Mike", the `float()` method in the game engine will be called. If the `floatBubblePercentage` of the current `GameStatus` is greater than zero, then the ball's acceleration will be changed. When the long pressing ends or `floatBubblePercentage` reaches 0, the `unfloat()` method in the game engine will be called and the ball's acceleration will become normal again
 
-## Rules of the Game
 
-Please write the rules of your game here. This section should include the
-following sub-sections. You can keep the heading format here, and you can add
-more headings to explain the rules of your game in a structured manner.
-Alternatively, you can rewrite this section in your own style. You may also
-write this section in a new file entirely, if you wish.
-
-### Home Menu
-
-The user can:
-
-- Choose and play a Peggle Game by clicking on the `Play` button
-- Design a Peggle Game on their own and play/save the level by clicking on the `Level Design` button (levels that are already saved can be loaded in the `Level Designer` for further changes)
-- go back to `Home Menu` by clicking the home icon on screens that are not `Home Menu`
-
-### Level Chooser
-
-- There will be three preloaded levels (that cannot be deleted or overwritten)
-- The user can tap and play the level they want
-- The user can swipe to delete a level
-
-### Level Designer
-
-The user can:
-
-* single tap at an empty place to add a peg/block
-  * pegs/blocks should not overlap with other pegs/blocks, and they should not be placed outside of the game board (specified by the background image)
-  * the rounded corner of blocks are just there for aesthetic reason, the "real" shape of the block is a rectangle
-* use the `Width` slider to change the width of the block
-* use the `Height` slider to change the height of the block
-* use the `Period` slider to change the period of the oscillation period of the next peg/block
-* click the `Oscillate` switch to change whether the next peg/block will oscillate
-  - an oscillating object will perform a simple harmonic motion whose period is specified by the user
-    - the object will start from the position in the `Level Designer`
-    - The initial direction of motion follows the green line
-    - the center of each handle specifies the furthermost position that any point in the peg/block can go (this prevents oscillating object from being cut off by the edge of the screen)
-      * Example: for a horizontally moving oscillating block, its left side and right side (not its center) will reach the two positions specified by the two handles
-    - oscillating object will not collide with each other. They will simply pass through
-    - The length of both arrows can be adjusted by dragging the handles
-    - The colors may be flipped by dragging a handle across to the opposite side.
-* single tap a peg/block to select the peg/block
-  * the period label and two handles will show up if the object will oscillate
-* long press to delete a peg/block
-* pan to drag a peg/block around
-* pinch to resize a peg/block proportionally
-* rotation to rotate a peg/block
-* use `START` button to start play the level designed in the `Level Designer`
-* use `SAVE` button to the current level. The level name should be alphanumerical and should not be blank or the same of one of the preloaded level names
-* use `LOAD` button to load an already saved level
-* use `RESET` button to clear the screen
-
-### Peggle Game
-
-### Fire Cannon
-
-The user can fire the cannon by single tap on the game area (area with background image). The ball count will decrease by 1, and if the ball enters the bucket, the ball count will increase by 1. Note that the user cannot fire another ball if there is already one on the screen.
-
-### Cannon Direction
-
-The user can move the cannon by panning on the screen - the cannon will always point to the position of the user's finger.
-
-- the cannon will never point upward. Therefore, the "highest angle" the cannon can have is pointing towards left or right
-- panning outside the game board will do nothing (unless the initial position of panning is inside the game board)
-
-### Win and Lose Conditions
-
-* Win conditions
-  * Time has not run out
-  * Ball has exited from the bottom (Therefore, if all orange pegs are hit, but the ball has not exited due to Spooky Ball, and the time has run out, it is still considered `Lose` )
-  * There are no more orange pegs on the screen
-* Lose conditions
-  * There are still orange pegs left
-  * Ball count is 0 when the ball exits from the bottom OR the time has run out
-
-### Game Masters
-
-- Splork Sporkan - Power: Space Blast
-  - Uses super advanced alien technology to light up all nearby pegs!
-- Renfield Pumpkin - Power: Spooky Ball
-  - Makes the ball spookily reappear at the top after its exit from the bottom.
-  - Note for Spooky Ball, the hit pegs will be cleared every time the ball reaches the bottom
-- Mike Fisher - Power: Blow Bubbles
-  - Generates some bubbles that will lift the ball up!
-
-## Level Designer Additional Features
-
-A peg/block has to be selected (glowing) before it can be rotated/resized. To select a peg/block, simply click on the peg/block
-
-### Peg/Block Rotation
-
-The user can use two fingers (rotate gesture) to rotate the peg/block
-
-* rotate two fingers clockwise (resp. anti-clockwise) to rotate the peg/block clockwise (resp. anti-clockwise)
-
-### Peg/Block Resizing
-
-The user can use two fingers (pinch gesture) to resize the peg/block
-
-- move two fingers closer (resp. further) to make the peg/block smaller (resp. bigger)
-
-**Note that a peg/block can be rotated and resized at the same time**
-
-## Bells and Whistles
-
-- Ocean theme: the image, music and sound effects are selected to match the theme
-
-- Home button for non-`Home Menu` screens
-
-- music and sound effects
-
-  * background music
-  * sound effects for firing cannon/hit block or peg/ending of game, etc.
-
-- Level Designer
-
-  - number of pegs of different kinds will be displayed at the top
-  - new peg shape - triangle
-    - shape can be changed using the switch underneath peg buttons
-  - when an oscillating object is clicked, its period will show up.
-
-- Peggle Game
-
-  - Game Master
-    * Game masters are selected at the beginning of a Peggle Game
-    * Game master determines which power up will be triggered when a green peg is hit (see Game Master in the Rules of the Game section)
-  - Power ups
-    * Added bubble effect for Space Blast
-    * Added the ball will be hold in a plastic bag when the ball becomes "Spooky" (it is very hard for plastics to degrade :) )
-    * Added an additional power up: **Blow Bubbles**
-      * there is a bubble icon underneath the game board, after which is the percentage of "Float Bubbles"
-      * when the user select "Mike" as the Game master and hit a green peg. The "Float Bubbles" will be refilled an the percentage will become 100
-      * when the percentage is greater than 0, the user can long press the screen to make the ball "float". If the "Float Bubbles" runs out, the ball will stop "floating". When the user stops long pressing, the ball will also stop "floating"
-      * when the ball is "floating", the floating bubble effect will appear near the ball
-  - Ball Count and Orange Peg Count Label
-  - Replay the level by clicking the button on top of the home button
-  - A timer that results in a game over when it ends
-    - there is a Time Left Label to tell the user how much time left
-    - Pause/Resume the game by clicking the button in front of the Time Left Label
-
-  - Game End View
-    - a small window will pop up when the game ends (either win or lose)
-    - the user can choose to replay the level (`Replay` button) or return to the `Home Menu` (`Exit` button)
-  - Score System
-    - the score is calculated when the ball enters the bucket or touches the bottom (for Spooky Ball, the hit pegs will also be cleared every time the ball reaches the bottom)
-    - the score is calculated by multiply the sum of the points of each individual peg with the number of pegs hit (base score from the orginal Peggle Game)
-  - Message Label
-    * to inform the user when a power up is triggered, a extra ball has been given, etc.
 
 ## Tests
 
@@ -576,26 +577,3 @@ tests on basic functions and attributes are done in code. More complex features 
     - when the ball touches a block, it should also bounce away. But the block should not light up or change its position/movement
   - Sound effects
     - corresponding sound effects should be played when certain events happen (e.g. hit a peg)
-
-
-
-## Written Answers
-
-### Reflecting on your Design
-
-> Now that you have integrated the previous parts, comment on your architecture
-> in problem sets 2 and 3. Here are some guiding questions:
->
-> - do you think you have designed your code in the previous problem sets well
->   enough?
-> - is there any technical debt that you need to clean in this problem set?
-> - if you were to redo the entire application, is there anything you would
->   have done differently?
-
-Generally, I have separated the domain logic from the presenting logic. However, I did commit a fatal mistake earlier on: not using "Single Source of Truth":
-
-I first learn the term "Single Source of Truth" when I was learning SwiftUI, it basically says that an attribute/value should have only one copy. I tried to be clever in PS3 and chose to present the Peggle Game Views manually instead of using a `PeggleGameRender` to "throw whatever the state of the game engine is onto the screen", and I said to myself that moving a ball using `moveTo()` method of `BallView` will be much efficient then rerendering the whole screen. However, as the game gets more complex, I find it very hard to make sure the engine and the `GameBoardView` are in sync. In the end, I folded and chose to use a renderer and things became much simpler. Similar things happened to the Game Engine. I tried to keep two sets of `GamePeg`s and `GameBlock`s, so that I don't have to filter through every `PhysicsObject`s in the Game Engine every time I need to access them. However, eventually I chose to use computed property to filter all the objects and things have never gone wrong since then.
-
-Another technical debt I had to pay is the design of `Physics Engine`. Initially, I did not think thoroughly and naively think that I can just change the velocity right away when the object "will" collide with other objects. However, the last tutorial teaches me a lesson and I have to do lots of mathematics works (which I should have done in PS3) in PS4. 
-
-Lastly, I found that many design decisions I made turns out to be suboptimal as the game gets more complex. When I look back on the design tradeoffs I wrote, I found that I was "convincing" myself to choose a "lazy" approach. But in PS4, when the "correct" ways revealed themselves, I could not be more regretted. If I were to redo the Peggle Game, I would consider more about extendability 
