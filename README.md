@@ -3,6 +3,12 @@
 **Author:** Tian Fang
 
 This is a Peggle game implemented in swift using UIKit.
+![Simulator Screen Shot - iPad Pro (11-inch) (3rd generation) - 2021-11-21 at 20 53 20](https://user-images.githubusercontent.com/61874388/142762622-2c0e66a4-ceb7-4b13-972e-95dd059dce57.png)
+![Simulator Screen Shot - iPad Pro (11-inch) (3rd generation) - 2021-11-21 at 20 54 45](https://user-images.githubusercontent.com/61874388/142762665-df0dc5b0-01f4-430d-9ca1-b13e15669967.png)
+![Simulator Screen Shot - iPad Pro (11-inch) (3rd generation) - 2021-11-21 at 20 55 01](https://user-images.githubusercontent.com/61874388/142762675-d7ba7f53-0851-445c-8f25-a60587cb5fdb.png)
+![Simulator Screen Shot - iPad Pro (11-inch) (3rd generation) - 2021-11-21 at 20 55 15](https://user-images.githubusercontent.com/61874388/142762693-a72f2be0-08f3-4b33-9f89-9cea45d0a050.png)
+![Simulator Screen Shot - iPad Pro (11-inch) (3rd generation) - 2021-11-21 at 20 56 16](https://user-images.githubusercontent.com/61874388/142762747-215c844e-6730-426e-b5d1-7417eb512ccf.png)
+![Simulator Screen Shot - iPad Pro (11-inch) (3rd generation) - 2021-11-21 at 20 57 47](https://user-images.githubusercontent.com/61874388/142762793-6312e74d-3bff-4968-8936-6dcb7af58ec4.png)
 
 ## Credits
 
