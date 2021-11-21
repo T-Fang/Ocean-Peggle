@@ -2,7 +2,7 @@
 
 **Author:** Tian Fang
 
-This is a Peggle game implemented in swift using UIKit.
+This is a Peggle game implemented in swift using UIKit. The goal is simple: aim the cannon, shoot a ball out of the cannon, and clear all orange pegs on the screen. If the player hits a peg with a special effect, something magical will happen based on what Peggle Master he/she choose at the beginning of one game. Players can not only load one of the preloaded levels to play, but also create their own levels with various types of pegs and blocks!
 ![Simulator Screen Shot - iPad Pro (11-inch) (3rd generation) - 2021-11-21 at 20 53 20](https://user-images.githubusercontent.com/61874388/142762622-2c0e66a4-ceb7-4b13-972e-95dd059dce57.png)
 ![Simulator Screen Shot - iPad Pro (11-inch) (3rd generation) - 2021-11-21 at 20 54 45](https://user-images.githubusercontent.com/61874388/142762665-df0dc5b0-01f4-430d-9ca1-b13e15669967.png)
 ![Simulator Screen Shot - iPad Pro (11-inch) (3rd generation) - 2021-11-21 at 20 55 01](https://user-images.githubusercontent.com/61874388/142762675-d7ba7f53-0851-445c-8f25-a60587cb5fdb.png)
